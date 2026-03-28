@@ -1,0 +1,41 @@
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import MaidDashboard from "./pages/MaidDashboard";
+import MaidList from "./pages/MaidList";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+function App() {
+  return (
+    <Routes>
+
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      {/* ✅ Only MAID can access */}
+      <Route
+        path="/maid-dashboard"
+        element={
+          <ProtectedRoute role="maid">
+            <MaidDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ✅ Anyone logged in can see */}
+      <Route
+        path="/maids"
+        element={
+          <ProtectedRoute>
+            <MaidList />
+          </ProtectedRoute>
+        }
+      />
+
+    </Routes>
+  );
+}
+
+export default App;
