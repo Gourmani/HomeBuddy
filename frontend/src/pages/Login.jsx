@@ -43,8 +43,7 @@ function Login() {
       <input
         type="password"
         placeholder="Password"
-        onChange={(e) =>
-          setForm({ ...form, password: e.target.value })
+        onChange={(e) => setForm({ ...form, password: e.target.value })
         }
       />
 
