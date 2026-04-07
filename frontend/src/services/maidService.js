@@ -1,5 +1,6 @@
 import API from "./api";
 
+// ✅ CREATE PROFILE (no change)
 export const createMaidProfile = (data) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -10,6 +11,8 @@ export const createMaidProfile = (data) => {
   });
 };
 
-export const getMaidProfiles = () => {
-  return API.get("/maids");
+// ✅ GET PROFILES WITH FILTERS (UPDATED)
+export const getMaidProfiles = (filters = {}) => {
+  const params = new URLSearchParams(filters).toString();
+  return API.get(`/maids?${params}`);
 };

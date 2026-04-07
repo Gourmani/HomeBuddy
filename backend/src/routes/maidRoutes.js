@@ -1,10 +1,14 @@
 import express from "express";
-import { createProfile, getAllProfiles } from "../controllers/maidController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { createProfile, getAllProfiles, getMaidById } from "../controllers/maidController.js";
 
 const router = express.Router();
 
-router.post("/", protect, createProfile); // only logged-in users
-router.get("/", getAllProfiles); // public
+// CREATE PROFILE (only maid)
+router.post("/", protect, createProfile);
+
+// GET ALL PROFILES (with filters)
+router.get("/", getAllProfiles);
+router.get("/:id", getMaidById);
 
 export default router;

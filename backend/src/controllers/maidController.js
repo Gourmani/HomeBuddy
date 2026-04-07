@@ -1,10 +1,8 @@
 import MaidProfile from "../models/MaidProfile.js";
 
-// CREATE PROFILE
+// ✅ CREATE PROFILE
 export const createProfile = async (req, res) => {
   try {
-
-    // ✅ ROLE CHECK
     if (req.user.role !== "maid") {
       return res.status(403).json({ message: "Only maids can create profile" });
     }
@@ -30,12 +28,105 @@ export const createProfile = async (req, res) => {
   }
 };
 
-// ✅ GET ALL PROFILES (ADD THIS BACK)
+// ✅ GET ALL PROFILES WITH SEARCH + FILTER
 export const getAllProfiles = async (req, res) => {
   try {
-    const profiles = await MaidProfile.find().populate("user", "name email");
+    const {
+      search,
+      workType,
+      availability,
+      city,
+      area,
+      pincode,
+      minSalary,
+      maxSalary,
+      minExperience,
+      maxExperience,
+    } = req.query;
 
-    res.json(profiles);
+    let query = {};
+
+    // 🔍 SEARCH
+    if (search) {
+      query.$and = query.$and || [];
+
+      query.$and.push({
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { workType: { $regex: search, $options: "i" } },
+        ],
+      });
+    }
+
+    // 🧹 Work Type
+    if (workType) {
+      query.workType = workType;
+    }
+
+    // ⏰ Availability
+    if (availability) {
+      query.availability = availability;
+    }
+
+    // 📍 Location
+    if (city) {
+      query["location.city"] = { $regex: city, $options: "i" };
+    }
+
+    if (area) {
+      query["location.area"] = { $regex: area, $options: "i" };
+    }
+
+    if (pincode) {
+      query["location.pincode"] = pincode;
+    }
+
+    // 💰 Salary
+    if (minSalary || maxSalary) {
+      query.salaryExpected = {};
+      if (minSalary) query.salaryExpected.$gte = Number(minSalary);
+      if (maxSalary) query.salaryExpected.$lte = Number(maxSalary);
+    }
+
+    // 📊 Experience
+    if (minExperience || maxExperience) {
+      query.experience = {};
+      if (minExperience) query.experience.$gte = Number(minExperience);
+      if (maxExperience) query.experience.$lte = Number(maxExperience);
+    }
+
+    const profiles = await MaidProfile.find(query)
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      count: profiles.length,
+      data: profiles,
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ GET SINGLE MAID PROFILE (SEPARATE FUNCTION)
+export const getMaidById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const maid = await MaidProfile.findById(id)
+      .populate("user", "name email");
+
+    if (!maid) {
+      return res.status(404).json({ message: "Maid not found" });
+    }
+
+    res.json({
+      success: true,
+      data: maid,
+    });
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

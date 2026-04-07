@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import MaidDashboard from "./pages/MaidDashboard";
 import MaidList from "./pages/MaidList";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MaidDetails from "./pages/maidDetails";
 
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
         element={
           <ProtectedRoute>
             <MaidList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/maids/:id"
+        element={
+          <ProtectedRoute>
+            <MaidDetails />
           </ProtectedRoute>
         }
       />

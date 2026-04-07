@@ -70,5 +70,7 @@ const maidProfileSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+maidProfileSchema.index({ "location.city": 1 });
+maidProfileSchema.index({ workType: 1 });
+maidProfileSchema.index({ salaryExpected: 1 });
 export default mongoose.model("MaidProfile", maidProfileSchema);
