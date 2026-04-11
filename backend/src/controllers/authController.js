@@ -25,7 +25,7 @@ export const signup = async (req, res) => {
             role
         });
 
-        // ✅ RETURN RESPONSE (IMPORTANT)
+        //  RETURN RESPONSE (IMPORTANT)
         res.status(201).json({
             _id: user._id,
             name: user.name,

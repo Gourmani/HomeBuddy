@@ -6,7 +6,7 @@ export const protect = async (req, res, next) => {
 
   if (req.headers.authorization?.startsWith("Bearer")) {
     try {
-      token = req.headers.authorization.split(" ")[1]; // ✅ FIXED
+      token = req.headers.authorization.split(" ")[1]; //  FIXED
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

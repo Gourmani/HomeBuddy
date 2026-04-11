@@ -7,7 +7,7 @@ function MaidList() {
   const [maids, setMaids] = useState([]);
   const navigate = useNavigate();
 
-  // 🔥 FILTER STATE
+  //  FILTER STATE
   const [filters, setFilters] = useState({
     search: "",
     city: "",
@@ -17,7 +17,7 @@ function MaidList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // 🔥 FETCH DATA
+  //  FETCH DATA
   const fetchMaids = async () => {
     try {
       setLoading(true);
@@ -25,7 +25,7 @@ function MaidList() {
 
       const res = await getMaidProfiles(filters);
 
-      // ✅ safe access
+      //  safe access
       setMaids(res?.data?.data || []);
     } catch (err) {
       console.error("Error fetching maids:", err);
@@ -35,12 +35,12 @@ function MaidList() {
     }
   };
 
-  // 🔄 AUTO FETCH WHEN FILTER CHANGES
+  //  AUTO FETCH WHEN FILTER CHANGES
   useEffect(() => {
     fetchMaids();
   }, [filters]);
 
-  // 🔄 HANDLE INPUT
+  //  HANDLE INPUT
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -54,7 +54,7 @@ function MaidList() {
     <div style={{ padding: "20px" }}>
       <h2>Available Maids</h2>
 
-      {/* 🔍 SEARCH */}
+      {/*  SEARCH */}
       <input
         type="text"
         name="search"
@@ -64,7 +64,7 @@ function MaidList() {
         style={{ marginBottom: "10px", padding: "8px", width: "100%" }}
       />
 
-      {/* 🎛️ FILTERS */}
+      {/*  FILTERS */}
       <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
         <input
           type="text"
@@ -88,11 +88,11 @@ function MaidList() {
         </select>
       </div>
 
-      {/* 🔄 STATES HANDLING */}
+      {/*  STATES HANDLING */}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* 📋 LIST */}
+      {/*  LIST */}
       {!loading && maids.length === 0 ? (
         <p>No maids found</p>
       ) : (

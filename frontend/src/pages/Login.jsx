@@ -24,7 +24,7 @@ function Login() {
 
     login(res.data);
 
-    // ✅ ROLE-BASED REDIRECT
+    //  ROLE-BASED REDIRECT
     if (res.data.role === "maid") {
       navigate("/maid-dashboard");
     } else {

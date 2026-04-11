@@ -18,7 +18,7 @@ function Signup() {
     e.preventDefault();
 
     try {
-      console.log(form); // 👈 debug
+      console.log(form); //  debug
 
       const res = await signupUser(form);
 

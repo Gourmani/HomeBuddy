@@ -15,7 +15,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* ✅ Only MAID can access */}
+      {/*  Only MAID can access */}
       <Route
         path="/maid-dashboard"
         element={
@@ -25,7 +25,7 @@ function App() {
         }
       />
 
-      {/* ✅ Anyone logged in can see */}
+      {/*  Anyone logged in can see */}
       <Route
         path="/maids"
         element={

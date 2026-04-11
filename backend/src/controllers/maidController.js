@@ -1,6 +1,6 @@
 import MaidProfile from "../models/MaidProfile.js";
 
-// ✅ CREATE PROFILE
+//  CREATE PROFILE
 export const createProfile = async (req, res) => {
   try {
     if (req.user.role !== "maid") {
@@ -28,7 +28,7 @@ export const createProfile = async (req, res) => {
   }
 };
 
-// ✅ GET ALL PROFILES WITH SEARCH + FILTER
+//  GET ALL PROFILES WITH SEARCH + FILTER
 export const getAllProfiles = async (req, res) => {
   try {
     const {
@@ -46,7 +46,7 @@ export const getAllProfiles = async (req, res) => {
 
     let query = {};
 
-    // 🔍 SEARCH
+    //  SEARCH
     if (search) {
       query.$and = query.$and || [];
 
@@ -58,17 +58,17 @@ export const getAllProfiles = async (req, res) => {
       });
     }
 
-    // 🧹 Work Type
+    //  Work Type
     if (workType) {
       query.workType = workType;
     }
 
-    // ⏰ Availability
+    //  Availability
     if (availability) {
       query.availability = availability;
     }
 
-    // 📍 Location
+    // Location
     if (city) {
       query["location.city"] = { $regex: city, $options: "i" };
     }
@@ -81,14 +81,14 @@ export const getAllProfiles = async (req, res) => {
       query["location.pincode"] = pincode;
     }
 
-    // 💰 Salary
+    //  Salary
     if (minSalary || maxSalary) {
       query.salaryExpected = {};
       if (minSalary) query.salaryExpected.$gte = Number(minSalary);
       if (maxSalary) query.salaryExpected.$lte = Number(maxSalary);
     }
 
-    // 📊 Experience
+    //  Experience
     if (minExperience || maxExperience) {
       query.experience = {};
       if (minExperience) query.experience.$gte = Number(minExperience);
@@ -110,7 +110,7 @@ export const getAllProfiles = async (req, res) => {
   }
 };
 
-// ✅ GET SINGLE MAID PROFILE (SEPARATE FUNCTION)
+// GET SINGLE MAID PROFILE (SEPARATE FUNCTION)
 export const getMaidById = async (req, res) => {
   try {
     const { id } = req.params;

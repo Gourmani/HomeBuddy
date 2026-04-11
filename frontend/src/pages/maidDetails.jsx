@@ -7,7 +7,7 @@ function MaidDetails() {
   const [maid, setMaid] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // ✅ FETCH MAID
+  //  FETCH MAID
   useEffect(() => {
     const fetchMaid = async () => {
       try {
@@ -23,7 +23,7 @@ function MaidDetails() {
     fetchMaid();
   }, [id]);
 
-  // ✅ REQUEST FUNCTION (MOVED OUTSIDE)
+  //  REQUEST FUNCTION (MOVED OUTSIDE)
   const handleRequest = async () => {
     try {
       await API.post("/requests", {
@@ -54,7 +54,7 @@ function MaidDetails() {
       <p><strong>Description:</strong></p>
       <p>{maid.description}</p>
 
-      {/* 🔥 REQUEST BUTTON */}
+      {/*  REQUEST BUTTON */}
       <button onClick={handleRequest}>
         Request Contact
       </button>
