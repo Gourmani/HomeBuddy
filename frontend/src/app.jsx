@@ -6,6 +6,7 @@ import MaidDashboard from "./pages/MaidDashboard";
 import MaidList from "./pages/MaidList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MaidDetails from "./pages/maidDetails";
+import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   return (
@@ -43,7 +44,18 @@ function App() {
         }
       />
 
+      <Route
+        path="/user-dashboard"
+        element={
+          <ProtectedRoute role="user">
+            <UserDashboard />
+          </ProtectedRoute>
+        }
+/>
+
     </Routes>
+
+        
   );
 }
 

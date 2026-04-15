@@ -14,22 +14,23 @@ function MaidDashboard() {
     salaryType: "",
     availability: "",
     description: "",
+    phone: "",
   });
 
   // 🔹 Requests State
   const [requests, setRequests] = useState([]);
 
-  // 🔹 Fetch Requests (for maid)
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const res = await API.get("/requests/maid");
-        setRequests(res.data.data);
-      } catch (error) {
-        console.error("Error fetching requests:", error);
-      }
-    };
+  // 🔹 Fetch Requests
+  const fetchRequests = async () => {
+    try {
+      const res = await API.get("/requests/maid");
+      setRequests(res.data.data);
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchRequests();
   }, []);
 
@@ -43,6 +44,21 @@ function MaidDashboard() {
     } catch (error) {
       console.log(error.response?.data);
       alert(error.response?.data?.message || "Error");
+    }
+  };
+
+  // 🔥 ACCEPT / REJECT FUNCTION
+  const handleAction = async (id, status) => {
+    try {
+      await API.put(`/requests/${id}`, { status });
+
+      alert(`Request ${status}`);
+
+      // 🔄 Refresh list
+      fetchRequests();
+    } catch (error) {
+      console.error("Update error:", error);
+      alert("Failed to update request");
     }
   };
 
@@ -91,6 +107,14 @@ function MaidDashboard() {
           <option value="all">All</option>
         </select>
 
+        <label>Phone</label>
+          <input
+            type="text"
+            placeholder="Enter phone number"
+            onChange={(e) =>
+              setForm({ ...form, phone: e.target.value })
+            }
+          />
         {/* Experience */}
         <label>Experience (years)</label>
         <input
@@ -166,6 +190,24 @@ function MaidDashboard() {
             <p><strong>User:</strong> {req.user?.name}</p>
             <p><strong>Email:</strong> {req.user?.email}</p>
             <p><strong>Status:</strong> {req.status}</p>
+
+            {/* 🔥 ACTION BUTTONS */}
+            {req.status === "pending" && (
+              <>
+                <button
+                  onClick={() => handleAction(req._id, "accepted")}
+                  style={{ marginRight: "10px" }}
+                >
+                  Accept
+                </button>
+
+                <button
+                  onClick={() => handleAction(req._id, "rejected")}
+                >
+                  Reject
+                </button>
+              </>
+            )}
           </div>
         ))
       )}

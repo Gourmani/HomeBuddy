@@ -28,6 +28,10 @@ const maidProfileSchema = new mongoose.Schema(
       enum: ["cleaning", "cooking", "babysitting", "all"],
       required: true,
     },
+    phone: {
+    type: String,
+    required: true,
+  },
 
     experience: {
       type: Number, // in years
@@ -43,7 +47,7 @@ const maidProfileSchema = new mongoose.Schema(
 
     salaryType: {
       type: String,
-      enum: ["monthly", "daily", "hourly"],
+      enum: ["monthly", "daily", "hourly","Weekly"],
       required: true,
     },
 

@@ -4,26 +4,36 @@ import API from "../services/api";
 
 function MaidDetails() {
   const { id } = useParams();
+
   const [maid, setMaid] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //  FETCH MAID
+  // 🔥 NEW STATE
+  const [requestStatus, setRequestStatus] = useState(null);
+
+  // 🔹 FETCH MAID + REQUEST STATUS
   useEffect(() => {
-    const fetchMaid = async () => {
+    const fetchData = async () => {
       try {
-        const res = await API.get(`/maids/${id}`);
-        setMaid(res.data.data);
+        // 1️⃣ Fetch maid
+        const maidRes = await API.get(`/maids/${id}`);
+        setMaid(maidRes.data.data);
+
+        // 2️⃣ Fetch request status
+        const statusRes = await API.get(`/requests/status/${id}`);
+        setRequestStatus(statusRes.data.status);
+
       } catch (error) {
-        console.error("Error fetching maid:", error);
+        console.error("Error:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMaid();
+    fetchData();
   }, [id]);
 
-  //  REQUEST FUNCTION (MOVED OUTSIDE)
+  // 🔹 SEND REQUEST
   const handleRequest = async () => {
     try {
       await API.post("/requests", {
@@ -31,6 +41,10 @@ function MaidDetails() {
       });
 
       alert("Request sent successfully!");
+
+      // 🔥 update UI immediately
+      setRequestStatus("pending");
+
     } catch (error) {
       console.error("Request error:", error);
       alert("Failed to send request");
@@ -54,10 +68,24 @@ function MaidDetails() {
       <p><strong>Description:</strong></p>
       <p>{maid.description}</p>
 
-      {/*  REQUEST BUTTON */}
-      <button onClick={handleRequest}>
-        Request Contact
-      </button>
+      {/* 🔥 CONDITIONAL UI */}
+      <hr />
+
+      {requestStatus === "accepted" ? (
+        <div>
+          <h3>Contact Available</h3>
+          <p><strong>Email:</strong> {maid.user?.email}</p>
+          <p><strong>Phone:</strong> {maid.phone}</p>
+        </div>
+
+      ) : requestStatus === "pending" ? (
+        <p>Request Pending...</p>
+
+      ) : (
+        <button onClick={handleRequest}>
+          Request Contact
+        </button>
+      )}
     </div>
   );
 }
