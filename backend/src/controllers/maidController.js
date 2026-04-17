@@ -97,7 +97,11 @@ export const getAllProfiles = async (req, res) => {
 
     const profiles = await MaidProfile.find(query)
       .populate("user", "name email")
-      .sort({ createdAt: -1 });
+      .sort({
+      avgRating: -1,     // ⭐ highest rating first
+      numReviews: -1,    // more reviews = better trust
+      createdAt: -1,     // fallback
+    });
 
     res.json({
       success: true,
@@ -126,6 +130,46 @@ export const getMaidById = async (req, res) => {
       success: true,
       data: maid,
     });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// ✅ UPDATE PROFILE
+export const updateProfile = async (req, res) => {
+  try {
+    const profile = await MaidProfile.findOne({ user: req.user._id });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    const updated = await MaidProfile.findByIdAndUpdate(
+      profile._id,
+      req.body,
+      { new: true }
+    );
+
+    res.json({
+      success: true,
+      data: updated,
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ GET LOGGED-IN MAID PROFILE
+export const getMyProfile = async (req, res) => {
+  try {
+    const profile = await MaidProfile.findOne({ user: req.user._id });
+
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
+
+    res.json(profile);
 
   } catch (error) {
     res.status(500).json({ message: error.message });

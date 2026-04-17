@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import MaidDashboard from "./pages/MaidDashboard";
@@ -10,6 +11,8 @@ import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   return (
+  <>
+      <Navbar /> 
     <Routes>
 
       <Route path="/" element={<Home />} />
@@ -54,6 +57,7 @@ function App() {
 />
 
     </Routes>
+    </>
 
         
   );

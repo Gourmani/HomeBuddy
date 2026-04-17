@@ -3,6 +3,7 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';// for importing authRoutes
 import maidRoutes from "./routes/maidRoutes.js";// for importing maidRoutes
 import requestRoutes from "./routes/requestRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
 const app = express();
 
 app.use(cors());
@@ -18,5 +19,7 @@ app.get("/",(req,res)=>{
 app.use("/api/auth", authRoutes);// for importing authRoutes
 app.use("/api/maids", maidRoutes); // for importing maidRoutes
 app.use("/api/requests", requestRoutes);
+app.use("/api/reviews", reviewRoutes);
+
 
 export default app;

@@ -4,16 +4,16 @@ import API from "../services/api";
 function UserDashboard() {
   const [requests, setRequests] = useState([]);
 
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const res = await API.get("/requests/user");
-        setRequests(res.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchRequests = async () => {
+    try {
+      const res = await API.get("/requests/user");
+      setRequests(res.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchRequests();
   }, []);
 
@@ -35,13 +35,12 @@ function UserDashboard() {
             }}
           >
             <p><strong>Maid:</strong> {req.maid?.user?.name}</p>
-
             <p><strong>Status:</strong> {req.status}</p>
 
             {req.status === "accepted" && (
               <div>
                 <p><strong>Email:</strong> {req.maid?.user?.email}</p>
-                <p><strong>Phone:</strong> {req.maid?.phone}</p>
+                <p><strong>Phone:</strong> {req.maid?.phone || "N/A"}</p>
               </div>
             )}
           </div>

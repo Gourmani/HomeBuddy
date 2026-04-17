@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { createMaidProfile } from "../services/maidService";
+import { createMaidProfile, updateMaidProfile } from "../services/maidService";
 import API from "../services/api";
 
 function MaidDashboard() {
-  // 🔹 Profile Form State
   const [form, setForm] = useState({
     name: "",
     age: "",
@@ -15,201 +14,230 @@ function MaidDashboard() {
     availability: "",
     description: "",
     phone: "",
+    location: {
+      city: "",
+      area: "",
+    },
   });
 
-  // 🔹 Requests State
+  const [profileExists, setProfileExists] = useState(false);
   const [requests, setRequests] = useState([]);
 
-  // 🔹 Fetch Requests
+  // 🔥 FETCH PROFILE
+  const fetchProfile = async () => {
+    try {
+      const res = await API.get("/maids/my-profile");
+
+      if (res.data) {
+        setProfileExists(true);
+
+        // 🔥 pre-fill form
+        setForm(res.data);
+      }
+    } catch {
+      setProfileExists(false);
+    }
+  };
+
+  // 🔥 FETCH REQUESTS
   const fetchRequests = async () => {
     try {
       const res = await API.get("/requests/maid");
       setRequests(res.data.data);
     } catch (error) {
-      console.error("Error fetching requests:", error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchRequests();
+    fetchProfile();
   }, []);
 
-  // 🔹 Handle Profile Submit
+  useEffect(() => {
+    if (profileExists) {
+      fetchRequests();
+    }
+  }, [profileExists]);
+
+  // 🔥 SUBMIT (CREATE / UPDATE)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await createMaidProfile(form);
-      alert("Profile created successfully");
+      if (profileExists) {
+        await updateMaidProfile(form);
+        alert("Profile updated successfully");
+      } else {
+        await createMaidProfile(form);
+        alert("Profile created successfully");
+        setProfileExists(true);
+      }
     } catch (error) {
-      console.log(error.response?.data);
       alert(error.response?.data?.message || "Error");
     }
   };
 
-  // 🔥 ACCEPT / REJECT FUNCTION
+  // 🔥 ACCEPT / REJECT
   const handleAction = async (id, status) => {
     try {
       await API.put(`/requests/${id}`, { status });
-
-      alert(`Request ${status}`);
-
-      // 🔄 Refresh list
       fetchRequests();
     } catch (error) {
-      console.error("Update error:", error);
-      alert("Failed to update request");
+      console.error(error);
     }
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* 🔥 PROFILE SECTION */}
-      <h2>Create Maid Profile</h2>
+      <h2>{profileExists ? "Update Profile" : "Create Profile"}</h2>
 
       <form onSubmit={handleSubmit}>
-        {/* Name */}
-        <label>Maid Name</label>
         <input
-          placeholder="Enter maid name"
+          placeholder="Name"
+          value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
-        {/* Age */}
-        <label>Age</label>
         <input
           type="number"
+          placeholder="Age"
+          value={form.age}
           onChange={(e) =>
             setForm({ ...form, age: Number(e.target.value) })
           }
         />
 
-        {/* Gender */}
-        <label>Gender</label>
         <select
+          value={form.gender}
           onChange={(e) => setForm({ ...form, gender: e.target.value })}
         >
-          <option value="">Select Gender</option>
+          <option value="">Gender</option>
           <option value="female">Female</option>
           <option value="male">Male</option>
-          <option value="other">Other</option>
         </select>
 
-        {/* Work Type */}
-        <label>Work Type</label>
         <select
+          value={form.workType}
           onChange={(e) => setForm({ ...form, workType: e.target.value })}
         >
-          <option value="">Select Work Type</option>
+          <option value="">Work Type</option>
           <option value="cleaning">Cleaning</option>
+          <option value="baby-sitting">baby-sitting</option>
           <option value="cooking">Cooking</option>
-          <option value="babysitting">Babysitting</option>
           <option value="all">All</option>
         </select>
 
-        <label>Phone</label>
-          <input
-            type="text"
-            placeholder="Enter phone number"
-            onChange={(e) =>
-              setForm({ ...form, phone: e.target.value })
-            }
-          />
-        {/* Experience */}
-        <label>Experience (years)</label>
+        <input
+          placeholder="Phone"
+          value={form.phone}
+          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+        />
+
+        {/* 🔥 LOCATION */}
+        <input
+          placeholder="City"
+          value={form.location?.city}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              location: { ...form.location, city: e.target.value },
+            })
+          }
+        />
+
+        <input
+          placeholder="Area/Locality"
+          value={form.location?.area}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              location: { ...form.location, area: e.target.value },
+            })
+          }
+        />
+
         <input
           type="number"
+          placeholder="Experience"
+          value={form.experience}
           onChange={(e) =>
             setForm({ ...form, experience: Number(e.target.value) })
           }
         />
 
-        {/* Salary */}
-        <label>Expected Salary</label>
         <input
           type="number"
+          placeholder="Salary"
+          value={form.salaryExpected}
           onChange={(e) =>
-            setForm({ ...form, salaryExpected: Number(e.target.value) })
+            setForm({
+              ...form,
+              salaryExpected: Number(e.target.value),
+            })
           }
         />
 
-        {/* Salary Type */}
-        <label>Salary Type</label>
         <select
-          onChange={(e) => setForm({ ...form, salaryType: e.target.value })}
+          value={form.salaryType}
+          onChange={(e) =>
+            setForm({ ...form, salaryType: e.target.value })
+          }
         >
-          <option value="">Select Type</option>
+          <option value="">Salary Type</option>
           <option value="monthly">Monthly</option>
           <option value="daily">Daily</option>
           <option value="hourly">Hourly</option>
         </select>
 
-        {/* Availability */}
-        <label>Availability</label>
         <select
           value={form.availability}
           onChange={(e) =>
             setForm({ ...form, availability: e.target.value })
           }
         >
-          <option value="">Select Availability</option>
+          <option value="">Availability</option>
           <option value="full-time">Full Time</option>
           <option value="part-time">Part Time</option>
-          <option value="hourly">Hourly</option>
         </select>
 
-        {/* Description */}
-        <label>Description</label>
         <textarea
+          placeholder="Description"
+          value={form.description}
           onChange={(e) =>
             setForm({ ...form, description: e.target.value })
           }
         />
 
-        <button type="submit">Create Profile</button>
+        <button type="submit">
+          {profileExists ? "Update Profile" : "Create Profile"}
+        </button>
       </form>
 
-      {/* 🔥 REQUEST SECTION */}
-      <hr />
+      {/* 🔥 REQUESTS */}
+      {profileExists && (
+        <>
+          <hr />
+          <h2>Incoming Requests</h2>
 
-      <h2>Incoming Requests</h2>
+          {requests.map((req) => (
+            <div key={req._id}>
+              <p>{req.user?.name}</p>
+              <p>{req.user?.email}</p>
+              <p>{req.status}</p>
 
-      {requests.length === 0 ? (
-        <p>No requests yet</p>
-      ) : (
-        requests.map((req) => (
-          <div
-            key={req._id}
-            style={{
-              border: "1px solid #ccc",
-              margin: "10px",
-              padding: "10px",
-              borderRadius: "6px",
-            }}
-          >
-            <p><strong>User:</strong> {req.user?.name}</p>
-            <p><strong>Email:</strong> {req.user?.email}</p>
-            <p><strong>Status:</strong> {req.status}</p>
-
-            {/* 🔥 ACTION BUTTONS */}
-            {req.status === "pending" && (
-              <>
-                <button
-                  onClick={() => handleAction(req._id, "accepted")}
-                  style={{ marginRight: "10px" }}
-                >
-                  Accept
-                </button>
-
-                <button
-                  onClick={() => handleAction(req._id, "rejected")}
-                >
-                  Reject
-                </button>
-              </>
-            )}
-          </div>
-        ))
+              {req.status === "pending" && (
+                <>
+                  <button onClick={() => handleAction(req._id, "accepted")}>
+                    Accept
+                  </button>
+                  <button onClick={() => handleAction(req._id, "rejected")}>
+                    Reject
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+        </>
       )}
     </div>
   );

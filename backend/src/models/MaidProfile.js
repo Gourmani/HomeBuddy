@@ -25,7 +25,7 @@ const maidProfileSchema = new mongoose.Schema(
 
     workType: {
       type: String,
-      enum: ["cleaning", "cooking", "babysitting", "all"],
+      enum: ["cleaning", "cooking", "baby-sitting", "all"],
       required: true,
     },
     phone: {
@@ -70,6 +70,15 @@ const maidProfileSchema = new mongoose.Schema(
     description: {
       type: String,
       maxlength: 300,
+    },
+    avgRating: {
+    type: Number,
+    default: 0,
+    },
+
+    numReviews: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

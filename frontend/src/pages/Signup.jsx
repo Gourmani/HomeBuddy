@@ -1,5 +1,4 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 import { signupUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
@@ -11,19 +10,20 @@ function Signup() {
     role: "user",
   });
 
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log(form); //  debug
+      console.log(form);
 
-      const res = await signupUser(form);
+      await signupUser(form); // ✅ only signup
 
-      login(res.data);
-      navigate("/");
+      alert("Signup successful. Please login.");
+
+      navigate("/login"); // 🔥 redirect to login
+
     } catch (error) {
       alert(error.response?.data?.message || "Signup failed");
     }

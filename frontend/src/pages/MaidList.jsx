@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMaidProfiles } from "../services/maidService";
 import { useNavigate } from "react-router-dom";
+import MaidCard from "../components/MaidCard";
 
 
 function MaidList() {
@@ -118,6 +119,12 @@ function MaidList() {
             </p>
             <p>Availability: {maid.availability}</p>
             <p>City: {maid.location?.city || "N/A"}</p>
+            <p>Area/Locality: {maid.location?.area }</p>
+            <p>
+              ⭐ {maid.avgRating?.toFixed(1) || "0"} (
+              {maid.numReviews || 0})
+            </p>
+
           </div>
         ))
       )}

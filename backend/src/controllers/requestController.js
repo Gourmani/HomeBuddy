@@ -1,11 +1,24 @@
 import Request from "../models/Request.js";
 import MaidProfile from "../models/MaidProfile.js";
 
-//  CREATE REQUEST
+// CREATE REQUEST
 export const createRequest = async (req, res) => {
   try {
     const { maidId } = req.body;
 
+    // 🔥 STEP 1: CHECK DUPLICATE
+    const existing = await Request.findOne({
+      user: req.user._id,
+      maid: maidId,
+    });
+
+    if (existing) {
+      return res.status(400).json({
+        message: "Request already sent",
+      });
+    }
+
+    // 🔥 STEP 2: CREATE REQUEST
     const request = await Request.create({
       user: req.user._id,
       maid: maidId,
@@ -98,19 +111,17 @@ export const checkRequestStatus = async (req, res) => {
   }
 };
 
+//  GET REQUESTS FOR USER
 export const getRequestsForUser = async (req, res) => {
   try {
-    const requests = await Request.find({
-      user: req.user._id,
-    })
+    const requests = await Request.find({ user: req.user._id })
       .populate({
         path: "maid",
         populate: {
           path: "user",
           select: "name email",
         },
-      })
-      .sort({ createdAt: -1 });
+      });
 
     res.json({
       success: true,
