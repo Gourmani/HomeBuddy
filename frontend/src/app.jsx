@@ -8,6 +8,7 @@ import MaidList from "./pages/MaidList";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MaidDetails from "./pages/maidDetails";
 import UserDashboard from "./pages/UserDashboard";
+import ChooseRole from "./pages/ChooseRole";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           </ProtectedRoute>
         }
 />
+     <Route path="/choose-role" element={<ChooseRole />} />
 
     </Routes>
     </>

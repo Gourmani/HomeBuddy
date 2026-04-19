@@ -1,0 +1,127 @@
+.choose-role-page {
+  display: flex;
+  height: 100vh;
+  font-family: system-ui;
+}
+
+/* LEFT PANEL */
+.choose-left {
+  flex: 1;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 40px;
+  text-align: center;
+}
+
+.choose-illustration {
+  width: 120px;
+}
+
+.choose-left h1 {
+  font-size: 28px;
+}
+
+/* TYPING TEXT */
+.typing-text {
+  font-size: 14px;
+  min-height: 22px;
+  opacity: 0.9;
+  color: white;
+}
+
+/* FEATURES */
+.choose-features {
+  margin-top: 10px;
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* RIGHT PANEL */
+.choose-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choose-card {
+  width: 380px;
+}
+
+/* HEADER */
+.choose-card h2 {
+  font-size: 22px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* OPTIONS */
+.role-options {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 25px;
+}
+
+/* CARD */
+.role-option {
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: 0.25s;
+  background: white;
+}
+
+.role-option:hover {
+  border-color: #2563eb;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* TEXT */
+.role-option h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.role-option p {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+/* BUTTON */
+.role-option button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.role-option button:hover {
+  background: #1d4ed8;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .choose-role-page {
+    flex-direction: column;
+  }
+
+  .choose-left {
+    display: none;
+  }
+}

@@ -1,0 +1,159 @@
+.details-container {
+  padding: 30px 80px;
+}
+
+/* HEADER */
+.profile-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+  padding: 25px;
+  border-radius: 14px;
+}
+
+.work-tag {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+/* LAYOUT */
+.details-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-top: 25px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* RIGHT */
+.sticky-card {
+  position: sticky;
+  top: 100px;
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+}
+
+/* TEXT */
+.salary {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.location {
+  margin: 10px 0;
+  color: #6b7280;
+}
+
+.availability {
+  margin: 8px 0;
+  color: #374151;
+}
+
+/* STATUS */
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status.accepted {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* BUTTON */
+.btn {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+.btn.primary {
+  background: #2563eb;
+  color: white;
+  font-weight: 500;
+}
+
+.btn.primary:hover {
+  background: #1d4ed8;
+}
+
+.btn.disabled {
+  background: #9ca3af;
+  color: white;
+}
+
+.btn.red {
+  background: #ef4444;
+  color: white;
+}
+
+/* CONTACT */
+.contact-box {
+  margin-top: 10px;
+  padding: 10px;
+  background: #ecfdf5;
+  border-radius: 8px;
+}
+
+/* REVIEWS */
+.review-card {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+  background: #fafafa;
+}
+
+.review-name {
+  font-weight: 600;
+}
+
+.review-rating {
+  font-size: 14px;
+  color: #f59e0b;
+}

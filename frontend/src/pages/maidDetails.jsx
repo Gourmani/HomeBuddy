@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../services/api";
 import Loader from "../components/Loader";
+import "../styles/maidDetails.css";
 
 function MaidDetails() {
   const { id } = useParams();
@@ -11,12 +12,8 @@ function MaidDetails() {
   const [requestStatus, setRequestStatus] = useState(null);
   const [sending, setSending] = useState(false);
 
-  // 🔥 REVIEW STATES
   const [reviews, setReviews] = useState([]);
-  const [rating, setRating] = useState(5);
-  const [comment, setComment] = useState("");
 
-  // 🔹 FETCH DATA
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,7 +25,6 @@ function MaidDetails() {
 
         const reviewRes = await API.get(`/reviews/${id}`);
         setReviews(reviewRes.data.data);
-
       } catch (error) {
         console.error("Error:", error);
       } finally {
@@ -39,18 +35,13 @@ function MaidDetails() {
     fetchData();
   }, [id]);
 
-  // 🔹 SEND REQUEST
   const handleRequest = async () => {
     try {
       setSending(true);
-
-      await API.post("/requests", {
-        maidId: maid._id,
-      });
+      await API.post("/requests", { maidId: maid._id });
 
       alert("Request sent successfully!");
       setRequestStatus("pending");
-
     } catch (error) {
       alert(error.response?.data?.message || "Failed to send request");
     } finally {
@@ -58,127 +49,120 @@ function MaidDetails() {
     }
   };
 
-  // 🔹 SUBMIT REVIEW
-  const handleReview = async () => {
-    if (!comment.trim()) {
-      alert("Please write a review");
-      return;
-    }
-
-    try {
-      await API.post("/reviews", {
-        maidId: maid._id,
-        rating,
-        comment,
-      });
-
-      alert("Review added!");
-
-      const reviewRes = await API.get(`/reviews/${id}`);
-      setReviews(reviewRes.data.data);
-
-      setComment("");
-      setRating(5);
-
-    } catch (error) {
-      alert(error.response?.data?.message || "Error");
-    }
-  };
-
   if (loading) return <Loader />;
   if (!maid) return <p>Maid not found</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>{maid.user?.name}</h2>
+    <div className="details-container">
 
-      {/* ⭐ AVG RATING (FIXED) */}
-      <p>
-        <strong>Rating:</strong> ⭐{" "}
-        {maid?.avgRating ? maid.avgRating.toFixed(1) : "No ratings"} (
-        {maid?.numReviews || 0} reviews)
-      </p>
-
-      <p><strong>Work:</strong> {maid.workType}</p>
-      <p><strong>Experience:</strong> {maid.experience} years</p>
-      <p><strong>Salary:</strong> ₹{maid.salaryExpected} ({maid.salaryType})</p>
-      <p><strong>Availability:</strong> {maid.availability}</p>
-      <p><strong>City:</strong> {maid.location?.city || "N/A"}</p>
-      <p><strong>Area:</strong> {maid.location?.area || "N/A"}</p>
-
-      <p><strong>Description:</strong></p>
-      <p>{maid.description}</p>
-
-      <hr />
-
-      {/* 🔥 REQUEST LOGIC */}
-      {requestStatus === "accepted" ? (
+      {/* HEADER */}
+      <div className="profile-card">
         <div>
-          <h3>Contact Available</h3>
-          <p><strong>Email:</strong> {maid.user?.email}</p>
-          <p><strong>Phone:</strong> {maid.phone || "N/A"}</p>
+          <h1>{maid.user?.name}</h1>
+          <p className="work-tag">{maid.workType}</p>
+          <span className="badge">✔ Verified</span>
         </div>
 
-      ) : requestStatus === "pending" ? (
-        <button disabled>Request Pending...</button>
+        <div className="rating">
+          ⭐ {maid?.avgRating ? maid.avgRating.toFixed(1) : "0"}
+          <span> ({maid?.numReviews || 0} reviews)</span>
+        </div>
+      </div>
 
-      ) : requestStatus === "rejected" ? (
-        <button disabled>Request Rejected</button>
+      {/* MAIN */}
+      <div className="details-layout">
 
-      ) : (
-        <button onClick={handleRequest} disabled={sending}>
-          {sending ? "Sending..." : "Request Contact"}
-        </button>
-      )}
+        {/* LEFT */}
+        <div className="left-section">
 
-      <hr />
-
-      {/* 🔥 REVIEW FORM */}
-      {requestStatus === "accepted" && (
-        <>
-          <h3>Give Review</h3>
-
-          <select
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          >
-            <option value="5">5 ⭐</option>
-            <option value="4">4 ⭐</option>
-            <option value="3">3 ⭐</option>
-            <option value="2">2 ⭐</option>
-            <option value="1">1 ⭐</option>
-          </select>
-
-          <textarea
-            placeholder="Write your review..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-
-          <br />
-
-          <button onClick={handleReview}>
-            Submit Review
-          </button>
-
-          <hr />
-        </>
-      )}
-
-      {/* 🔥 REVIEWS LIST */}
-      <h3>Reviews</h3>
-
-      {reviews.length === 0 ? (
-        <p>No reviews yet</p>
-      ) : (
-        reviews.map((r) => (
-          <div key={r._id} style={{ marginBottom: "10px" }}>
-            <p><strong>{r.user?.name}</strong></p>
-            <p>⭐ {r.rating}</p>
-            <p>{r.comment}</p>
+          {/* BASIC */}
+          <div className="card">
+            <h3 className="section-title">Basic Information</h3>
+            <p><strong>Experience:</strong> {maid.experience} years</p>
+            <p><strong>Availability:</strong> {maid.availability}</p>
+            <p><strong>Location:</strong> {maid.location?.area}, {maid.location?.city}</p>
           </div>
-        ))
-      )}
+
+          {/* ABOUT */}
+          <div className="card">
+            <h3 className="section-title">About</h3>
+            <p>{maid.description}</p>
+          </div>
+
+          {/* REVIEWS */}
+          <div className="card">
+            <h3 className="section-title">Customer Reviews</h3>
+
+            {reviews.length === 0 ? (
+              <p>No reviews yet</p>
+            ) : (
+              reviews.map((r) => (
+                <div key={r._id} className="review-card">
+                  <p className="review-name">{r.user?.name}</p>
+                  <p className="review-rating">⭐ {r.rating}</p>
+                  <p>{r.comment}</p>
+                </div>
+              ))
+            )}
+          </div>
+
+        </div>
+
+        {/* RIGHT */}
+        <div className="right-section">
+          <div className="sticky-card">
+
+            <h3 className="summary-title">Profile Summary</h3>
+
+            <p className="salary">
+              ₹{maid.salaryExpected} / {maid.salaryType}
+            </p>
+
+            <p className="location">
+              📍 {maid.location?.area}, {maid.location?.city}
+            </p>
+
+            <p className="availability">
+              ⏱ {maid.availability}
+            </p>
+
+            {/* STATUS */}
+            <div className="status-box">
+              {requestStatus === "accepted" && (
+                <span className="status accepted">Accepted</span>
+              )}
+              {requestStatus === "pending" && (
+                <span className="status pending">Request Sent</span>
+              )}
+              {requestStatus === "rejected" && (
+                <span className="status rejected">Rejected</span>
+              )}
+            </div>
+
+            {/* CTA */}
+            {requestStatus === "accepted" ? (
+              <div className="contact-box">
+                <p><strong>Email:</strong> {maid.user?.email}</p>
+                <p><strong>Phone:</strong> {maid.phone}</p>
+              </div>
+            ) : requestStatus === "pending" ? (
+              <button className="btn disabled full">Request Sent</button>
+            ) : requestStatus === "rejected" ? (
+              <button className="btn red full">Request Rejected</button>
+            ) : (
+              <button
+                className="btn primary full"
+                onClick={handleRequest}
+                disabled={sending}
+              >
+                {sending ? "Sending..." : "Hire Now"}
+              </button>
+            )}
+
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }

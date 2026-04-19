@@ -1,0 +1,296 @@
+.home {
+  font-family: system-ui;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* ================= HERO ================= */
+.hero {
+  min-height: 60vh;
+  padding: 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+}
+
+.hero-left {
+  max-width: 520px;
+}
+
+.hero-left h1 {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hero-left p {
+  margin-top: 15px;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.hero-right img {
+  width: 300px;
+}
+
+/* BUTTONS */
+.hero-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.btn.primary {
+  background: white;
+  color: #2563eb;
+}
+
+.btn.primary:hover {
+  background: #f3f4f6;
+}
+
+.btn.ghost {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+/* ================= TRUST ================= */
+.trust {
+  padding: 60px 0;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.trust-item {
+  text-align: center;
+  padding: 25px 15px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  transition: 0.25s;
+}
+
+.trust-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.trust-item .icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.trust-item h4 {
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.trust-item p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ================= SERVICES ================= */
+.services {
+  padding: 80px 0;
+  background: #f9fafb;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.service-card {
+  padding: 30px 20px;
+  border-radius: 14px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  transition: 0.25s;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  border-color: #2563eb;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.service-card h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.service-card p {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ================= WORKERS ================= */
+.workers {
+  padding: 80px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.section-header button {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* SLIDER */
+.worker-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  justify-content: center;
+}
+
+.worker-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.worker-slider .maid-card {
+  min-width: 260px;
+}
+
+/* ================= CTA ================= */
+.cta {
+  padding: 80px 0;
+  text-align: center;
+  background: #f9fafb;
+}
+
+.cta h2 {
+  font-size: 28px;
+}
+
+.cta p {
+  margin-top: 10px;
+  color: #6b7280;
+}
+
+.cta button {
+  margin-top: 20px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  background: #111827;
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+.footer h3 {
+  margin-bottom: 5px;
+}
+
+.footer p {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ================= FUTURE SERVICES ================= */
+.future-services {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.future-services h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.future-subtitle {
+  margin-top: 10px;
+  color: #6b7280;
+}
+
+.future-grid {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.future-card {
+  padding: 25px;
+  border-radius: 14px;
+  background: white;
+  border: 1px dashed #cbd5f5;
+  transition: 0.25s;
+}
+
+.future-card:hover {
+  transform: translateY(-5px);
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+.future-card h3 {
+  margin-bottom: 8px;
+}
+
+.future-card p {
+  font-size: 13px;
+  color: #6b7280;
+}

@@ -1,0 +1,94 @@
+.maid-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.maid-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: #2563eb;
+}
+
+/* HEADER */
+.maid-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.maid-card-header h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* VERIFIED */
+.verified-badge {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 3px 7px;
+  border-radius: 20px;
+}
+
+/* RATING */
+.rating {
+  font-size: 13px;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+/* WORK CHIP */
+.work-chip {
+  margin-top: 10px;
+  display: inline-block;
+  padding: 4px 10px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* DETAILS */
+.maid-details {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.maid-details p {
+  margin: 4px 0;
+}
+
+/* LOCATION */
+.maid-location {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* BUTTON */
+.view-btn {
+  margin-top: 14px;
+  width: 100%;
+  padding: 9px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.view-btn:hover {
+  background-color: #1d4ed8;
+}

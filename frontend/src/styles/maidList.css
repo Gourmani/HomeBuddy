@@ -1,0 +1,89 @@
+.maid-list-container {
+  padding: 40px 60px;
+}
+
+/* HEADER */
+.list-header {
+  margin-bottom: 25px;
+}
+
+.list-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.list-header p {
+  color: #6b7280;
+  margin-top: 5px;
+}
+
+/* SEARCH */
+.search-box {
+  margin-top: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: #2563eb;
+}
+
+/* FILTERS */
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.filters input,
+.filters select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #2563eb;
+}
+
+/* GRID */
+.maid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* STATES */
+.status-text {
+  color: #6b7280;
+}
+
+.error-text {
+  color: red;
+}
+
+/* EMPTY */
+.empty-state {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.empty-state p {
+  font-weight: 600;
+}
+
+.empty-state span {
+  color: #6b7280;
+  font-size: 14px;
+}

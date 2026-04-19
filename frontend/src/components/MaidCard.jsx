@@ -1,33 +1,57 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/maidCard.css";
 
 function MaidCard({ maid }) {
   const navigate = useNavigate();
 
   return (
     <div
+      className="maid-card"
       onClick={() => navigate(`/maids/${maid._id}`)}
-      style={{
-        cursor: "pointer",
-        border: "1px solid #ccc",
-        padding: "10px",
-        marginBottom: "10px",
-        borderRadius: "6px",
-      }}
     >
-      <h3>{maid.user?.name}</h3>
-      <p>Work: {maid.workType}</p>
-      <p>Experience: {maid.experience} years</p>
-      <p>
-        Salary: ₹{maid.salaryExpected} ({maid.salaryType})
-      </p>
-      <p>Availability: {maid.availability}</p>
-      <p>City: {maid.location?.city || "N/A"}</p>
-      <p>Area: {maid.location?.area || "N/A"}</p>
-       <p>
-        ⭐ {maid.avgRating?.toFixed(1) || "0"} (
-        {maid.numReviews})
-      </p>
+
+      {/* HEADER */}
+      <div className="maid-card-header">
+        <div>
+          <h3>{maid.user?.name}</h3>
+          <span className="verified-badge">✔ Verified</span>
+        </div>
+
+        <div className="rating">
+          ⭐ {maid.avgRating?.toFixed(1) || "0"}
+          <span> ({maid.numReviews || 0})</span>
+        </div>
+      </div>
+
+      {/* WORK TYPE */}
+      <div className="work-chip">
+        {maid.workType}
+      </div>
+
+      {/* DETAILS */}
+      <div className="maid-details">
+        <p><strong>{maid.experience} yrs</strong> experience</p>
+        <p>₹{maid.salaryExpected} / {maid.salaryType}</p>
+        <p>{maid.availability}</p>
+      </div>
+
+      {/* LOCATION */}
+      <div className="maid-location">
+        📍 {maid.location?.area || "N/A"}, {maid.location?.city || "N/A"}
+      </div>
+
+      {/* CTA */}
+      <button
+        className="view-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/maids/${maid._id}`);
+        }}
+      >
+        View Profile
+      </button>
+
     </div>
   );
 }

@@ -2,13 +2,15 @@ import mongoose from "mongoose";
 
 const maidProfileSchema = new mongoose.Schema(
   {
-      name: {
+    name: {
       type: String,
       required: true,
+      trim: true,
     },
 
     age: {
       type: Number,
+      min: 18,
     },
 
     gender: {
@@ -20,21 +22,31 @@ const maidProfileSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, //  one profile per user
+      unique: true,
     },
 
+    // 🔥 UPDATED WORK TYPES
     workType: {
       type: String,
-      enum: ["cleaning", "cooking", "baby-sitting", "all"],
+      enum: [
+        "cleaning",
+        "cooking",
+        "babysitting",
+        "eldercare",
+        "driver",
+        "eventhelper",
+        "all",
+      ],
       required: true,
     },
+
     phone: {
-    type: String,
-    required: true,
-  },
+      type: String,
+      required: true,
+    },
 
     experience: {
-      type: Number, // in years
+      type: Number,
       required: true,
       min: 0,
     },
@@ -45,15 +57,17 @@ const maidProfileSchema = new mongoose.Schema(
       min: 0,
     },
 
+    // 🔥 FIXED ENUM
     salaryType: {
       type: String,
-      enum: ["monthly", "daily", "hourly","Weekly"],
+      enum: ["monthly", "daily", "hourly", "weekly"],
       required: true,
     },
 
+    // 🔥 LOCATION STRUCTURE (NO CHANGE NEEDED)
     location: {
-      city: { type: String },
-      area: { type: String },
+      city: { type: String, required: true },
+      area: { type: String, required: true },
       pincode: { type: String },
     },
 
@@ -64,16 +78,18 @@ const maidProfileSchema = new mongoose.Schema(
     },
 
     profileImage: {
-      type: String, // URL (for now)
+      type: String,
     },
 
     description: {
       type: String,
       maxlength: 300,
     },
+
+    // 🔥 RATING SYSTEM
     avgRating: {
-    type: Number,
-    default: 0,
+      type: Number,
+      default: 0,
     },
 
     numReviews: {
@@ -83,7 +99,11 @@ const maidProfileSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// 🔥 INDEXING (GOOD FOR PERFORMANCE)
 maidProfileSchema.index({ "location.city": 1 });
+maidProfileSchema.index({ "location.area": 1 });
 maidProfileSchema.index({ workType: 1 });
 maidProfileSchema.index({ salaryExpected: 1 });
+
 export default mongoose.model("MaidProfile", maidProfileSchema);

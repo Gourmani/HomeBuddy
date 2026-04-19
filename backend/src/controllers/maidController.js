@@ -144,11 +144,11 @@ export const updateProfile = async (req, res) => {
       return res.status(404).json({ message: "Profile not found" });
     }
 
-    const updated = await MaidProfile.findByIdAndUpdate(
-      profile._id,
-      req.body,
-      { new: true }
-    );
+    const updated = await MaidProfile.findOneAndUpdate(
+  { user: req.user._id },
+  req.body,
+  { returnDocument: "after" }
+);
 
     res.json({
       success: true,
