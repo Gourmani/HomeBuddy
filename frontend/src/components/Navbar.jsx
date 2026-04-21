@@ -10,6 +10,12 @@ function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  // 🔥 NEW LOGOUT HANDLER (IMPORTANT FIX)
+  const handleLogout = () => {
+    logout();        // clear user
+    navigate("/");   // redirect to home
+  };
+
   return (
     <nav className="navbar">
 
@@ -59,7 +65,18 @@ function Navbar() {
               </button>
             )}
 
-            <button className="logout-btn" onClick={logout}>
+            {/* 👤 PROFILE */}
+            <button
+              className="nav-link"
+              onClick={() =>
+                navigate(user.role === "maid" ? "/maid-profile" : "/user-profile")
+              }
+            >
+              👤 Profile
+            </button>
+
+            {/* 🔥 UPDATED LOGOUT */}
+            <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </>

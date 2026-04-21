@@ -12,7 +12,18 @@ const cityAreas = {
     "Donar",
     "Darbhanga Tower",
     "Mabbi",
-    "Delhi More",
+    "Dilli More",
+    "LaxmiSagar",
+    "Mishratola",
+    "Professor Colony",
+    "Bela",
+    "Darbhanga Tower",
+    "Mirzapur",
+    "Maulaganj",
+    "Rahamganj",
+
+
+    
   ],
   Patna: [
     "Boring Road",
@@ -25,14 +36,19 @@ const cityAreas = {
     "Gola Road",
     "Fraser Road",
     "Phulwari Sharif",
+    "Ashok Nagar",
+    "S K Puri",
+    "Kumhrar",
+    "Digha",
   ],
 };
 
 function UserDashboard() {
   const [requests, setRequests] = useState([]);
 
-  // 🔥 USER PROFILE STATE
-  const [profile, setProfile] = useState({
+  // 🔥 PROFILE STATE
+  const [profile, setProfile] = useState(null);
+  const [form, setForm] = useState({
     phone: "",
     location: { city: "", area: "" },
     workRequired: "",
@@ -41,6 +57,7 @@ function UserDashboard() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
 
   // 🔹 FETCH REQUESTS
   const fetchRequests = async () => {
@@ -56,11 +73,14 @@ function UserDashboard() {
   const fetchProfile = async () => {
     try {
       const res = await API.get("/user-profile/me");
+
       if (res.data) {
         setProfile(res.data);
       }
     } catch {
-      console.log("No profile yet");
+      setProfile(null); // no profile
+    } finally {
+      setLoadingProfile(false);
     }
   };
 
@@ -76,9 +96,13 @@ function UserDashboard() {
     try {
       setLoading(true);
 
-      await API.post("/user-profile", profile);
+      await API.post("/user-profile", form);
 
       alert("Profile saved successfully!");
+
+      // 🔥 refresh profile → hide form
+      fetchProfile();
+
     } catch (error) {
       alert(error.response?.data?.message || "Error");
     } finally {
@@ -86,116 +110,111 @@ function UserDashboard() {
     }
   };
 
+  if (loadingProfile) return <p>Loading...</p>;
+
   return (
     <div className="dashboard-container">
 
-      {/* 🔥 USER PROFILE */}
-      <div className="profile-card">
-        <h2>User Profile</h2>
+      {/* 🔥 SHOW FORM ONLY IF PROFILE NOT EXISTS */}
+      {!profile && (
+        <div className="profile-card">
+          <h2>Create Your Profile</h2>
 
-        <form onSubmit={handleProfileSubmit} className="form-grid">
+          <form onSubmit={handleProfileSubmit} className="form-grid">
 
-          {/* PHONE */}
-          <input
-            placeholder="Phone"
-            value={profile.phone}
-            onChange={(e) =>
-              setProfile({ ...profile, phone: e.target.value })
-            }
-          />
+            <input
+              placeholder="Phone"
+              value={form.phone}
+              onChange={(e) =>
+                setForm({ ...form, phone: e.target.value })
+              }
+            />
 
-          {/* 🔥 CITY DROPDOWN */}
-          <select
-            value={profile.location?.city || ""}
-            onChange={(e) =>
-              setProfile({
-                ...profile,
-                location: {
-                  city: e.target.value,
-                  area: "", // reset area
-                },
-              })
-            }
-          >
-            <option value="">Select City</option>
-            {Object.keys(cityAreas).map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-
-          {/* 🔥 AREA DROPDOWN */}
-          <select
-            value={profile.location?.area || ""}
-            onChange={(e) =>
-              setProfile({
-                ...profile,
-                location: {
-                  ...profile.location,
-                  area: e.target.value,
-                },
-              })
-            }
-            disabled={!profile.location?.city}
-          >
-            <option value="">Select Area</option>
-            {profile.location?.city &&
-              cityAreas[profile.location.city].map((area) => (
-                <option key={area} value={area}>
-                  {area}
+            {/* CITY */}
+            <select
+              value={form.location.city}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  location: {
+                    city: e.target.value,
+                    area: "",
+                  },
+                })
+              }
+            >
+              <option value="">Select City</option>
+              {Object.keys(cityAreas).map((city) => (
+                <option key={city} value={city}>
+                  {city}
                 </option>
               ))}
-          </select>
+            </select>
 
-          {/* WORK REQUIRED */}
-          <select
-            value={profile.workRequired}
-            onChange={(e) =>
-              setProfile({ ...profile, workRequired: e.target.value })
-            }
-          >
-            <option value="">Work Required</option>
-            <option value="cleaning">Cleaning</option>
-            <option value="cooking">Cooking</option>
-            <option value="babysitting">Babysitting</option>
-            <option value="eldercare">Elder Care</option>
-            <option value="driver">Driver</option>
-            <option value="eventhelper">Event Helper</option>
-          </select>
+            {/* AREA */}
+            <select
+              value={form.location.area}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  location: {
+                    ...form.location,
+                    area: e.target.value,
+                  },
+                })
+              }
+              disabled={!form.location.city}
+            >
+              <option value="">Select Area</option>
+              {form.location.city &&
+                cityAreas[form.location.city].map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+            </select>
 
-          {/* BUDGET */}
-          <input
-            type="number"
-            placeholder="Budget"
-            value={profile.budget}
-            onChange={(e) =>
-              setProfile({
-                ...profile,
-                budget: Number(e.target.value),
-              })
-            }
-          />
+            {/* WORK */}
+            <select
+              value={form.workRequired}
+              onChange={(e) =>
+                setForm({ ...form, workRequired: e.target.value })
+              }
+            >
+              <option value="">Work Required</option>
+              <option value="cleaning">Cleaning</option>
+              <option value="cooking">Cooking</option>
+              <option value="babysitting">Babysitting</option>
+              <option value="eldercare">Elder Care</option>
+              <option value="driver">Driver</option>
+              <option value="eventhelper">Event Helper</option>
+            </select>
 
-          {/* DESCRIPTION */}
-          <textarea
-            placeholder="Description"
-            value={profile.description}
-            onChange={(e) =>
-              setProfile({
-                ...profile,
-                description: e.target.value,
-              })
-            }
-          />
+            <input
+              type="number"
+              placeholder="Budget"
+              value={form.budget}
+              onChange={(e) =>
+                setForm({ ...form, budget: Number(e.target.value) })
+              }
+            />
 
-          <button className="btn primary">
-            {loading ? "Saving..." : "Save Profile"}
-          </button>
-        </form>
-      </div>
+            <textarea
+              placeholder="Description"
+              value={form.description}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
+            />
 
-      {/* 🔥 REQUEST SECTION */}
+            <button className="btn primary">
+              {loading ? "Saving..." : "Save Profile"}
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* 🔥 REQUEST SECTION ALWAYS VISIBLE */}
       <h2 className="dashboard-title">My Requests</h2>
 
       {requests.length === 0 ? (
@@ -205,7 +224,6 @@ function UserDashboard() {
           {requests.map((req) => (
             <div key={req._id} className="request-card">
 
-              {/* HEADER */}
               <div className="request-header">
                 <h3>{req.maid?.user?.name}</h3>
                 <span className={`status ${req.status}`}>
@@ -213,17 +231,14 @@ function UserDashboard() {
                 </span>
               </div>
 
-              {/* DETAILS */}
               <div className="request-body">
                 <p>
-                  📍 {req.maid?.location?.area},{" "}
-                  {req.maid?.location?.city}
+                  📍 {req.maid?.location?.area}, {req.maid?.location?.city}
                 </p>
 
                 <p>💼 {req.maid?.workType}</p>
               </div>
 
-              {/* CONTACT */}
               {req.status === "accepted" && (
                 <div className="contact-box">
                   <p><strong>Email:</strong> {req.maid?.user?.email}</p>

@@ -1,4 +1,5 @@
 import UserProfile from "../models/UserProfile.js";
+import MaidProfile from "../models/MaidProfile.js"; // 🔥 ADD THIS IMPORT
 
 // CREATE OR UPDATE PROFILE
 export const upsertUserProfile = async (req, res) => {
@@ -24,7 +25,7 @@ export const getMyUserProfile = async (req, res) => {
   try {
     const profile = await UserProfile.findOne({
       user: req.user._id,
-    });
+    }).populate("user", "name email"); // ✅ FIX
 
     res.json(profile);
 
@@ -33,10 +34,30 @@ export const getMyUserProfile = async (req, res) => {
   }
 };
 
-// ✅ GET ALL USER PROFILES (for maid)
+
+// ✅ GET ALL USER PROFILES (SMART MATCHING)
 export const getAllUserProfiles = async (req, res) => {
   try {
-    const profiles = await UserProfile.find()
+    // 🔥 1. Get maid profile
+    const maidProfile = await MaidProfile.findOne({
+      user: req.user._id,
+    });
+
+    if (!maidProfile) {
+      return res.status(404).json({
+        message: "Maid profile not found",
+      });
+    }
+
+    // 🔥 2. Build matching query
+    const query = {
+      "location.city": maidProfile.location?.city,
+      "location.area": maidProfile.location?.area,
+      workRequired: maidProfile.workType,
+    };
+
+    // 🔥 3. Fetch filtered users
+    const profiles = await UserProfile.find(query)
       .populate("user", "name email");
 
     res.json({

@@ -9,6 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MaidDetails from "./pages/maidDetails";
 import UserDashboard from "./pages/UserDashboard";
 import ChooseRole from "./pages/ChooseRole";
+import UserProfile from "./pages/UserProfile";
+import MaidProfile from "./pages/MaidProfile";
 
 function App() {
   return (
@@ -51,13 +53,10 @@ function App() {
       <Route
         path="/user-dashboard"
         element={
-          <ProtectedRoute role="user">
-            <UserDashboard />
-          </ProtectedRoute>
-        }
-/>
+          <ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>}/>
      <Route path="/choose-role" element={<ChooseRole />} />
-
+      <Route path="/user-profile" element={<UserProfile />} />
+      <Route path="/maid-profile" element={<MaidProfile />} />
     </Routes>
     </>
 
