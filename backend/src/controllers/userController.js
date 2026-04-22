@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
+import { sendOTPEmail } from "../services/emailService.js";
 
 export const changePassword = async (req, res) => {
   try {
@@ -27,5 +28,17 @@ export const changePassword = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// for email service 
+export const testEmail = async (req, res) => {
+  try {
+    await sendOTPEmail("raush6330@gmail.com", "123456");
+
+    res.json({ message: "Email sent successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error sending email" });
   }
 };
