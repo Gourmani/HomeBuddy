@@ -10,7 +10,6 @@ const cityAreas = {
     "Benta",
     "Allalpatti",
     "Donar",
-    "Darbhanga Tower",
     "Mabbi",
     "Dilli More",
     "LaxmiSagar",
