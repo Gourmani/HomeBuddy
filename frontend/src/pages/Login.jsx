@@ -8,9 +8,9 @@ import "../styles/auth.css";
 
 function Login() {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  identifier: "", // email OR phone
+  password: "",
+});
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -19,8 +19,20 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await loginUser(form);
+      // detect email vs phone
+      const isEmail = form.identifier.includes("@");
 
+      const payload = {
+        password: form.password,
+      };
+
+      if (isEmail) {
+        payload.email = form.identifier;
+      } else {
+        payload.phone = form.identifier;
+      }
+
+      const res = await loginUser(payload);
       login(res.data);
 
       //  MAID FLOW
@@ -103,13 +115,13 @@ function Login() {
 
           <form onSubmit={handleSubmit}>
             <input
-              type="email"
-              placeholder="Enter your email"
-              value={form.email}
-              onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
-              }
-            />
+            type="text"
+            placeholder="Enter email or phone"
+            value={form.identifier}
+            onChange={(e) =>
+              setForm({ ...form, identifier: e.target.value })
+            }
+          />
 
             <input
               type="password"

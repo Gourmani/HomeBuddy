@@ -1,54 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import API from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 
 const cityAreas = {
   Darbhanga: [
-    "Laheriasarai",
-    "Kadirabad",
-    "Benta",
-    "Allalpatti",
-    "Donar",
-    "Mabbi",
-    "Dilli More",
-    "LaxmiSagar",
-    "Mishratola",
-    "Professor Colony",
-    "Bela",
-    "Darbhanga Tower",
-    "Mirzapur",
-    "Maulaganj",
-    "Rahamganj",
+    "Laheriasarai","Kadirabad","Benta","Allalpatti","Donar",
+    "Mabbi","Dilli More","LaxmiSagar","Mishratola",
+    "Professor Colony","Bela","Darbhanga Tower",
+    "Mirzapur","Maulaganj","Rahamganj",
   ],
   Patna: [
-    "Boring Road",
-    "Kankarbagh",
-    "Rajendra Nagar",
-    "Patliputra",
-    "Danapur",
-    "Bailey Road",
-    "Ashok Rajpath",
-    "Gola Road",
-    "Fraser Road",
-    "Phulwari Sharif",
-    "Ashok Nagar",
-    "S K Puri",
-    "Kumhrar",
-    "Digha",
+    "Boring Road","Kankarbagh","Rajendra Nagar","Patliputra",
+    "Danapur","Bailey Road","Ashok Rajpath","Gola Road",
+    "Fraser Road","Phulwari Sharif","Ashok Nagar",
+    "S K Puri","Kumhrar","Digha",
   ],
 };
 
 function MaidDashboard() {
+  const { user } = useContext(AuthContext);
+
   const [requests, setRequests] = useState([]);
   const [userNeeds, setUserNeeds] = useState([]);
 
-  // 🔥 PROFILE STATE
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState({
-    name: "",
     age: "",
     gender: "",
     workType: "",
     phone: "",
+    email: "",
     experience: "",
     salaryExpected: "",
     salaryType: "",
@@ -60,7 +41,7 @@ function MaidDashboard() {
   const [loadingProfile, setLoadingProfile] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // 🔹 FETCH REQUESTS
+  // FETCH
   const fetchRequests = async () => {
     try {
       const res = await API.get("/requests/maid");
@@ -70,7 +51,6 @@ function MaidDashboard() {
     }
   };
 
-  // 🔹 FETCH USER NEEDS
   const fetchUserNeeds = async () => {
     try {
       const res = await API.get("/user-profile");
@@ -80,7 +60,6 @@ function MaidDashboard() {
     }
   };
 
-  // 🔹 FETCH PROFILE
   const fetchProfile = async () => {
     try {
       const res = await API.get("/maids/my-profile");
@@ -98,33 +77,33 @@ function MaidDashboard() {
     fetchProfile();
   }, []);
 
-  // 🔹 CREATE PROFILE
+  // CREATE PROFILE
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
 
-      await API.post("/maids", form);
+      // 🔥 VALIDATION
+      if (!user?.phone && !form.phone) {
+        alert("Phone is required");
+        return;
+      }
+
+      await API.post("/maids", {
+        ...form,
+        name: user?.name, // 🔥 from signup
+        phone: user?.phone || form.phone,
+        email: user?.email || form.email,
+      });
 
       alert("Profile created!");
+      fetchProfile();
 
-      fetchProfile(); // 🔥 refresh
     } catch (error) {
       alert(error.response?.data?.message || "Error");
     } finally {
       setLoading(false);
-    }
-  };
-
-  // 🔹 UPDATE REQUEST STATUS
-  const handleStatusUpdate = async (id, status) => {
-    try {
-      await API.put(`/requests/${id}`, { status });
-      alert(`Request ${status}`);
-      fetchRequests();
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -134,18 +113,20 @@ function MaidDashboard() {
     <div style={{ padding: "20px" }}>
       <h2>Maid Dashboard</h2>
 
-      {/* 🔥 SHOW FORM ONLY IF PROFILE NOT EXISTS */}
+      {/* FORM */}
       {!profile && (
         <div>
           <h3>Create Your Profile</h3>
 
           <form onSubmit={handleProfileSubmit}>
 
-            <input placeholder="Name"
-              onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            {/*  NAME REMOVED (comes from signup) */}
 
-            <input type="number" placeholder="Age"
-              onChange={(e) => setForm({ ...form, age: e.target.value })} />
+            <input
+              type="number"
+              placeholder="Age"
+              onChange={(e) => setForm({ ...form, age: e.target.value })}
+            />
 
             <select onChange={(e) => setForm({ ...form, gender: e.target.value })}>
               <option value="">Gender</option>
@@ -163,14 +144,37 @@ function MaidDashboard() {
               <option value="eventhelper">Event Helper</option>
             </select>
 
-            <input placeholder="Phone"
-              onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            {/*  PHONE (ONLY IF MISSING) */}
+            {!user?.phone && (
+              <input
+                placeholder="Phone (required)"
+                onChange={(e) =>
+                  setForm({ ...form, phone: e.target.value })
+                }
+              />
+            )}
 
-            <input type="number" placeholder="Experience"
-              onChange={(e) => setForm({ ...form, experience: e.target.value })} />
+            {/*  EMAIL (ONLY IF MISSING) */}
+            {!user?.email && (
+              <input
+                placeholder="Email (optional)"
+                onChange={(e) =>
+                  setForm({ ...form, email: e.target.value })
+                }
+              />
+            )}
 
-            <input type="number" placeholder="Salary"
-              onChange={(e) => setForm({ ...form, salaryExpected: e.target.value })} />
+            <input
+              type="number"
+              placeholder="Experience"
+              onChange={(e) => setForm({ ...form, experience: e.target.value })}
+            />
+
+            <input
+              type="number"
+              placeholder="Salary"
+              onChange={(e) => setForm({ ...form, salaryExpected: e.target.value })}
+            />
 
             <select onChange={(e) => setForm({ ...form, salaryType: e.target.value })}>
               <option value="">Salary Type</option>
@@ -232,7 +236,7 @@ function MaidDashboard() {
         </div>
       )}
 
-      {/* ================= REQUESTS ================= */}
+      {/* REQUESTS */}
       <h3>Incoming Requests</h3>
 
       {requests.length === 0 ? (
@@ -254,9 +258,9 @@ function MaidDashboard() {
         ))
       )}
 
-      {/* ================= USER NEEDS ================= */}
       <hr />
 
+      {/* USER NEEDS */}
       <h3>Users Looking for Work</h3>
 
       {userNeeds.length === 0 ? (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { signupUser } from "../services/authService";
+import API from "../services/api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import "../styles/auth.css";
@@ -8,40 +9,114 @@ function Signup() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract role from URL (?role=user or ?role=maid)
   const queryParams = new URLSearchParams(location.search);
   const roleFromURL = queryParams.get("role");
 
-  // If role is missing, redirect user to role selection page
   useEffect(() => {
     if (!roleFromURL) {
       navigate("/choose-role");
     }
   }, [roleFromURL, navigate]);
 
-  // Form state
   const [form, setForm] = useState({
     name: "",
-    email: "",
+    identifier: "", // email OR phone
     password: "",
     role: roleFromURL || "user",
   });
 
-  // Handle signup submission
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [verified, setVerified] = useState(false);
+
+  // detect email vs phone
+  const isEmail = form.identifier.includes("@");
+
+  // SEND OTP
+  const handleSendOTP = async () => {
+    if (!form.identifier) {
+      alert("Enter email or phone");
+      return;
+    }
+
+    try {
+      if (isEmail) {
+        // EMAIL OTP
+        await signupUser({
+          name: form.name,
+          email: form.identifier,
+          password: "temp123456", // temp (not used finally)
+          role: form.role,
+        });
+      } else {
+        // PHONE OTP
+        await API.post("/auth/send-phone-otp", {
+          phone: form.identifier,
+        });
+      }
+
+      alert("OTP sent");
+      setOtpSent(true);
+
+    } catch (error) {
+      alert(error.response?.data?.message || "Failed to send OTP");
+    }
+  };
+
+  // VERIFY OTP
+  const handleVerifyOTP = async () => {
+    if (!otp) {
+      alert("Enter OTP");
+      return;
+    }
+
+    try {
+      if (isEmail) {
+        await API.post("/auth/verify-otp", {
+          email: form.identifier,
+          otp,
+        });
+      } else {
+        await API.post("/auth/verify-phone-otp", {
+          phone: form.identifier,
+          otp,
+        });
+      }
+
+      alert("Verified successfully");
+      setVerified(true);
+
+    } catch (error) {
+      alert(error.response?.data?.message || "OTP failed");
+    }
+  };
+
+  // FINAL SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!verified) {
+      alert("Please verify OTP first");
+      return;
+    }
+
     try {
-      // Call backend signup API
-      await signupUser(form);
+      if (isEmail) {
+        // already created user → just login redirect
+        alert("Account created successfully");
+        navigate("/login");
+      } else {
+        // PHONE → set password API
+        await API.post("/auth/set-password", {
+          phone: form.identifier,
+          name: form.name,
+          password: form.password,
+          role: form.role,
+        });
 
-      // Inform user OTP has been sent
-      alert("OTP sent to your email");
-
-      // Redirect to OTP verification page with email
-      navigate("/verify-otp", {
-        state: { email: form.email },
-      });
+        alert("Account created successfully");
+        navigate("/login");
+      }
 
     } catch (error) {
       alert(error.response?.data?.message || "Signup failed");
@@ -51,7 +126,7 @@ function Signup() {
   return (
     <div className="auth-page">
 
-      {/* LEFT SIDE */}
+      {/* LEFT */}
       <div className="auth-left">
         <div className="auth-left-content">
 
@@ -98,20 +173,13 @@ function Signup() {
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
+      {/* RIGHT */}
       <div className="auth-right">
         <div className="auth-card">
 
-          <h2>
-            {form.role === "maid"
-              ? "Start your journey as a worker"
-              : "Create your account"}
-          </h2>
-
+          <h2>Create your account</h2>
           <p className="subtitle">
-            {form.role === "maid"
-              ? "Get discovered by nearby households"
-              : "Find reliable help for your home"}
+            Find reliable help for your home
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -126,28 +194,50 @@ function Signup() {
             />
 
             <input
-              type="email"
-              placeholder="Email address"
-              value={form.email}
+              type="text"
+              placeholder="Email or Phone"
+              value={form.identifier}
               onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
+                setForm({ ...form, identifier: e.target.value })
               }
             />
 
-            <input
-              type="password"
-              placeholder="Create password"
-              value={form.password}
-              onChange={(e) =>
-                setForm({ ...form, password: e.target.value })
-              }
-            />
+            {!otpSent && (
+              <button type="button" onClick={handleSendOTP}>
+                Send OTP
+              </button>
+            )}
 
-            <button className="primary-btn">
-              {form.role === "maid"
-                ? "Start Working"
-                : "Create Account"}
-            </button>
+            {otpSent && !verified && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+                <button type="button" onClick={handleVerifyOTP}>
+                  Verify OTP
+                </button>
+              </>
+            )}
+
+            {verified && (
+              <>
+                <input
+                  type="password"
+                  placeholder="Create password"
+                  value={form.password}
+                  onChange={(e) =>
+                    setForm({ ...form, password: e.target.value })
+                  }
+                />
+
+                <button className="primary-btn">
+                  Create Account
+                </button>
+              </>
+            )}
 
           </form>
 

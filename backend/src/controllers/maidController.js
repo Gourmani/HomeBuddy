@@ -98,7 +98,7 @@ export const getAllProfiles = async (req, res) => {
     const profiles = await MaidProfile.find(query)
       .populate("user", "name email")
       .sort({
-      avgRating: -1,     // ⭐ highest rating first
+      avgRating: -1,     //  highest rating first
       numReviews: -1,    // more reviews = better trust
       createdAt: -1,     // fallback
     });
@@ -135,7 +135,7 @@ export const getMaidById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// ✅ UPDATE PROFILE
+//  UPDATE PROFILE
 export const updateProfile = async (req, res) => {
   try {
     const profile = await MaidProfile.findOne({ user: req.user._id });
@@ -160,7 +160,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-// ✅ GET LOGGED-IN MAID PROFILE
+//  GET LOGGED-IN MAID PROFILE
 export const getMyProfile = async (req, res) => {
   try {
     const profile = await MaidProfile.findOne({ user: req.user._id });

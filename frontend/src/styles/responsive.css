@@ -1,0 +1,147 @@
+/* ================= GLOBAL RESPONSIVE ================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+
+  /* CONTAINER */
+  .container {
+    padding: 0 15px;
+  }
+
+  /* HERO */
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .hero-right img {
+    width: 260px;
+  }
+
+  /* GRID */
+  .service-grid,
+  .future-grid,
+  .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* DETAILS PAGE */
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-card {
+    position: relative;
+    top: 0;
+  }
+}
+
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  /* GENERAL */
+  body {
+    font-size: 14px;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .navbar-logo-img {
+    height: 35px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 40px 15px;
+  }
+
+  .hero-left h1 {
+    font-size: 28px;
+  }
+
+  .hero-right img {
+    width: 220px;
+  }
+
+  /* BUTTONS */
+  .btn {
+    width: 100%;
+  }
+
+  /* CARDS */
+  .card,
+  .sticky-card,
+  .service-card,
+  .future-card {
+    padding: 15px;
+  }
+
+  /* GRID */
+  .service-grid,
+  .future-grid,
+  .trust-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* MAID CARD SLIDER */
+  .worker-slider {
+    padding: 10px;
+  }
+
+  .maid-card {
+    min-width: 220px;
+  }
+
+  /* DETAILS PAGE */
+  .details-container {
+    padding: 20px 15px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .profile-left {
+    flex-direction: row;
+  }
+
+  .profile-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* FOOTER */
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-trust {
+    justify-content: center;
+  }
+}
+
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .hero-left h1 {
+    font-size: 24px;
+  }
+
+  .btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .salary {
+    font-size: 18px;
+  }
+}

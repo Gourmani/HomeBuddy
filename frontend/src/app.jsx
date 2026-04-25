@@ -13,6 +13,14 @@ import UserProfile from "./pages/UserProfile";
 import MaidProfile from "./pages/MaidProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Footer from "./components/Footer";
+import "./styles/responsive.css";
+
+{/* 
+import PhoneEntry from "./pages/PhoneEntry";
+import VerifyPhoneOTP from "./pages/VerifyPhoneOTP";// this is different from email OTP verification, it's for phone-based login/signup
+import SetPassword from "./pages/SetPassword";
+ */}
 
 // NEW IMPORTS
 import VerifyOTP from "./pages/VerifyOTP"; 
@@ -32,9 +40,6 @@ function App() {
 
         {/* OTP VERIFICATION ROUTE */}
         <Route path="/verify-otp" element={<VerifyOTP />} />
-
-        {/* FORGOT PASSWORD ROUTE */}
-        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* PROTECTED ROUTES */}
 
@@ -77,7 +82,13 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
+
+        {/*<Route path="/phone-entry" element={<PhoneEntry />} />
+        <Route path="/verify-phone-otp" element={<VerifyPhoneOTP />} />
+        <Route path="/set-password" element={<SetPassword />} />*/}
+
       </Routes>
+      <Footer />
     </>
   );
 }

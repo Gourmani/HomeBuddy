@@ -11,6 +11,17 @@ function MaidCard({ maid }) {
       onClick={() => navigate(`/maids/${maid._id}`)}
     >
 
+      {/*  IMAGE SECTION (NEW) */}
+      <div className="maid-image">
+        <img
+          src={
+            maid.profileImage ||
+            "/images/mci.jpg" // fallback (add later)
+          }
+          alt="maid"
+        />
+      </div>
+
       {/* HEADER */}
       <div className="maid-card-header">
         <div>
@@ -24,7 +35,7 @@ function MaidCard({ maid }) {
         </div>
       </div>
 
-      {/* 🔥 MATCH BADGE (NEW) */}
+      {/* MATCH BADGE */}
       {maid.matchScore !== undefined && (
         <div style={{ marginBottom: "5px" }}>
           {maid.matchScore >= 2 && (
@@ -41,7 +52,7 @@ function MaidCard({ maid }) {
         </div>
       )}
 
-      {/* 🔥 WORK TYPE FIXED */}
+      {/* WORK TYPE */}
       <div className="work-chip">
         {Array.isArray(maid.workType)
           ? maid.workType.join(", ")

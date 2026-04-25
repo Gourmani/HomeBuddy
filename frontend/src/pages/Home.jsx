@@ -4,14 +4,61 @@ import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import MaidCard from "../components/MaidCard";
 import { getMaidProfiles } from "../services/maidService";
-import API from "../services/api"; // ✅ NEW
+import API from "../services/api";
 import "../styles/home.css";
+
+const services = [
+  {
+    title: "Home Cleaning",
+    desc: "Daily or part-time cleaning support",
+    image: "/images/s1.jpg",
+  },
+  {
+    title: "Home Cooking",
+    desc: "Veg & non-veg experienced cooks",
+    image: "/images/s2.jpg",
+  },
+  {
+    title: "Babysitting",
+    desc: "Safe and trusted childcare",
+    image: "/images/s3.jpg",
+  },
+  {
+    title: "Elder Care",
+    desc: "Basic support for elderly members",
+    image: "/images/s4.jpg",
+  },
+];
+
+const futureServices = [
+  {
+    title: "Event Helpers",
+    desc: "Hire workers for weddings & events",
+    image: "/images/f1.jpg",
+  },
+  {
+    title: "Drivers",
+    desc: "Find drivers for daily needs",
+    image: "/images/f2.jpg",
+  },
+  {
+    title: "Party Cooks",
+    desc: "Book cooks for small gatherings",
+    image: "/images/f3.jpg",
+  },
+  {
+    title: "Daily Wage Workers",
+    desc: "Workers for short-term tasks",
+    image: "/images/f4.jpg",
+  },
+];
 
 function HomePage() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [maids, setMaids] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMaids = async () => {
@@ -19,17 +66,16 @@ function HomePage() {
         let res;
 
         if (user && user.role === "user") {
-          // ✅ LOGGED-IN USER → MATCHED MAIDS
           res = await API.get("/maids/matched");
         } else {
-          // ✅ GUEST USER → ALL MAIDS
           res = await getMaidProfiles({});
         }
 
         setMaids(res?.data?.data?.slice(0, 8) || []);
-
       } catch (err) {
         console.error("Error fetching maids:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,7 +87,6 @@ function HomePage() {
 
       {/* HERO */}
       <section className="hero">
-
         <div className="hero-left">
 
           <div className="hero-badge">
@@ -51,7 +96,7 @@ function HomePage() {
           <h1>
             <TypeAnimation
               sequence={[
-                "Find Trusted Home Help Near You",
+                "Find Trusted Workers in Your Area",
                 2000,
                 "Hire Without Agents",
                 2000,
@@ -62,8 +107,8 @@ function HomePage() {
           </h1>
 
           <p>
-            Hire verified maids, cooks, and helpers from your locality —
-            safe, direct, and hassle-free.
+            Connect directly with verified maids, cooks, and helpers near you.
+            No middlemen. No hassle.
           </p>
 
           <div className="hero-buttons">
@@ -94,12 +139,8 @@ function HomePage() {
         </div>
 
         <div className="hero-right">
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/921/921347.png"
-            alt="home help"
-          />
-        </div>
-
+  <img src="/images/hero.jpeg" alt="workers" />
+</div>
       </section>
 
       {/* TRUST */}
@@ -108,35 +149,23 @@ function HomePage() {
           <div className="trust-grid">
 
             <div className="trust-item">
-              <div className="icon">✔</div>
-              <div>
-                <h4>Verified Workers</h4>
-                <p>Checked via local references</p>
-              </div>
+              <h4>✔ Verified Workers</h4>
+              <p>Trusted by local families</p>
             </div>
 
             <div className="trust-item">
-              <div className="icon">📍</div>
-              <div>
-                <h4>Nearby Only</h4>
-                <p>Workers from your locality</p>
-              </div>
+              <h4>📍 Nearby Only</h4>
+              <p>Workers from your area</p>
             </div>
 
             <div className="trust-item">
-              <div className="icon">🤝</div>
-              <div>
-                <h4>No Middleman</h4>
-                <p>Direct hiring, no agents</p>
-              </div>
+              <h4>🤝 No Middleman</h4>
+              <p>Direct hiring process</p>
             </div>
 
             <div className="trust-item">
-              <div className="icon">💬</div>
-              <div>
-                <h4>Direct Contact</h4>
-                <p>Talk before hiring</p>
-              </div>
+              <h4>💬 Direct Contact</h4>
+              <p>Talk before hiring</p>
             </div>
 
           </div>
@@ -149,27 +178,13 @@ function HomePage() {
           <h2>Services You Can Hire For</h2>
 
           <div className="service-grid">
-
-            <div className="service-card">
-              <h3>Home Cleaning</h3>
-              <p>Daily or part-time cleaning support</p>
-            </div>
-
-            <div className="service-card">
-              <h3>Home Cooking</h3>
-              <p>Veg & non-veg experienced cooks</p>
-            </div>
-
-            <div className="service-card">
-              <h3>Babysitting</h3>
-              <p>Safe and trusted childcare</p>
-            </div>
-
-            <div className="service-card">
-              <h3>Elder Care</h3>
-              <p>Basic support for elderly members</p>
-            </div>
-
+            {services.map((service, index) => (
+              <div key={index} className="service-card">
+                <img src={service.image} alt={service.title} />
+                <h3>{service.title}</h3>
+                <p>{service.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -186,10 +201,17 @@ function HomePage() {
           </div>
 
           <div className="worker-slider">
-            {maids.length === 0 ? (
-              <p className="empty">
-                No workers available in your area yet.
-              </p>
+            {loading ? (
+              <p className="loading">Loading workers...</p>
+            ) : maids.length === 0 ? (
+              <div className="empty-state">
+                <p>No workers found in your area.</p>
+                {!user && (
+                  <button onClick={() => navigate("/login")}>
+                    Login to see better matches
+                  </button>
+                )}
+              </div>
             ) : (
               maids.map((maid) => (
                 <MaidCard key={maid._id} maid={maid} />
@@ -206,31 +228,17 @@ function HomePage() {
 
           <h2>More Services Coming Soon</h2>
           <p className="future-subtitle">
-            We’re expanding to serve all your daily and event needs
+            We’re expanding to serve all your daily needs
           </p>
 
           <div className="future-grid">
-
-            <div className="future-card">
-              <h3>Event Helpers</h3>
-              <p>Hire workers for weddings, functions & events</p>
-            </div>
-
-            <div className="future-card">
-              <h3>Drivers</h3>
-              <p>Find drivers for daily or temporary needs</p>
-            </div>
-
-            <div className="future-card">
-              <h3>Party Cooks</h3>
-              <p>Book cooks for small gatherings & parties</p>
-            </div>
-
-            <div className="future-card">
-              <h3>Daily Wage Workers</h3>
-              <p>Hire workers for short-term tasks</p>
-            </div>
-
+            {futureServices.map((service, index) => (
+              <div key={index} className="future-card">
+                <img src={service.image} alt={service.title} />
+                <h3>{service.title}</h3>
+                <p>{service.desc}</p>
+              </div>
+            ))}
           </div>
 
         </div>
@@ -239,10 +247,8 @@ function HomePage() {
       {/* CTA */}
       <section className="cta">
         <div className="container">
-          <h2>Stop Searching. Start Hiring.</h2>
-          <p>
-            Find verified workers near you in just a few clicks.
-          </p>
+          <h2>Find Trusted Workers in Your City Today</h2>
+          <p>Start hiring within minutes.</p>
 
           <button
             className="btn primary"
@@ -252,18 +258,6 @@ function HomePage() {
           </button>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="footer">
-        <h3>GrihSahayak</h3>
-        <p>Connecting homes with trusted local workers.</p>
-
-        <div className="footer-links">
-          <span onClick={() => navigate("/")}>Home</span>
-          <span onClick={() => navigate("/maids")}>Workers</span>
-          <span onClick={() => navigate("/login")}>Login</span>
-        </div>
-      </footer>
 
     </div>
   );

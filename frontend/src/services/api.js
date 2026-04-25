@@ -4,7 +4,7 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
-// ✅ INTERCEPTOR (THIS IS THE FIX)
+//  INTERCEPTOR (THIS IS THE FIX)
 API.interceptors.request.use(
   (req) => {
     const user = JSON.parse(localStorage.getItem("user"));

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import API from "../services/api";
 import "../styles/userDashboard.css";
+import { AuthContext } from "../context/AuthContext";
 
-// 🔥 SAME DATA AS MAID DASHBOARD
+//  SAME DATA AS MAID DASHBOARD
 const cityAreas = {
   Darbhanga: [
     "Laheriasarai",
@@ -20,9 +21,6 @@ const cityAreas = {
     "Mirzapur",
     "Maulaganj",
     "Rahamganj",
-
-
-    
   ],
   Patna: [
     "Boring Road",
@@ -43,14 +41,17 @@ const cityAreas = {
 };
 
 function UserDashboard() {
+  const { user } = useContext(AuthContext);
+
   const [requests, setRequests] = useState([]);
 
-  // 🔥 PROFILE STATE
+  //  PROFILE STATE
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState({
     phone: "",
+    email: "",
     location: { city: "", area: "" },
-    workRequired: "",
+    workRequired: [],
     budget: "",
     description: "",
   });
@@ -95,13 +96,21 @@ function UserDashboard() {
     try {
       setLoading(true);
 
-      await API.post("/user-profile", form);
+      // VALIDATION
+      if (!user?.phone && !form.phone) {
+        alert("Phone is required");
+        return;
+      }
+
+      await API.post("/user-profile", {
+        ...form,
+        phone: user?.phone || form.phone,
+        email: user?.email || form.email,
+      });
 
       alert("Profile saved successfully!");
 
-      // 🔥 refresh profile → hide form
       fetchProfile();
-
     } catch (error) {
       alert(error.response?.data?.message || "Error");
     } finally {
@@ -114,20 +123,34 @@ function UserDashboard() {
   return (
     <div className="dashboard-container">
 
-      {/* 🔥 SHOW FORM ONLY IF PROFILE NOT EXISTS */}
+      {/*  SHOW FORM ONLY IF PROFILE NOT EXISTS */}
       {!profile && (
         <div className="profile-card">
           <h2>Create Your Profile</h2>
 
           <form onSubmit={handleProfileSubmit} className="form-grid">
 
-            <input
-              placeholder="Phone"
-              value={form.phone}
-              onChange={(e) =>
-                setForm({ ...form, phone: e.target.value })
-              }
-            />
+            {/*  PHONE (ONLY IF MISSING) */}
+            {!user?.phone && (
+              <input
+                placeholder="Phone (required)"
+                value={form.phone}
+                onChange={(e) =>
+                  setForm({ ...form, phone: e.target.value })
+                }
+              />
+            )}
+
+            {/*  EMAIL (ONLY IF MISSING) */}
+            {!user?.email && (
+              <input
+                placeholder="Email (optional)"
+                value={form.email}
+                onChange={(e) =>
+                  setForm({ ...form, email: e.target.value })
+                }
+              />
+            )}
 
             {/* CITY */}
             <select
@@ -174,20 +197,42 @@ function UserDashboard() {
             </select>
 
             {/* WORK */}
-            <select
-              value={form.workRequired}
-              onChange={(e) =>
-                setForm({ ...form, workRequired: e.target.value })
-              }
-            >
-              <option value="">Work Required</option>
-              <option value="cleaning">Cleaning</option>
-              <option value="cooking">Cooking</option>
-              <option value="babysitting">Babysitting</option>
-              <option value="eldercare">Elder Care</option>
-              <option value="driver">Driver</option>
-              <option value="eventhelper">Event Helper</option>
-            </select>
+            <div>
+              <p><strong>Select Work Required:</strong></p>
+
+              {[
+                "cleaning",
+                "cooking",
+                "babysitting",
+                "eldercare",
+                "driver",
+                "eventhelper",
+              ].map((work) => (
+                <label key={work} style={{ display: "block" }}>
+                  <input
+                    type="checkbox"
+                    value={work}
+                    checked={form.workRequired.includes(work)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setForm({
+                          ...form,
+                          workRequired: [...form.workRequired, work],
+                        });
+                      } else {
+                        setForm({
+                          ...form,
+                          workRequired: form.workRequired.filter(
+                            (item) => item !== work
+                          ),
+                        });
+                      }
+                    }}
+                  />
+                  {work}
+                </label>
+              ))}
+            </div>
 
             <input
               type="number"
@@ -213,7 +258,7 @@ function UserDashboard() {
         </div>
       )}
 
-      {/* 🔥 REQUEST SECTION ALWAYS VISIBLE */}
+      {/*  REQUEST SECTION ALWAYS VISIBLE */}
       <h2 className="dashboard-title">My Requests</h2>
 
       {requests.length === 0 ? (

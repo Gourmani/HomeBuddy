@@ -53,7 +53,7 @@ export const getAllUserProfiles = async (req, res) => {
       });
     }
 
-    // 🔥 SAFE EXTRACTION
+    //  SAFE EXTRACTION
     const city = maidProfile.location?.city?.trim();
     const area = maidProfile.location?.area?.trim();
     const workArray = maidProfile.workType || [];

@@ -25,7 +25,7 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 🔥 prevent duplicate review
+//  prevent duplicate review
 reviewSchema.index({ user: 1, maid: 1 }, { unique: true });
 
 export default mongoose.model("Review", reviewSchema);

@@ -106,3 +106,16 @@
 .logout-btn:hover {
   background-color: #dc2626;
 }
+
+
+.navbar-logo-img {
+  height: 80px;
+  width: 200px;
+  cursor: pointer;
+  object-fit: contain;
+  transition: 0.3s;
+}
+
+.navbar-logo-img:hover {
+  transform: scale(1.05);
+}

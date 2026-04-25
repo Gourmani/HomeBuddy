@@ -14,7 +14,7 @@ function ForgotPassword() {
 
       alert("OTP sent to your email");
 
-      // 👉 go to reset page
+      //  go to reset page
       navigate("/reset-password", { state: { email } });
 
     } catch (error) {

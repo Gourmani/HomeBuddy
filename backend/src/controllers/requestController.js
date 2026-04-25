@@ -31,7 +31,7 @@ export const createRequest = async (req, res) => {
       maid: maidId,
     });
 
-    // 🔥 SEND EMAIL TO MAID
+    //  SEND EMAIL TO MAID
     const maidProfile = await MaidProfile.findById(maidId).populate("user");
     const user = await User.findById(req.user._id);
 
@@ -101,7 +101,7 @@ export const updateRequestStatus = async (req, res) => {
     request.status = status;
     await request.save();
 
-    // 🔥 SEND EMAIL TO USER
+    //  SEND EMAIL TO USER
     const user = await User.findById(request.user);
     const maidProfile = await MaidProfile.findById(request.maid).populate("user");
 

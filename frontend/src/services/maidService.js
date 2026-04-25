@@ -17,7 +17,7 @@ export const getMaidProfiles = (filters = {}) => {
   return API.get(`/maids?${params}`);
 };
 
-// 🔥 ADD THIS FUNCTION (IMPORTANT)
+//  ADD THIS FUNCTION (IMPORTANT)
 export const updateMaidProfile = (data) => {
   const user = JSON.parse(localStorage.getItem("user"));
 

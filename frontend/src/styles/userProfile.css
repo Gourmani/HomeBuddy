@@ -1,0 +1,151 @@
+/* PAGE */
+.user-profile-page {
+  background: linear-gradient(135deg, #f0f4ff, #f9fafb);
+  min-height: 100vh;
+  padding: 40px 15px;
+}
+
+/* CONTAINER */
+.user-profile-container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* TITLE */
+.user-profile-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* SECTION */
+.section {
+  margin-bottom: 25px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.section h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #1e3a8a;
+}
+
+/* FORM */
+.user-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* INPUT */
+.user-profile-form input,
+.user-profile-form select,
+.user-profile-form textarea {
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.user-profile-form input:focus,
+.user-profile-form select:focus,
+.user-profile-form textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* WORK */
+.work-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.work-group label {
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* BUTTON */
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.button-group button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* PRIMARY */
+.save-btn {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+}
+
+/* CANCEL */
+.cancel-btn {
+  background: #e5e7eb;
+}
+
+/* VIEW */
+.profile-info p {
+  padding: 6px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+/* ACTION BUTTONS */
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* EDIT PROFILE */
+.edit-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  transition: 0.2s;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* CHANGE PASSWORD */
+.password-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #2563eb;
+  background: white;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.password-btn:hover {
+  background: #eff6ff;
+}

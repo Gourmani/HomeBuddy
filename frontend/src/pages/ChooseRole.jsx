@@ -19,7 +19,7 @@ function ChooseRole() {
 
         <h1>Welcome to GrihSahayak</h1>
 
-        {/* 🔥 TYPING TEXT ADDED HERE */}
+        {/*  TYPING TEXT ADDED HERE */}
         <div className="typing-text">
           <TypeAnimation
             sequence={[

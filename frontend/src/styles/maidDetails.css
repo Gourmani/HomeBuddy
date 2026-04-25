@@ -12,6 +12,19 @@
   border-radius: 14px;
 }
 
+.profile-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .work-tag {
   color: #2563eb;
   font-weight: 500;
@@ -27,6 +40,11 @@
   border-radius: 20px;
 }
 
+.rating {
+  font-size: 14px;
+  font-weight: 500;
+}
+
 /* LAYOUT */
 .details-layout {
   display: grid;
@@ -39,9 +57,15 @@
 .card {
   background: white;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid #e5e7eb;
   margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
 }
 
 .section-title {
@@ -58,6 +82,11 @@
   padding: 22px;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.summary-title {
+  margin-bottom: 10px;
 }
 
 /* TEXT */
@@ -75,6 +104,13 @@
 .availability {
   margin: 8px 0;
   color: #374151;
+}
+
+/* TRUST */
+.trust-line {
+  font-size: 12px;
+  color: #16a34a;
+  margin-top: 10px;
 }
 
 /* STATUS */
@@ -113,13 +149,15 @@
 }
 
 .btn.primary {
-  background: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 15px;
 }
 
 .btn.primary:hover {
-  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 
 .btn.disabled {
@@ -143,10 +181,11 @@
 /* REVIEWS */
 .review-card {
   margin-top: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #f1f5f9;
-  background: #fafafa;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
 .review-name {
@@ -156,4 +195,14 @@
 .review-rating {
   font-size: 14px;
   color: #f59e0b;
+}
+
+.empty {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.not-found {
+  text-align: center;
+  padding: 40px;
 }

@@ -92,3 +92,29 @@
 .view-btn:hover {
   background-color: #1d4ed8;
 }
+
+/* IMAGE CONTAINER */
+.maid-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0; /* top rounded only */
+  background: #f3f4f6; /* fallback bg */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* IMAGE */
+.maid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills nicely */
+  object-position: center top; /* 👈 FACE FOCUS */
+  transition: transform 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.maid-card:hover .maid-image img {
+  transform: scale(1.05);
+}

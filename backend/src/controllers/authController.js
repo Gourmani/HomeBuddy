@@ -113,9 +113,14 @@ export const verifyOTP = async (req, res) => {
 // ==========================
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, phone, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [
+        email ? { email } : null,
+        phone ? { phone } : null,
+      ].filter(Boolean),
+    });
 
     if (!user) {
       return res.status(401).json({
@@ -123,10 +128,10 @@ export const login = async (req, res) => {
       });
     }
 
-    //  BLOCK LOGIN IF NOT VERIFIED
+    // check verification
     if (!user.isVerified) {
       return res.status(401).json({
-        message: "Please verify your email first",
+        message: "Please verify your account first",
       });
     }
 
@@ -137,6 +142,7 @@ export const login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
         token: generateToken(user._id),
       });
@@ -281,5 +287,136 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({
       message: error.message,
     });
+  }
+};
+
+// ==========================
+// SEND PHONE OTP
+// ==========================
+export const sendPhoneOTP = async (req, res) => {
+  try {
+    const { phone } = req.body;
+
+    if (!phone) {
+      return res.status(400).json({ message: "Phone number is required" });
+    }
+
+    let user = await User.findOne({ phone });
+
+    const otp = generateOTP();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+    
+    if (user) {
+  //  If user already has real password → don't send OTP
+  if (user.hasPassword) {
+    return res.json({
+      success: true,
+      isExistingUser: true,
+      message: "User already exists, please login",
+    });
+  }
+
+  // else → still new user (no password yet)
+  user.otp = otp;
+  user.otpExpiry = otpExpiry;
+  await user.save();
+}
+     else {
+      // new user → create temp user (without password yet)
+      user = await User.create({
+        phone,
+        authProvider: "phone",
+        isVerified: false,
+        otp,
+        otpExpiry,
+        name: "Temp", // will update later
+        hasPassword: false
+      });
+    }
+
+    //  TEMP SMS (for now)
+    console.log("PHONE OTP:", otp);
+
+    res.json({
+      success: true,
+      message: "OTP sent to phone (check console for now)",
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ==========================
+// VERIFY PHONE OTP
+// ==========================
+export const verifyPhoneOTP = async (req, res) => {
+  try {
+    const { phone, otp } = req.body;
+
+    const user = await User.findOne({ phone });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // OTP CHECK
+    if (user.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    if (user.otpExpiry < new Date()) {
+      return res.status(400).json({ message: "OTP expired" });
+    }
+
+    // VERIFY USER
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpiry = null;
+
+    await user.save();
+    const isNewUser = !user.hasPassword;
+    res.json({
+      success: true,
+      message: "Phone verified successfully",
+      isNewUser, // important flag
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ==========================
+// SET PASSWORD AFTER PHONE OTP
+// ==========================
+export const setPassword = async (req, res) => {
+  try {
+    const { phone, name, password, role } = req.body;
+
+    const user = await User.findOne({ phone });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.name = name;
+    user.role = role || "user";
+    user.hasPassword = true; // mark that user now has a real password
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Profile setup complete",
+      token: generateToken(user._id),
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

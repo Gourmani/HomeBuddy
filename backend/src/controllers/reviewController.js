@@ -1,13 +1,13 @@
 import Review from "../models/Review.js";
 import Request from "../models/Request.js";
-import MaidProfile from "../models/MaidProfile.js"; // 🔥 ADD THIS
+import MaidProfile from "../models/MaidProfile.js"; //  ADD THIS
 
-// ✅ CREATE REVIEW (RESTRICTED + AVG RATING)
+//  CREATE REVIEW (RESTRICTED + AVG RATING)
 export const createReview = async (req, res) => {
   try {
     const { maidId, rating, comment } = req.body;
 
-    // 🔥 1. CHECK: user had an accepted request
+    //  1. CHECK: user had an accepted request
     const request = await Request.findOne({
       user: req.user._id,
       maid: maidId,
@@ -20,7 +20,7 @@ export const createReview = async (req, res) => {
       });
     }
 
-    // 🔥 2. PREVENT DUPLICATE REVIEW
+    //  2. PREVENT DUPLICATE REVIEW
     const existingReview = await Review.findOne({
       user: req.user._id,
       maid: maidId,
@@ -32,7 +32,7 @@ export const createReview = async (req, res) => {
       });
     }
 
-    // 🔥 3. CREATE REVIEW
+    //  3. CREATE REVIEW
     const review = await Review.create({
       user: req.user._id,
       maid: maidId,
@@ -40,7 +40,7 @@ export const createReview = async (req, res) => {
       comment,
     });
 
-    // 🔥 4. UPDATE AVG RATING (IMPORTANT)
+    //  4. UPDATE AVG RATING (IMPORTANT)
     const maid = await MaidProfile.findById(maidId);
 
     const totalRating =
@@ -61,7 +61,7 @@ export const createReview = async (req, res) => {
   }
 };
 
-// ✅ GET REVIEWS OF MAID (NO CHANGE)
+// GET REVIEWS OF MAID (NO CHANGE)
 export const getReviewsByMaid = async (req, res) => {
   try {
     const { maidId } = req.params;

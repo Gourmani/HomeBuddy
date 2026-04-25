@@ -10,7 +10,7 @@ function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
-  // 🔥 NEW LOGOUT HANDLER (IMPORTANT FIX)
+  //  NEW LOGOUT HANDLER (IMPORTANT FIX)
   const handleLogout = () => {
     logout();        // clear user
     navigate("/");   // redirect to home
@@ -19,12 +19,13 @@ function Navbar() {
   return (
     <nav className="navbar">
 
-      {/* LEFT - LOGO */}
-      <div className="navbar-left">
-        <div className="navbar-logo" onClick={() => navigate("/")}>
-          Grih<span>Sahayak</span>
-        </div>
-      </div>
+      <div className="navbar-left" onClick={() => navigate("/")}>
+  <img
+    src="/images/logo.jpeg"
+    alt="GrihSahayak"
+    className="navbar-logo-img"
+  />
+</div>
 
       {/* RIGHT - LINKS */}
       <div className="navbar-right">
@@ -75,7 +76,7 @@ function Navbar() {
               👤 Profile
             </button>
 
-            {/* 🔥 UPDATED LOGOUT */}
+            {/*  UPDATED LOGOUT */}
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>

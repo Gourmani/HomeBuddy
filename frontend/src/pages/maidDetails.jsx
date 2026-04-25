@@ -11,7 +11,6 @@ function MaidDetails() {
   const [loading, setLoading] = useState(true);
   const [requestStatus, setRequestStatus] = useState(null);
   const [sending, setSending] = useState(false);
-
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
@@ -50,23 +49,39 @@ function MaidDetails() {
   };
 
   if (loading) return <Loader />;
-  if (!maid) return <p>Maid not found</p>;
+  if (!maid) return <p className="not-found">Maid not found</p>;
 
   return (
     <div className="details-container">
 
       {/* HEADER */}
       <div className="profile-card">
-        <div>
-          <h1>{maid.user?.name}</h1>
-          <p className="work-tag">{maid.workType}</p>
-          <span className="badge">✔ Verified</span>
+
+        <div className="profile-left">
+          <img
+            src={maid.profileImage || "/images/mci.jpg"}
+            alt="maid"
+            className="profile-img"
+          />
+
+          <div>
+            <h1>{maid.user?.name}</h1>
+
+            <p className="work-tag">
+              {Array.isArray(maid.workType)
+                ? maid.workType.join(", ")
+                : maid.workType}
+            </p>
+
+            <span className="badge">✔ Verified</span>
+          </div>
         </div>
 
         <div className="rating">
           ⭐ {maid?.avgRating ? maid.avgRating.toFixed(1) : "0"}
           <span> ({maid?.numReviews || 0} reviews)</span>
         </div>
+
       </div>
 
       {/* MAIN */}
@@ -75,7 +90,6 @@ function MaidDetails() {
         {/* LEFT */}
         <div className="left-section">
 
-          {/* BASIC */}
           <div className="card">
             <h3 className="section-title">Basic Information</h3>
             <p><strong>Experience:</strong> {maid.experience} years</p>
@@ -83,18 +97,16 @@ function MaidDetails() {
             <p><strong>Location:</strong> {maid.location?.area}, {maid.location?.city}</p>
           </div>
 
-          {/* ABOUT */}
           <div className="card">
             <h3 className="section-title">About</h3>
-            <p>{maid.description}</p>
+            <p>{maid.description || "No description provided"}</p>
           </div>
 
-          {/* REVIEWS */}
           <div className="card">
             <h3 className="section-title">Customer Reviews</h3>
 
             {reviews.length === 0 ? (
-              <p>No reviews yet</p>
+              <p className="empty">No reviews yet — be the first to hire!</p>
             ) : (
               reviews.map((r) => (
                 <div key={r._id} className="review-card">
@@ -104,12 +116,14 @@ function MaidDetails() {
                 </div>
               ))
             )}
+
           </div>
 
         </div>
 
         {/* RIGHT */}
         <div className="right-section">
+
           <div className="sticky-card">
 
             <h3 className="summary-title">Profile Summary</h3>
@@ -126,7 +140,6 @@ function MaidDetails() {
               ⏱ {maid.availability}
             </p>
 
-            {/* STATUS */}
             <div className="status-box">
               {requestStatus === "accepted" && (
                 <span className="status accepted">Accepted</span>
@@ -160,9 +173,11 @@ function MaidDetails() {
             )}
 
           </div>
+
         </div>
 
       </div>
+
     </div>
   );
 }

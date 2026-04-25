@@ -25,7 +25,7 @@ const maidProfileSchema = new mongoose.Schema(
       unique: true,
     },
 
-    // 🔥 UPDATED WORK TYPES
+    //  UPDATED WORK TYPES
     workType: {
       type: [String],
       enum: [
@@ -57,14 +57,14 @@ const maidProfileSchema = new mongoose.Schema(
       min: 0,
     },
 
-    // 🔥 FIXED ENUM
+    //  FIXED ENUM
     salaryType: {
       type: String,
       enum: ["monthly", "daily", "hourly", "weekly"],
       required: true,
     },
 
-    // 🔥 LOCATION STRUCTURE (NO CHANGE NEEDED)
+    //  LOCATION STRUCTURE (NO CHANGE NEEDED)
     location: {
       city: { type: String, required: true },
       area: { type: String, required: true },
@@ -86,7 +86,7 @@ const maidProfileSchema = new mongoose.Schema(
       maxlength: 300,
     },
 
-    // 🔥 RATING SYSTEM
+    //  RATING SYSTEM
     avgRating: {
       type: Number,
       default: 0,
@@ -100,7 +100,7 @@ const maidProfileSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// 🔥 INDEXING (GOOD FOR PERFORMANCE)
+//  INDEXING (GOOD FOR PERFORMANCE)
 maidProfileSchema.index({ "location.city": 1 });
 maidProfileSchema.index({ "location.area": 1 });
 maidProfileSchema.index({ workType: 1 });
