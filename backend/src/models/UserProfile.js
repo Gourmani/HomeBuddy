@@ -20,7 +20,7 @@ const userProfileSchema = new mongoose.Schema(
     },
 
     workRequired: {
-      type: String,
+      type: [String],
       enum: [
         "cleaning",
         "cooking",

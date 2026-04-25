@@ -24,9 +24,28 @@ function MaidCard({ maid }) {
         </div>
       </div>
 
-      {/* WORK TYPE */}
+      {/* 🔥 MATCH BADGE (NEW) */}
+      {maid.matchScore !== undefined && (
+        <div style={{ marginBottom: "5px" }}>
+          {maid.matchScore >= 2 && (
+            <span style={{ color: "green", fontWeight: "bold" }}>
+              ⭐ Best Match
+            </span>
+          )}
+
+          {maid.matchScore === 1 && (
+            <span style={{ color: "orange" }}>
+              👍 Match
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* 🔥 WORK TYPE FIXED */}
       <div className="work-chip">
-        {maid.workType}
+        {Array.isArray(maid.workType)
+          ? maid.workType.join(", ")
+          : maid.workType}
       </div>
 
       {/* DETAILS */}

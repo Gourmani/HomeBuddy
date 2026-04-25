@@ -20,7 +20,6 @@ function UserProfile() {
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
-  // 🔥 NEW STATE (PASSWORD)
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -30,7 +29,7 @@ function UserProfile() {
   const [form, setForm] = useState({
     phone: "",
     location: { city: "", area: "" },
-    workRequired: "",
+    workRequired: [],
     budget: "",
     description: "",
   });
@@ -47,7 +46,7 @@ function UserProfile() {
           city: res.data?.location?.city || "",
           area: res.data?.location?.area || "",
         },
-        workRequired: res.data?.workRequired || "",
+        workRequired: res.data?.workRequired || [],
         budget: res.data?.budget || "",
         description: res.data?.description || "",
       });
@@ -75,7 +74,7 @@ function UserProfile() {
     }
   };
 
-  // 🔥 CHANGE PASSWORD FUNCTION
+  // 🔹 CHANGE PASSWORD
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 
@@ -95,7 +94,8 @@ function UserProfile() {
     }
   };
 
-  if (!profile) return <p>Loading...</p>;
+  if (profile === null) return <p>Loading...</p>;
+  if (!profile) return <p>No profile found. Please create one.</p>;
 
   return (
     <div style={{ padding: "20px" }}>
@@ -109,7 +109,15 @@ function UserProfile() {
           <p><strong>Phone:</strong> {profile.phone || "N/A"}</p>
           <p><strong>City:</strong> {profile.location?.city || "N/A"}</p>
           <p><strong>Area:</strong> {profile.location?.area || "N/A"}</p>
-          <p><strong>Work:</strong> {profile.workRequired || "N/A"}</p>
+
+          {/* 🔥 FIXED DISPLAY */}
+          <p>
+            <strong>Work:</strong>{" "}
+            {Array.isArray(profile.workRequired)
+              ? profile.workRequired.join(", ")
+              : profile.workRequired || "N/A"}
+          </p>
+
           <p><strong>Budget:</strong> ₹{profile.budget || "N/A"}</p>
           <p><strong>Description:</strong> {profile.description || "N/A"}</p>
 
@@ -117,7 +125,6 @@ function UserProfile() {
             Edit Profile
           </button>
 
-          {/* 🔥 NEW PASSWORD SECTION */}
           <hr />
 
           <button onClick={() => setShowPasswordForm(!showPasswordForm)}>
@@ -126,7 +133,6 @@ function UserProfile() {
 
           {showPasswordForm && (
             <form onSubmit={handlePasswordChange}>
-
               <input
                 type="password"
                 placeholder="Current Password"
@@ -202,20 +208,43 @@ function UserProfile() {
               ))}
           </select>
 
-          <select
-            value={form.workRequired}
-            onChange={(e) =>
-              setForm({ ...form, workRequired: e.target.value })
-            }
-          >
-            <option value="">Work Required</option>
-            <option value="cleaning">Cleaning</option>
-            <option value="cooking">Cooking</option>
-            <option value="babysitting">Babysitting</option>
-            <option value="eldercare">Elder Care</option>
-            <option value="driver">Driver</option>
-            <option value="eventhelper">Event Helper</option>
-          </select>
+          {/* 🔥 MULTI SELECT WORK REQUIRED */}
+          <div>
+            <p><strong>Select Work Required:</strong></p>
+
+            {[
+              "cleaning",
+              "cooking",
+              "babysitting",
+              "eldercare",
+              "driver",
+              "eventhelper",
+            ].map((work) => (
+              <label key={work} style={{ display: "block" }}>
+                <input
+                  type="checkbox"
+                  value={work}
+                  checked={form.workRequired.includes(work)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setForm({
+                        ...form,
+                        workRequired: [...form.workRequired, work],
+                      });
+                    } else {
+                      setForm({
+                        ...form,
+                        workRequired: form.workRequired.filter(
+                          (item) => item !== work
+                        ),
+                      });
+                    }
+                  }}
+                />
+                {work}
+              </label>
+            ))}
+          </div>
 
           <input
             type="number"

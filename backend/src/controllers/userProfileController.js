@@ -20,14 +20,20 @@ export const upsertUserProfile = async (req, res) => {
   }
 };
 
-// GET MY PROFILE
 export const getMyUserProfile = async (req, res) => {
   try {
     const profile = await UserProfile.findOne({
       user: req.user._id,
-    }).populate("user", "name email"); // ✅ FIX
+    }).populate("user", "name email");
 
-    res.json(profile);
+    //  return 404 if not found
+    if (!profile) {
+      return res.status(404).json({
+        message: "Profile not found",
+      });
+    }
+
+    res.status(200).json(profile);
 
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -35,10 +41,8 @@ export const getMyUserProfile = async (req, res) => {
 };
 
 
-// ✅ GET ALL USER PROFILES (SMART MATCHING)
 export const getAllUserProfiles = async (req, res) => {
   try {
-    // 🔥 1. Get maid profile
     const maidProfile = await MaidProfile.findOne({
       user: req.user._id,
     });
@@ -49,16 +53,44 @@ export const getAllUserProfiles = async (req, res) => {
       });
     }
 
-    // 🔥 2. Build matching query
-    const query = {
-      "location.city": maidProfile.location?.city,
-      "location.area": maidProfile.location?.area,
-      workRequired: maidProfile.workType,
-    };
+    // 🔥 SAFE EXTRACTION
+    const city = maidProfile.location?.city?.trim();
+    const area = maidProfile.location?.area?.trim();
+    const workArray = maidProfile.workType || [];
 
-    // 🔥 3. Fetch filtered users
-    const profiles = await UserProfile.find(query)
-      .populate("user", "name email");
+    if (!city || !area || workArray.length === 0) {
+      return res.status(400).json({
+        message: "Incomplete maid profile",
+      });
+    }
+
+    // =========================
+    // STEP 1: EXACT MATCH
+    // =========================
+    let profiles = await UserProfile.find({
+      "location.city": { $regex: `^${city}$`, $options: "i" },
+      "location.area": { $regex: `^${area}$`, $options: "i" },
+      workRequired: { $in: workArray },
+    }).populate("user", "name email");
+
+    // =========================
+    // STEP 2: SAME CITY + WORK
+    // =========================
+    if (profiles.length === 0) {
+      profiles = await UserProfile.find({
+        "location.city": { $regex: `^${city}$`, $options: "i" },
+        workRequired: { $in: workArray },
+      }).populate("user", "name email");
+    }
+
+    // =========================
+    // STEP 3: SAME CITY ONLY
+    // =========================
+    if (profiles.length === 0) {
+      profiles = await UserProfile.find({
+        "location.city": { $regex: `^${city}$`, $options: "i" },
+      }).populate("user", "name email");
+    }
 
     res.json({
       success: true,
@@ -67,7 +99,10 @@ export const getAllUserProfiles = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("USER MATCH ERROR:", error);
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
   }
 };
-

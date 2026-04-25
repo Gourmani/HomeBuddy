@@ -8,15 +8,18 @@ function Signup() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Extract role from URL (?role=user or ?role=maid)
   const queryParams = new URLSearchParams(location.search);
   const roleFromURL = queryParams.get("role");
 
+  // If role is missing, redirect user to role selection page
   useEffect(() => {
     if (!roleFromURL) {
       navigate("/choose-role");
     }
   }, [roleFromURL, navigate]);
 
+  // Form state
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -24,13 +27,22 @@ function Signup() {
     role: roleFromURL || "user",
   });
 
+  // Handle signup submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      // Call backend signup API
       await signupUser(form);
-      alert("Signup successful. Please login.");
-      navigate("/login");
+
+      // Inform user OTP has been sent
+      alert("OTP sent to your email");
+
+      // Redirect to OTP verification page with email
+      navigate("/verify-otp", {
+        state: { email: form.email },
+      });
+
     } catch (error) {
       alert(error.response?.data?.message || "Signup failed");
     }
@@ -39,7 +51,7 @@ function Signup() {
   return (
     <div className="auth-page">
 
-      {/* LEFT */}
+      {/* LEFT SIDE */}
       <div className="auth-left">
         <div className="auth-left-content">
 
@@ -78,15 +90,15 @@ function Signup() {
           </div>
 
           <div className="auth-features">
-            <p>✔ Verified profiles</p>
-            <p>✔ Local connections</p>
-            <p>✔ Safe & reliable</p>
+            <p>Verified profiles</p>
+            <p>Local connections</p>
+            <p>Safe and reliable</p>
           </div>
 
         </div>
       </div>
 
-      {/* RIGHT */}
+      {/* RIGHT SIDE */}
       <div className="auth-right">
         <div className="auth-card">
 

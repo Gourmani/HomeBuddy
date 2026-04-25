@@ -1,12 +1,19 @@
 import Request from "../models/Request.js";
 import MaidProfile from "../models/MaidProfile.js";
+import User from "../models/User.js";
+import {
+  sendRequestEmail,
+  sendStatusEmail,
+} from "../services/emailService.js";
 
+// ==========================
 // CREATE REQUEST
+// ==========================
 export const createRequest = async (req, res) => {
   try {
     const { maidId } = req.body;
 
-    // 🔥 STEP 1: CHECK DUPLICATE
+    // CHECK DUPLICATE
     const existing = await Request.findOne({
       user: req.user._id,
       maid: maidId,
@@ -18,11 +25,22 @@ export const createRequest = async (req, res) => {
       });
     }
 
-    // 🔥 STEP 2: CREATE REQUEST
+    // CREATE REQUEST
     const request = await Request.create({
       user: req.user._id,
       maid: maidId,
     });
+
+    // 🔥 SEND EMAIL TO MAID
+    const maidProfile = await MaidProfile.findById(maidId).populate("user");
+    const user = await User.findById(req.user._id);
+
+    if (maidProfile?.user?.email) {
+      await sendRequestEmail(
+        maidProfile.user.email,
+        user.name
+      );
+    }
 
     res.status(201).json({
       success: true,
@@ -34,21 +52,22 @@ export const createRequest = async (req, res) => {
   }
 };
 
-
-
-//  GET REQUESTS FOR LOGGED-IN MAID
+// ==========================
+// GET REQUESTS FOR MAID
+// ==========================
 export const getRequestsForMaid = async (req, res) => {
   try {
-    // Step 1: find maid profile of logged-in user
-    const maidProfile = await MaidProfile.findOne({ user: req.user._id });
+    const maidProfile = await MaidProfile.findOne({
+      user: req.user._id,
+    });
 
     if (!maidProfile) {
       return res.status(404).json({ message: "Maid profile not found" });
     }
 
-    // Step 2: find requests for this maid
-    const requests = await Request.find({ maid: maidProfile._id })
-      .populate("user", "name email");
+    const requests = await Request.find({
+      maid: maidProfile._id,
+    }).populate("user", "name email");
 
     res.json({
       success: true,
@@ -61,13 +80,14 @@ export const getRequestsForMaid = async (req, res) => {
   }
 };
 
-// ✅ UPDATE REQUEST STATUS (ACCEPT / REJECT)
+// ==========================
+// UPDATE REQUEST STATUS
+// ==========================
 export const updateRequestStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    // only allow valid values
     if (!["accepted", "rejected"].includes(status)) {
       return res.status(400).json({ message: "Invalid status" });
     }
@@ -81,6 +101,18 @@ export const updateRequestStatus = async (req, res) => {
     request.status = status;
     await request.save();
 
+    // 🔥 SEND EMAIL TO USER
+    const user = await User.findById(request.user);
+    const maidProfile = await MaidProfile.findById(request.maid).populate("user");
+
+    if (user?.email) {
+      await sendStatusEmail(
+        user.email,
+        maidProfile.user.name,
+        status
+      );
+    }
+
     res.json({
       success: true,
       data: request,
@@ -91,6 +123,9 @@ export const updateRequestStatus = async (req, res) => {
   }
 };
 
+// ==========================
+// CHECK REQUEST STATUS
+// ==========================
 export const checkRequestStatus = async (req, res) => {
   try {
     const { maidId } = req.params;
@@ -98,7 +133,7 @@ export const checkRequestStatus = async (req, res) => {
     const request = await Request.findOne({
       user: req.user._id,
       maid: maidId,
-    }).sort({ createdAt: -1 }); // 🔥 FIX
+    }).sort({ createdAt: -1 });
 
     if (!request) {
       return res.json({ status: "none" });
@@ -111,17 +146,20 @@ export const checkRequestStatus = async (req, res) => {
   }
 };
 
-//  GET REQUESTS FOR USER
+// ==========================
+// GET REQUESTS FOR USER
+// ==========================
 export const getRequestsForUser = async (req, res) => {
   try {
-    const requests = await Request.find({ user: req.user._id })
-      .populate({
-        path: "maid",
-        populate: {
-          path: "user",
-          select: "name email",
-        },
-      });
+    const requests = await Request.find({
+      user: req.user._id,
+    }).populate({
+      path: "maid",
+      populate: {
+        path: "user",
+        select: "name email",
+      },
+    });
 
     res.json({
       success: true,

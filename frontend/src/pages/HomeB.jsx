@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import MaidCard from "../components/MaidCard";
 import { getMaidProfiles } from "../services/maidService";
-import API from "../services/api"; // ✅ NEW
 import "../styles/home.css";
 
 function HomePage() {
@@ -16,25 +15,15 @@ function HomePage() {
   useEffect(() => {
     const fetchMaids = async () => {
       try {
-        let res;
-
-        if (user && user.role === "user") {
-          // ✅ LOGGED-IN USER → MATCHED MAIDS
-          res = await API.get("/maids/matched");
-        } else {
-          // ✅ GUEST USER → ALL MAIDS
-          res = await getMaidProfiles({});
-        }
-
+        const res = await getMaidProfiles({});
         setMaids(res?.data?.data?.slice(0, 8) || []);
-
       } catch (err) {
-        console.error("Error fetching maids:", err);
+        console.error(err);
       }
     };
 
     fetchMaids();
-  }, [user]);
+  }, []);
 
   return (
     <div className="home">
@@ -199,42 +188,43 @@ function HomePage() {
 
         </div>
       </section>
+       
+     {/* FUTURE SERVICES */}
+<section className="future-services">
+  <div className="container">
 
-      {/* FUTURE SERVICES */}
-      <section className="future-services">
-        <div className="container">
+    <h2>More Services Coming Soon</h2>
+    <p className="future-subtitle">
+      We’re expanding to serve all your daily and event needs
+    </p>
 
-          <h2>More Services Coming Soon</h2>
-          <p className="future-subtitle">
-            We’re expanding to serve all your daily and event needs
-          </p>
+    <div className="future-grid">
 
-          <div className="future-grid">
+      <div className="future-card">
+        <h3>Event Helpers</h3>
+        <p>Hire workers for weddings, functions & events</p>
+      </div>
 
-            <div className="future-card">
-              <h3>Event Helpers</h3>
-              <p>Hire workers for weddings, functions & events</p>
-            </div>
+      <div className="future-card">
+        <h3>Drivers</h3>
+        <p>Find drivers for daily or temporary needs</p>
+      </div>
 
-            <div className="future-card">
-              <h3>Drivers</h3>
-              <p>Find drivers for daily or temporary needs</p>
-            </div>
+      <div className="future-card">
+        <h3>Party Cooks</h3>
+        <p>Book cooks for small gatherings & parties</p>
+      </div>
 
-            <div className="future-card">
-              <h3>Party Cooks</h3>
-              <p>Book cooks for small gatherings & parties</p>
-            </div>
+      <div className="future-card">
+        <h3>Daily Wage Workers</h3>
+        <p>Hire workers for short-term tasks</p>
+      </div>
 
-            <div className="future-card">
-              <h3>Daily Wage Workers</h3>
-              <p>Hire workers for short-term tasks</p>
-            </div>
+    </div>
 
-          </div>
+  </div>
+</section>
 
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="cta">

@@ -41,7 +41,6 @@ function MaidProfile() {
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
-  // 🔥 NEW PASSWORD STATES
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
@@ -51,7 +50,7 @@ function MaidProfile() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    workType: "",
+    workType: [],
     experience: "",
     salaryExpected: "",
     salaryType: "",
@@ -69,7 +68,7 @@ function MaidProfile() {
       setForm({
         name: res.data?.name || "",
         phone: res.data?.phone || "",
-        workType: res.data?.workType || "",
+        workType: res.data?.workType || [],
         experience: res.data?.experience || "",
         salaryExpected: res.data?.salaryExpected || "",
         salaryType: res.data?.salaryType || "",
@@ -96,23 +95,20 @@ function MaidProfile() {
 
     try {
       await API.put("/maids", form);
-
       alert("Profile updated!");
       setEditMode(false);
       fetchProfile();
-
     } catch (error) {
       alert(error.response?.data?.message || "Error");
     }
   };
 
-  //  CHANGE PASSWORD FUNCTION
+  // 🔹 CHANGE PASSWORD
   const handlePasswordChange = async (e) => {
     e.preventDefault();
 
     try {
       await API.put("/users/change-password", passwordData);
-
       alert("Password updated successfully!");
 
       setShowPasswordForm(false);
@@ -120,7 +116,6 @@ function MaidProfile() {
         currentPassword: "",
         newPassword: "",
       });
-
     } catch (error) {
       alert(error.response?.data?.message || "Error");
     }
@@ -138,7 +133,15 @@ function MaidProfile() {
           <p><strong>Phone:</strong> {profile.phone}</p>
           <p><strong>City:</strong> {profile.location?.city}</p>
           <p><strong>Area:</strong> {profile.location?.area}</p>
-          <p><strong>Work:</strong> {profile.workType}</p>
+
+          {/* 🔥 IMPROVED DISPLAY */}
+          <p>
+            <strong>Work:</strong>{" "}
+            {Array.isArray(profile.workType)
+              ? profile.workType.join(", ")
+              : profile.workType}
+          </p>
+
           <p><strong>Experience:</strong> {profile.experience} years</p>
           <p><strong>Salary:</strong> ₹{profile.salaryExpected}</p>
           <p><strong>Description:</strong> {profile.description}</p>
@@ -147,7 +150,6 @@ function MaidProfile() {
             Edit Profile
           </button>
 
-          {/* CHANGE PASSWORD UI */}
           <hr />
 
           <button onClick={() => setShowPasswordForm(!showPasswordForm)}>
@@ -156,7 +158,6 @@ function MaidProfile() {
 
           {showPasswordForm && (
             <form onSubmit={handlePasswordChange}>
-
               <input
                 type="password"
                 placeholder="Current Password"
@@ -204,20 +205,43 @@ function MaidProfile() {
             }
           />
 
-          <select
-            value={form.workType}
-            onChange={(e) =>
-              setForm({ ...form, workType: e.target.value })
-            }
-          >
-            <option value="">Work Type</option>
-            <option value="cleaning">Cleaning</option>
-            <option value="cooking">Cooking</option>
-            <option value="babysitting">Babysitting</option>
-            <option value="eldercare">Elder Care</option>
-            <option value="driver">Driver</option>
-            <option value="eventhelper">Event Helper</option>
-          </select>
+          {/* 🔥 MULTI SELECT WORK TYPE */}
+          <div>
+            <p><strong>Select Work Types:</strong></p>
+
+            {[
+              "cleaning",
+              "cooking",
+              "babysitting",
+              "eldercare",
+              "driver",
+              "eventhelper",
+            ].map((work) => (
+              <label key={work} style={{ display: "block" }}>
+                <input
+                  type="checkbox"
+                  value={work}
+                  checked={form.workType.includes(work)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setForm({
+                        ...form,
+                        workType: [...form.workType, work],
+                      });
+                    } else {
+                      setForm({
+                        ...form,
+                        workType: form.workType.filter(
+                          (item) => item !== work
+                        ),
+                      });
+                    }
+                  }}
+                />
+                {work}
+              </label>
+            ))}
+          </div>
 
           <input
             type="number"

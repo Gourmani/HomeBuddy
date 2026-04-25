@@ -27,7 +27,7 @@ const maidProfileSchema = new mongoose.Schema(
 
     // 🔥 UPDATED WORK TYPES
     workType: {
-      type: String,
+      type: [String],
       enum: [
         "cleaning",
         "cooking",

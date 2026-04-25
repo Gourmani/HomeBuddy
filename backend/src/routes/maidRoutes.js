@@ -1,5 +1,6 @@
 import express from "express";
 import { protect } from "../middleware/authMiddleware.js";
+import { getMatchedMaids } from "../controllers/maidProfileController.js";
 import {
   createProfile,
   getAllProfiles,
@@ -15,6 +16,7 @@ router.post("/", protect, createProfile);
 
 //  VERY IMPORTANT → PUT THIS FIRST
 router.get("/my-profile", protect, getMyProfile);
+router.get("/matched", protect, getMatchedMaids);
 
 // GET ALL
 router.get("/", getAllProfiles);

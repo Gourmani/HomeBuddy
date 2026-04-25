@@ -11,56 +11,74 @@ import UserDashboard from "./pages/UserDashboard";
 import ChooseRole from "./pages/ChooseRole";
 import UserProfile from "./pages/UserProfile";
 import MaidProfile from "./pages/MaidProfile";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+
+// NEW IMPORTS
+import VerifyOTP from "./pages/VerifyOTP"; 
 
 function App() {
   return (
-  <>
-      <Navbar /> 
-    <Routes>
+    <>
+      <Navbar />
 
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Routes>
 
-      {/*  Only MAID can access */}
-      <Route
-        path="/maid-dashboard"
-        element={
-          <ProtectedRoute role="maid">
-            <MaidDashboard />
-          </ProtectedRoute>
-        }
-      />
+        {/* PUBLIC ROUTES */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/choose-role" element={<ChooseRole />} />
 
-      {/*  Anyone logged in can see */}
-      <Route
-        path="/maids"
-        element={
-          <ProtectedRoute>
-            <MaidList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/maids/:id"
-        element={
-          <ProtectedRoute>
-            <MaidDetails />
-          </ProtectedRoute>
-        }
-      />
+        {/* OTP VERIFICATION ROUTE */}
+        <Route path="/verify-otp" element={<VerifyOTP />} />
 
-      <Route
-        path="/user-dashboard"
-        element={
-          <ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>}/>
-     <Route path="/choose-role" element={<ChooseRole />} />
-      <Route path="/user-profile" element={<UserProfile />} />
-      <Route path="/maid-profile" element={<MaidProfile />} />
-    </Routes>
+        {/* FORGOT PASSWORD ROUTE */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
+        {/* PROTECTED ROUTES */}
+
+        {/* Only MAID can access */}
+        <Route
+          path="/maid-dashboard"
+          element={
+            <ProtectedRoute role="maid">
+              <MaidDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Any logged-in user */}
+        <Route
+          path="/maids"
+          element={
+            <ProtectedRoute>
+              <MaidList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/maids/:id"
+          element={
+            <ProtectedRoute>
+              <MaidDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Only USER */}
+        <Route path="/user-dashboard"element={
+            <ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>}/>
+
+        {/* PROFILE ROUTES */}
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/maid-profile" element={<MaidProfile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+      </Routes>
     </>
-
-        
   );
 }
 
