@@ -335,12 +335,18 @@ export const sendPhoneOTP = async (req, res) => {
     }
 
     //  TEMP SMS (for now)
-    console.log("PHONE OTP:", otp);
+    //console.log("PHONE OTP:", otp);
+
+    //res.json({
+      //success: true,
+      //message: "OTP sent to phone (check console for now)",
+    //});
 
     res.json({
-      success: true,
-      message: "OTP sent to phone (check console for now)",
-    });
+  success: true,
+  message: "OTP sent (Demo Mode)",
+  otp, // 👈 VERY IMPORTANT
+});
 
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -50,15 +50,20 @@ function Signup() {
         });
       } else {
         // PHONE OTP
-        await API.post("/auth/send-phone-otp", {
+        const res=await API.post("/auth/send-phone-otp", {
           phone: form.identifier,
         });
+            alert("OTP sent");
+           setOtpSent(true);
+
+        // 👇 SHOW OTP
+        alert(`Demo OTP: ${res.data.otp}`);
       }
 
-      alert("OTP sent");
-      setOtpSent(true);
+      
 
     } catch (error) {
+      console.log("OTP ERROR:", error);
       alert(error.response?.data?.message || "Failed to send OTP");
     }
   };
