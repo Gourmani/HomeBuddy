@@ -1,76 +1,106 @@
+/* MAIN LAYOUT */
 .auth-page {
   display: flex;
   height: 100vh;
 }
 
-/* LEFT (FIXED PROPERLY) */
+/* LEFT SIDE (IMAGE) */
 .auth-left {
   flex: 1;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
-  color: white;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* INNER CONTENT */
+/* IMAGE WRAPPER */
+.auth-image-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* IMAGE */
+.auth-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* LEFT CONTENT */
 .auth-left-content {
+  position: absolute;
+  z-index: 2;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 
-  max-width: 300px;
+  color: white;
+  width: 80%;
+  max-width: 400px;
 }
 
-/* LOGO */
+/* REMOVE OLD ICON */
 .auth-illustration {
-  width: 110px;
-  margin-bottom: 10px;
+  display: none;
 }
 
 /* TITLE */
 .auth-left-content h1 {
-  font-size: 28px;
+  font-size: 30px;
   margin: 0;
 }
 
-/* TYPING */
+/* TYPING TEXT */
 .typing-text {
   font-size: 14px;
   min-height: 22px;
-  opacity: 0.9;
-  margin-top: 5px;
+  opacity: 0.95;
+  margin-top: 8px;
 }
 
 /* FEATURES */
 .auth-features {
-  margin-top: 10px;
-  font-size: 13px;
-  opacity: 0.9;
+  margin-top: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
-/* RIGHT */
+/* RIGHT SIDE */
 .auth-right {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #f9fafb;
 }
 
 /* CARD */
 .auth-card {
-  width: 340px;
+  width: 380px;
+  padding: 35px;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  transition: 0.3s ease;
 }
 
+.auth-card:hover {
+  transform: translateY(-3px);
+}
+
+/* TITLE */
 .auth-card h2 {
-  font-size: 24px;
+  font-size: 26px;
+  margin-bottom: 5px;
 }
 
+/* SUBTITLE */
 .subtitle {
   font-size: 14px;
   color: #6b7280;
@@ -81,38 +111,42 @@
 .auth-card form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
+/* INPUT */
 .auth-card input {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
   font-size: 14px;
+  transition: 0.2s;
 }
 
 .auth-card input:focus {
   border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   outline: none;
 }
 
 /* BUTTON */
 .primary-btn {
-  background: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: white;
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   transition: 0.2s;
 }
 
 .primary-btn:hover {
-  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
 }
 
-/* FOOTER */
+/* SWITCH */
 .switch {
   margin-top: 15px;
   font-size: 14px;
@@ -121,6 +155,21 @@
 .switch span {
   color: #2563eb;
   cursor: pointer;
+}
+
+.auth-left {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh; /* 👈 FIX HEIGHT ISSUE */
+}
+
+.auth-image-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
 
 /* MOBILE */
@@ -132,4 +181,72 @@
   .auth-left {
     display: none;
   }
+}
+
+
+/* Sisgnup Fix */
+/* FORM GROUP */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* LABEL */
+.form-group input {
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+.form-group label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* INPUT + BUTTON INLINE */
+.input-with-btn input  {
+   padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.input-with-btn input focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+/* INPUT FLEX */
+
+
+/* SECONDARY BUTTON (OTP / VERIFY) */
+.secondary-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.secondary-btn:hover {
+  background: #d1d5db;
+}
+
+/* IMPROVE CARD SPACING */
+.auth-card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;  /* 👈 more breathing */
 }

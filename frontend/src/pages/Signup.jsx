@@ -1,3 +1,4 @@
+// SAME IMPORTS (no change)
 import { useState, useEffect } from "react";
 import { signupUser } from "../services/authService";
 import API from "../services/api";
@@ -20,7 +21,7 @@ function Signup() {
 
   const [form, setForm] = useState({
     name: "",
-    identifier: "", // email OR phone
+    identifier: "",
     password: "",
     role: roleFromURL || "user",
   });
@@ -29,52 +30,33 @@ function Signup() {
   const [otpSent, setOtpSent] = useState(false);
   const [verified, setVerified] = useState(false);
 
-  // detect email vs phone
   const isEmail = form.identifier.includes("@");
 
-  // SEND OTP
   const handleSendOTP = async () => {
-    if (!form.identifier) {
-      alert("Enter email or phone");
-      return;
-    }
+    if (!form.identifier) return alert("Enter email or phone");
 
     try {
       if (isEmail) {
-        // EMAIL OTP
         await signupUser({
           name: form.name,
           email: form.identifier,
-          password: "temp123456", // temp (not used finally)
+          password: "temp123456",
           role: form.role,
         });
+        setOtpSent(true);
       } else {
-        // PHONE OTP
-        const res=await API.post("/auth/send-phone-otp", {
+        const res = await API.post("/auth/send-phone-otp", {
           phone: form.identifier,
         });
-            alert("OTP sent");
-           setOtpSent(true);
-
-        // 👇 SHOW OTP
+        setOtpSent(true);
         alert(`Demo OTP: ${res.data.otp}`);
       }
-
-      
-
-    } catch (error) {
-      console.log("OTP ERROR:", error);
-      alert(error.response?.data?.message || "Failed to send OTP");
+    } catch (err) {
+      alert(err.response?.data?.message || "OTP failed");
     }
   };
 
-  // VERIFY OTP
   const handleVerifyOTP = async () => {
-    if (!otp) {
-      alert("Enter OTP");
-      return;
-    }
-
     try {
       if (isEmail) {
         await API.post("/auth/verify-otp", {
@@ -88,59 +70,50 @@ function Signup() {
         });
       }
 
-      alert("Verified successfully");
       setVerified(true);
-
-    } catch (error) {
-      alert(error.response?.data?.message || "OTP failed");
+      alert("Verified successfully");
+    } catch (err) {
+      alert("OTP failed");
     }
   };
 
-  // FINAL SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!verified) {
-      alert("Please verify OTP first");
-      return;
-    }
+    if (!verified) return alert("Verify OTP first");
 
     try {
-      if (isEmail) {
-        // already created user → just login redirect
-        alert("Account created successfully");
-        navigate("/login");
-      } else {
-        // PHONE → set password API
+      if (!isEmail) {
         await API.post("/auth/set-password", {
           phone: form.identifier,
           name: form.name,
           password: form.password,
           role: form.role,
         });
-
-        alert("Account created successfully");
-        navigate("/login");
       }
 
-    } catch (error) {
-      alert(error.response?.data?.message || "Signup failed");
+      alert("Account created");
+      navigate("/login");
+    } catch (err) {
+      alert("Signup failed");
     }
   };
 
   return (
     <div className="auth-page">
 
-      {/* LEFT */}
+      {/* LEFT SIDE — SAME AS LOGIN */}
       <div className="auth-left">
-        <div className="auth-left-content">
-
+        <div className="auth-image-wrapper">
           <img
-            src="https://cdn-icons-png.flaticon.com/512/921/921347.png"
-            alt="home help"
-            className="auth-illustration"
+            src="/images/auth-hero.png"
+            alt="home services"
+            className="auth-bg-image"
           />
+          <div className="overlay"></div>
+        </div>
 
+        <div className="auth-left-content">
           <h1>GrihSahayak</h1>
 
           <div className="typing-text">
@@ -152,7 +125,7 @@ function Signup() {
                       2000,
                       "Work with trusted families",
                       2000,
-                      "Earn with flexible timings",
+                      "Earn with flexibility",
                       2000,
                     ]
                   : [
@@ -160,7 +133,7 @@ function Signup() {
                       2000,
                       "Hire without middlemen",
                       2000,
-                      "Get help for your home easily",
+                      "Easy home services",
                       2000,
                     ]
               }
@@ -169,92 +142,114 @@ function Signup() {
             />
           </div>
 
-          <div className="auth-features">
-            <p>Verified profiles</p>
-            <p>Local connections</p>
-            <p>Safe and reliable</p>
+        </div>
+      </div>
+
+      {/* RIGHT SIDE */}
+      
+    {/* RIGHT SIDE */}
+<div className="auth-right">
+  <div className="auth-card">
+
+    <h2>Create your account</h2>
+    <p className="subtitle">Join and get started in seconds</p>
+
+    <form onSubmit={handleSubmit}>
+
+      {/* NAME */}
+      <div className="form-group">
+        <label>Full Name</label>
+        <input
+          type="text"
+          placeholder="Enter your full name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
+        />
+      </div>
+
+      {/* EMAIL / PHONE */}
+      <div className="form-group">
+        <label>Email or Phone</label>
+        <div className="input-with-btn">
+          <input
+            type="text"
+            placeholder="Enter email or phone"
+            value={form.identifier}
+            onChange={(e) =>
+              setForm({ ...form, identifier: e.target.value })
+            }
+          />
+
+          {!otpSent && (
+            <button
+              type="button"
+              className="secondary-btn"
+              onClick={handleSendOTP}
+            >
+              Send OTP
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* OTP */}
+      {otpSent && !verified && (
+        <div className="form-group">
+          <label>Enter OTP</label>
+
+          <div className="input-with-btn">
+            <input
+              type="text"
+              placeholder="6 digit OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+            />
+
+            <button
+              type="button"
+              className="secondary-btn"
+              onClick={handleVerifyOTP}
+            >
+              Verify
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* PASSWORD */}
+      {verified && (
+        <>
+          <div className="form-group">
+            <label>Create Password</label>
+            <input
+              type="password"
+              placeholder="Create strong password"
+              value={form.password}
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+            />
           </div>
 
-        </div>
-      </div>
+          <button className="primary-btn">
+            Create Account
+          </button>
+        </>
+      )}
 
-      {/* RIGHT */}
-      <div className="auth-right">
-        <div className="auth-card">
+    </form>
 
-          <h2>Create your account</h2>
-          <p className="subtitle">
-            Find reliable help for your home
-          </p>
+    <p className="switch">
+      Already have an account?{" "}
+      <span onClick={() => navigate("/login")}>
+        Login
+      </span>
+    </p>
 
-          <form onSubmit={handleSubmit}>
-
-            <input
-              type="text"
-              placeholder="Full name"
-              value={form.name}
-              onChange={(e) =>
-                setForm({ ...form, name: e.target.value })
-              }
-            />
-
-            <input
-              type="text"
-              placeholder="Email or Phone"
-              value={form.identifier}
-              onChange={(e) =>
-                setForm({ ...form, identifier: e.target.value })
-              }
-            />
-
-            {!otpSent && (
-              <button type="button" onClick={handleSendOTP}>
-                Send OTP
-              </button>
-            )}
-
-            {otpSent && !verified && (
-              <>
-                <input
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                />
-                <button type="button" onClick={handleVerifyOTP}>
-                  Verify OTP
-                </button>
-              </>
-            )}
-
-            {verified && (
-              <>
-                <input
-                  type="password"
-                  placeholder="Create password"
-                  value={form.password}
-                  onChange={(e) =>
-                    setForm({ ...form, password: e.target.value })
-                  }
-                />
-
-                <button className="primary-btn">
-                  Create Account
-                </button>
-              </>
-            )}
-
-          </form>
-
-          <p className="switch">
-            Already have an account?{" "}
-            <span onClick={() => navigate("/login")}>
-              Login
-            </span>
-          </p>
-
-        </div>
-      </div>
+  </div>
+</div>
 
     </div>
   );

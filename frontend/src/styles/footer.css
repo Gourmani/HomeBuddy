@@ -153,3 +153,33 @@
     justify-content: center;
   }
 }
+
+/* FEEDBACK SECTION */
+.footer-feedback {
+  display: center;
+  flex-direction: column;
+}
+
+.footer-feedback p {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* BUTTON */
+.feedback-btn {
+  margin-top: 5px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.feedback-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}

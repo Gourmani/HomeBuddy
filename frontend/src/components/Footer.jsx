@@ -53,6 +53,23 @@ function Footer() {
           <p>📞 +91 XXXXX XXXXX</p>
         </div>
 
+        {/* FEEDBACK (NEW 🔥) */}
+        <div className="footer-feedback">
+          <h4>Help us improve</h4>
+
+          <p>
+            Have suggestions or faced an issue?
+            We'd love to hear your feedback.
+          </p>
+
+          <button
+            onClick={() => navigate("/feedback")}
+            className="feedback-btn"
+          >
+            Give Feedback →
+          </button>
+        </div>
+
       </div>
 
       <div className="footer-divider"></div>

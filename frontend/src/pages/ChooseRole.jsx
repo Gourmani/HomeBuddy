@@ -11,29 +11,33 @@ function ChooseRole() {
       {/* LEFT */}
       <div className="choose-left">
 
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/921/921347.png"
-          alt="home help"
-          className="choose-illustration"
-        />
-
-        <h1>Welcome to GrihSahayak</h1>
-
-        {/*  TYPING TEXT ADDED HERE */}
-        <div className="typing-text">
-          <TypeAnimation
-            sequence={[
-              "Find trusted workers near you",
-              2000,
-              "Hire without middlemen",
-              2000,
-              "Get help for your home easily",
-              2000,
-            ]}
-            speed={50}
-            repeat={Infinity}
+        <div className="auth-image-wrapper">
+          <img
+            src="/images/auth-hero.png"
+            alt="home services"
+            className="auth-bg-image"
           />
+          
         </div>
+
+        <div className="auth-left-content">
+                <h1>GrihSahayak</h1>
+        
+                <div className="typing-text">
+                  <TypeAnimation
+                    sequence={[
+                      "Find trusted workers near you",
+                      2000,
+                      "Hire without middlemen",
+                      2000,
+                      "Safe & reliable home help",
+                      2000,
+                    ]}
+                    speed={50}
+                    repeat={Infinity}
+                  />
+                </div>
+                </div>
 
         <div className="choose-features">
           <p>✔ Verified & trusted profiles</p>
@@ -47,7 +51,7 @@ function ChooseRole() {
       <div className="choose-right">
         <div className="choose-card">
 
-          <h2>How do you want to use GrihSahayak?</h2>
+          <h2>Welcome to GrihSahayak</h2>
           <p className="subtitle">
             Choose your role to get started
           </p>
@@ -58,7 +62,7 @@ function ChooseRole() {
               className="role-option"
               onClick={() => navigate("/signup?role=user")}
             >
-              <h3>I want to hire a worker</h3>
+              <h3>For Your Home</h3>
               <p>
                 Find reliable maids, cooks, and helpers near your home.
               </p>
@@ -71,7 +75,7 @@ function ChooseRole() {
             >
               <h3>I want to find work</h3>
               <p>
-                Get job requests from nearby families and start earning.
+                Find jobs and start earning as a maid, cook, or helper in your locality.
               </p>
               <button>Continue as Worker →</button>
             </div>
