@@ -1,23 +1,69 @@
+/* CARD */
 .maid-card {
-  background-color: #ffffff;
-  border-radius: 14px;
-  padding: 18px;
-  border: 1px solid #e5e7eb;
-  transition: all 0.25s ease;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
   cursor: pointer;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .maid-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
   border-color: #2563eb;
+}
+
+/* IMAGE */
+.maid-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.maid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.maid-card:hover .maid-image img {
+  transform: scale(1.08);
+}
+
+/* RATING BADGE */
+.rating-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f59e0b;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.rating-count {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* CONTENT */
+.maid-content {
+  padding: 16px;
 }
 
 /* HEADER */
 .maid-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .maid-card-header h3 {
@@ -37,18 +83,29 @@
   border-radius: 20px;
 }
 
-/* RATING */
-.rating {
-  font-size: 13px;
-  color: #f59e0b;
-  font-weight: 500;
+/* MATCH */
+.match-container {
+  margin-top: 6px;
+}
+
+.match {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.match.best {
+  color: green;
+}
+
+.match.good {
+  color: orange;
 }
 
 /* WORK CHIP */
 .work-chip {
   margin-top: 10px;
   display: inline-block;
-  padding: 4px 10px;
+  padding: 5px 12px;
   background: #eff6ff;
   color: #2563eb;
   border-radius: 20px;
@@ -69,7 +126,7 @@
 
 /* LOCATION */
 .maid-location {
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 13px;
   color: #6b7280;
 }
@@ -78,43 +135,17 @@
 .view-btn {
   margin-top: 14px;
   width: 100%;
-  padding: 9px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
   border: none;
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.25s ease;
 }
 
 .view-btn:hover {
-  background-color: #1d4ed8;
-}
-
-/* IMAGE CONTAINER */
-.maid-image {
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  border-radius: 12px 12px 0 0; /* top rounded only */
-  background: #f3f4f6; /* fallback bg */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* IMAGE */
-.maid-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* fills nicely */
-  object-position: center top; /* 👈 FACE FOCUS */
-  transition: transform 0.3s ease;
-}
-
-/* HOVER EFFECT */
-.maid-card:hover .maid-image img {
-  transform: scale(1.05);
+  transform: translateY(-2px);
 }

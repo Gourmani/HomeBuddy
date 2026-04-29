@@ -238,36 +238,81 @@
 
 /* ================= FUTURE ================= */
 .future-services {
-  padding: 80px 0;
+  padding: 90px 0;
   text-align: center;
+  background: #f8faff;
 }
 
+.future-services h2 {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.future-subtitle {
+  margin-top: 10px;
+  color: #6b7280;
+}
+
+/* GRID */
 .future-grid {
-  margin-top: 40px;
+  margin-top: 50px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 28px;
 }
 
+/* CARD */
 .future-card {
-  padding: 20px;
-  border-radius: 14px;
   background: white;
-  border: 1px dashed #cbd5f5;
-  transition: 0.3s;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.35s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+  position: relative;
 }
 
-.future-card:hover {
-  transform: translateY(-5px);
-  background: #f8fafc;
-}
-
+/* IMAGE */
 .future-card img {
   width: 100%;
-  height: 130px;
+  height: 180px;
   object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  transition: 0.4s;
+}
+
+/* CONTENT */
+.future-card h3 {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.future-card p {
+  font-size: 14px;
+  color: #6b7280;
+  padding: 0 15px 15px;
+}
+
+/* HOVER EFFECT */
+.future-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.future-card:hover img {
+  transform: scale(1.05);
+}
+
+/* BADGE */
+.future-card::before {
+  content: "Coming Soon";
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
 }
 
 /* ================= CTA ================= */

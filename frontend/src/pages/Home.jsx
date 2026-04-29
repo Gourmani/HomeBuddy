@@ -11,22 +11,22 @@ const services = [
   {
     title: "Home Cleaning",
     desc: "Daily or part-time cleaning support",
-    image: "/images/s1.jpg",
+    image: "/images/SC1.png",
   },
   {
     title: "Home Cooking",
     desc: "Veg & non-veg experienced cooks",
-    image: "/images/s2.jpg",
+    image: "/images/SC2.png",
   },
   {
     title: "Babysitting",
     desc: "Safe and trusted childcare",
-    image: "/images/s3.jpg",
+    image: "/images/SC3.png",
   },
   {
     title: "Elder Care",
     desc: "Basic support for elderly members",
-    image: "/images/s4.jpg",
+    image: "/images/SC4.png",
   },
 ];
 
@@ -34,22 +34,22 @@ const futureServices = [
   {
     title: "Event Helpers",
     desc: "Hire workers for weddings & events",
-    image: "/images/f1.jpg",
+    image: "/images/event.png",
   },
   {
     title: "Drivers",
     desc: "Find drivers for daily needs",
-    image: "/images/f2.jpg",
+    image: "/images/Driver.png",
   },
   {
     title: "Party Cooks",
     desc: "Book cooks for small gatherings",
-    image: "/images/f3.jpg",
+    image: "/images/cook.png",
   },
   {
     title: "Daily Wage Workers",
     desc: "Workers for short-term tasks",
-    image: "/images/f4.jpg",
+    image: "/images/work.png",
   },
 ];
 
@@ -139,7 +139,7 @@ function HomePage() {
         </div>
 
         <div className="hero-right">
-  <img src="/images/hero.jpeg" alt="workers" />
+       <img src="/images/hero.jpeg" alt="workers" />
 </div>
       </section>
 
