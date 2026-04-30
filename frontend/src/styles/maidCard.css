@@ -9,6 +9,10 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
+.maid-card:active {
+  transform: scale(0.98);
+}
+
 .maid-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
@@ -21,6 +25,16 @@
   height: 200px;
   overflow: hidden;
   background: #f3f4f6;
+}
+.maid-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.45),
+    transparent
+  );
 }
 
 .maid-image img {
@@ -77,10 +91,10 @@
   display: inline-block;
   margin-top: 4px;
   font-size: 11px;
-  color: #16a34a;
-  background: #dcfce7;
-  padding: 3px 7px;
-  border-radius: 20px;
+  color: white;
+  background: #16a34a;
+  padding: 3px 8px;
+  border-radius: 999px;
 }
 
 /* MATCH */
@@ -103,14 +117,14 @@
 
 /* WORK CHIP */
 .work-chip {
-  margin-top: 10px;
+ margin-top: 10px;
   display: inline-block;
-  padding: 5px 12px;
-  background: #eff6ff;
-  color: #2563eb;
-  border-radius: 20px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: #1d4ed8;
+  border-radius: 999px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* DETAILS */
@@ -135,8 +149,8 @@
 .view-btn {
   margin-top: 14px;
   width: 100%;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 11px;
+  border-radius: 12px;
   border: none;
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
@@ -147,5 +161,5 @@
 }
 
 .view-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
 }

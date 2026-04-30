@@ -3,28 +3,36 @@
   display: flex;
   height: 100vh;
 }
-
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 10px;
+}
 /* LEFT SIDE (IMAGE) */
 .auth-left {
   flex: 1;
   position: relative;
   overflow: hidden;
 }
-
-/* IMAGE WRAPPER */
-.auth-image-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-/* IMAGE */
-.auth-bg-image {
+.auth-image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/*  OVERLAY (CORRECT WAY) */
+.auth-image-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.3)
+  );
+  z-index: 1;
+}
 
 /* LEFT CONTENT */
 .auth-left-content {
@@ -131,7 +139,7 @@
 
 /* BUTTON */
 .primary-btn {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+ background: #2563eb;
   color: white;
   padding: 12px;
   border-radius: 12px;
@@ -142,7 +150,7 @@
 }
 
 .primary-btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
 }
 
@@ -161,7 +169,7 @@
   flex: 1;
   position: relative;
   overflow: hidden;
-  min-height: 100vh; /* 👈 FIX HEIGHT ISSUE */
+  min-height: 100vh; /*  FIX HEIGHT ISSUE */
 }
 
 .auth-image-wrapper {
@@ -248,5 +256,56 @@
 .auth-card {
   display: flex;
   flex-direction: column;
-  padding: 40px;  /* 👈 more breathing */
+  padding: 40px;  /* more breathing */
+}
+.google-btn {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  transition: 0.2s;
+}
+
+.google-btn:hover {
+  background: #f9fafb;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.divider {
+  margin: 15px 0;
+  text-align: center;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  height: 1px;
+  width: 40%;
+  background: #e5e7eb;
+  position: absolute;
+  top: 50%;
+}
+
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.divider span {
+  background: white;
+  padding: 0 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
 }

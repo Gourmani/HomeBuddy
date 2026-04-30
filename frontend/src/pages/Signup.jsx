@@ -108,7 +108,7 @@ function Signup() {
           <img
             src="/images/auth-hero.png"
             alt="home services"
-            className="auth-bg-image"
+  
           />
           <div className="overlay"></div>
         </div>
@@ -151,8 +151,10 @@ function Signup() {
 <div className="auth-right">
   <div className="auth-card">
 
-    <h2>Create your account</h2>
-    <p className="subtitle">Join and get started in seconds</p>
+       <h1 className="brand">HomeBuddy</h1>
+
+          <h2>Register Here !   </h2>
+          <p className="subtitle">Login to continue</p>
 
     <form onSubmit={handleSubmit}>
 
@@ -247,6 +249,10 @@ function Signup() {
         Login
       </span>
     </p>
+
+
+
+    
 
   </div>
 </div>

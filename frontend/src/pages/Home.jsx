@@ -87,18 +87,19 @@ function HomePage() {
 
       {/* HERO */}
       <section className="hero">
+        <div className="hero-badge">
+    ⭐ Trusted by local households
+  </div>
         <div className="hero-left">
 
-          <div className="hero-badge">
-            ⭐ Trusted by local households
-          </div>
+          
 
           <h1>
             <TypeAnimation
               sequence={[
-                "Find Trusted Workers in Your Area",
+                "Find Trusted Maids, Cooks & Helpers",
                 2000,
-                "Hire Without Agents",
+                "Hire Verified Home Help Near You",
                 2000,
               ]}
               speed={50}
@@ -138,9 +139,6 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="hero-right">
-       <img src="/images/hero.jpeg" alt="workers" />
-</div>
       </section>
 
       {/* TRUST */}
@@ -179,11 +177,25 @@ function HomePage() {
 
           <div className="service-grid">
             {services.map((service, index) => (
-              <div key={index} className="service-card">
-                <img src={service.image} alt={service.title} />
-                <h3>{service.title}</h3>
-                <p>{service.desc}</p>
-              </div>
+             <div
+            key={index}
+            className="service-card"
+            onClick={() => navigate("/maids")}
+          >
+            <div className="service-image">
+              <img src={service.image} alt={service.title} />
+              <div className="overlay"></div>
+            </div>
+
+            <div className="service-content">
+              <h3>{service.title}</h3>
+              <p>{service.desc}</p>
+
+              <button className="service-btn">
+                Explore →
+              </button>
+            </div>
+          </div>
             ))}
           </div>
         </div>
@@ -194,12 +206,13 @@ function HomePage() {
         <div className="container">
 
           <div className="section-header">
-            <h2>Workers Near You</h2>
+            <h2>Available Workers Near You</h2>
+            <p>Verified profiles ready to hire instantly</p>
+
             <button onClick={() => navigate("/maids")}>
               View All →
             </button>
           </div>
-
           <div className="worker-slider">
             {loading ? (
               <p className="loading">Loading workers...</p>

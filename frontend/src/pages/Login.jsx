@@ -76,7 +76,6 @@ function Login() {
         <img
           src="/images/auth-hero.png"
           alt="home services"
-          className="auth-bg-image"
         />
       </div>
 
@@ -106,27 +105,35 @@ function Login() {
     <div className="auth-right">
       <div className="auth-card">
 
-        <h2>Welcome Back</h2>
-        <p className="subtitle">Login to continue</p>
+        <h1 className="brand">HomeBuddy</h1>
+
+          <h2>Welcome Back 👋</h2>
+          <p className="subtitle">Login to continue</p>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Enter email or phone"
-            value={form.identifier}
-            onChange={(e) =>
-              setForm({ ...form, identifier: e.target.value })
-            }
-          />
+          <div className="form-group">
+  <label>Email or Phone</label>
+  <input
+    type="text"
+    placeholder="Enter email or phone"
+    value={form.identifier}
+    onChange={(e) =>
+      setForm({ ...form, identifier: e.target.value })
+    }
+  />
+</div>
 
-          <input
-            type="password"
-            placeholder="Enter your password"
-            value={form.password}
-            onChange={(e) =>
-              setForm({ ...form, password: e.target.value })
-            }
-          />
+<div className="form-group">
+  <label>Password</label>
+  <input
+    type="password"
+    placeholder="Enter your password"
+    value={form.password}
+    onChange={(e) =>
+      setForm({ ...form, password: e.target.value })
+    }
+  />
+</div>
 
           <p
             style={{ cursor: "pointer", color: "#2563eb", fontSize: "14px" }}
@@ -138,6 +145,18 @@ function Login() {
           <button className="primary-btn">
             Login
           </button>
+
+          {/* DIVIDER 
+          <div className="divider">
+         <span>or</span>
+        </div>
+
+                    <button className="google-btn">
+              <img src="/images/google.webp" alt="google" className="google-icon" />
+              Continue with Google
+            </button>
+
+            */}
         </form>
 
         <p className="switch">

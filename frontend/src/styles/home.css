@@ -12,29 +12,62 @@
 }
 
 /* ================= HERO ================= */
+
 .hero {
-  min-height: 50vh;
-  padding: 70px 20px;
+  min-height: 90vh;
+  padding: 80px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
-  color: white;
+  justify-content: center;
+
+  /*  NEW */
+  background: url("/images/hero.jpeg") center/cover no-repeat;
+
   position: relative;
+  color: white;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
 }
 
 .hero-left {
-  max-width: 520px;
+ max-width: 600px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
   background: rgba(255,255,255,0.15);
-  display: inline-block;
-  padding: 6px 12px;
+  backdrop-filter: blur(10px);
+
+  padding: 8px 14px;
   border-radius: 999px;
   font-size: 13px;
-  margin-bottom: 15px;
+  color: white;
+
+  z-index: 3; /* above overlay */
+}
+.hero-badge {
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-left h1 {
@@ -49,15 +82,7 @@
   opacity: 0.9;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
-}
+
 
 .hero-right img {
   width: 550px;
@@ -79,8 +104,9 @@
 /* BUTTONS */
 .hero-buttons {
   margin-top: 25px;
-  display: flex;
+  display: center ;
   gap: 12px;
+  
 }
 
 .btn {
@@ -93,12 +119,12 @@
 }
 
 .btn.primary {
-  background: white;
-  color: #2563eb;
+   background: #2563eb;
+  color: white;
 }
 
 .btn.primary:hover {
-  transform: translateY(-2px);
+ transform: translateY(-2px) scale(1.02);
 }
 
 .btn.ghost {
@@ -150,13 +176,74 @@
 }
 
 .service-card {
-  padding: 20px;
-  border-radius: 16px;
+  border-radius: 18px;
+  overflow: hidden;
   background: white;
-  border: 1px solid #e5e7eb;
-  transition: 0.3s;
+  cursor: pointer;
+  transition: 0.35s;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+.service-image {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
 }
 
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+/* OVERLAY */
+.service-image .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.4),
+    transparent
+  );
+}
+/* CONTENT */
+.service-content {
+  padding: 16px;
+  text-align: left;
+}
+
+.service-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.service-content p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* BUTTON */
+.service-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* HOVER EFFECT */
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.service-card:hover img {
+  transform: scale(1.08);
+}
 .service-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 30px rgba(0,0,0,0.08);
@@ -172,12 +259,25 @@
 
 /* ================= WORKERS ================= */
 .workers {
-  padding: 80px 0;
+  position: relative;
 }
-
+.workers::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #f9fafb);
+}
 .section-header {
   text-align: center;
   margin-bottom: 30px;
+}
+.section-header p {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 14px;
 }
 
 .section-header h2 {
@@ -198,8 +298,7 @@
   display: flex;
   gap: 20px;
   overflow-x: auto;
-  padding: 15px 0;
-
+  padding: 20px 5px;
   scroll-snap-type: x mandatory;
 }
 
@@ -208,7 +307,7 @@
 }
 
 .worker-slider .maid-card {
-  min-width: 260px;
+  min-width: 280px;
   flex: 0 0 auto;
   scroll-snap-align: start;
 }
@@ -347,5 +446,13 @@
   .future-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .hero-badge {
+    top: 70px;
+    left: 15px;
+    font-size: 12px;
+  }
 }
+
+
 
