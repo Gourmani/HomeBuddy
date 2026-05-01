@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-// USER
+// User
 router.post("/", createFeedback);
 
 // ADMIN
