@@ -1,0 +1,91 @@
+/* PAGE */
+.feedback-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f9fafb, #eef2ff);
+  padding: 20px;
+}
+
+/* CARD */
+.feedback-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 35px;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  transition: 0.3s ease;
+}
+
+.feedback-card:hover {
+  transform: translateY(-3px);
+}
+
+/* TITLE */
+.feedback-card h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.feedback-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+.feedback-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* INPUTS */
+.feedback-card input,
+.feedback-card textarea {
+  padding: 13px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* FOCUS EFFECT */
+.feedback-card input:focus,
+.feedback-card textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+/* TEXTAREA */
+.feedback-card textarea {
+  min-height: 110px;
+  resize: none;
+}
+
+/* BUTTON */
+.feedback-card button {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+/* BUTTON HOVER */
+.feedback-card button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+}
+
+/* BUTTON DISABLED */
+.feedback-card button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

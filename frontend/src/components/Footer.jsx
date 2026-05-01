@@ -50,7 +50,7 @@ function Footer() {
 
           <p>📍 Darbhanga, Bihar</p>
           <p>📧 support@grihsahayak.com</p>
-          <p>📞 +91 XXXXX XXXXX</p>
+          <p>📞 +91 6204078481</p>
         </div>
 
         {/* FEEDBACK (NEW 🔥) */}

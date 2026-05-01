@@ -20,17 +20,26 @@
   align-items: center;
   justify-content: center;
 
-  /*  NEW */
-  background: url("/images/hero.jpeg") center/cover no-repeat;
+  background: url("/images/hero.jpeg") no-repeat center;
+  background-size: contain;
 
   position: relative;
   color: white;
 }
+
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: linear-gradient(
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.4)
+  );
+  z-index: 1;
+}
+.hero > * {
+  position: relative;
+  z-index: 2;
 }
 
 .hero-left {
@@ -431,7 +440,7 @@
 }
 
 /* ================= RESPONSIVE ================= */
-@media (max-width: 900px) {
+@media (max-width: 760px) {
   .hero {
     flex-direction: column;
     text-align: center;
@@ -453,6 +462,3 @@
     font-size: 12px;
   }
 }
-
-
-

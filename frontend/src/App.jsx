@@ -14,6 +14,7 @@ import MaidProfile from "./pages/MaidProfile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Footer from "./components/Footer";
+import Feedback from "./pages/Feedback";
 import "./styles/responsive.css";
 
 {/* 
@@ -81,6 +82,7 @@ function App() {
         <Route path="/maid-profile" element={<MaidProfile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/feedback" element={<Feedback />} />
 
 
         {/*<Route path="/phone-entry" element={<PhoneEntry />} />
