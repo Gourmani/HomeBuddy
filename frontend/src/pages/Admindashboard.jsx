@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const [cityFilter, setCityFilter] = useState("");
   const [workFilter, setWorkFilter] = useState("");
 
-  // 🔥 FETCH DATA
+  //  FETCH DATA
   const fetchData = async () => {
     try {
       const [statsRes, usersRes, maidsRes, analyticsRes] =
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  // 🔥 DELETE USER
+  //  DELETE USER
   const handleDeleteUser = async (id) => {
     if (!window.confirm("Delete this user?")) return;
 
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
     }
   };
 
-  // 🔥 DELETE MAID
+  //  DELETE MAID
   const handleDeleteMaid = async (id) => {
     if (!window.confirm("Delete this maid?")) return;
 
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* 🔍 SEARCH */}
+      {/*  SEARCH */}
       <input
         type="text"
         placeholder="Search users..."
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
       </select>
     </div>
 
-      {/* 🔹 USERS */}
+      {/*  USERS */}
       <h2>Users</h2>
       <div className="table">
         {users
@@ -143,7 +143,7 @@ const AdminDashboard = () => {
 
               <span>
                 <button onClick={() => handleDeleteUser(u._id)}>
-                  ❌
+                   Remove 
                 </button>
               </span>
             </div>
