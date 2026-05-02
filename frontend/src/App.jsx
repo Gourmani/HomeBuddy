@@ -15,6 +15,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Footer from "./components/Footer";
 import Feedback from "./pages/Feedback";
+import AdminDashboard from "./pages/AdminDashboard";
 import "./styles/responsive.css";
 
 {/* 
@@ -75,7 +76,7 @@ function App() {
 
         {/* Only USER */}
         <Route path="/user-dashboard"element={
-            <ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>}/>
+        <ProtectedRoute role="user"><UserDashboard /></ProtectedRoute>}/>
 
         {/* PROFILE ROUTES */}
         <Route path="/user-profile" element={<UserProfile />} />
@@ -83,6 +84,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/feedback" element={<Feedback />} />
+        <Route path="/admin" element={<AdminDashboard />} />
 
 
         {/*<Route path="/phone-entry" element={<PhoneEntry />} />

@@ -1,0 +1,96 @@
+.admin-container {
+  padding: 24px;
+  font-family: system-ui;
+  background: #f4f6f9;
+  min-height: 100vh;
+}
+
+/* HEADER */
+.admin-container h1 {
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+/* STATS */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* HEADINGS */
+h2 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+/* TABLE */
+.table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.row:nth-child(even) {
+  background: #fafafa;
+}
+
+/* ANALYTICS */
+.analytics {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.analytics .card {
+  background: #fff;
+  color: #333;
+  min-width: 120px;
+}
+
+.search {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
