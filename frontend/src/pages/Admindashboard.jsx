@@ -143,7 +143,7 @@ const AdminDashboard = () => {
 
               <span>
                 <button onClick={() => handleDeleteUser(u._id)}>
-                   Remove 
+                   Delete User
                 </button>
               </span>
             </div>
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
 
             <span>
               <button onClick={() => handleDeleteMaid(m._id)}>
-                ❌
+                Delete Maid
               </button>
             </span>
           </div>
