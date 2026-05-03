@@ -442,12 +442,14 @@
 /* ================= RESPONSIVE ================= */
 @media (max-width: 760px) {
   .hero {
-    flex-direction: column;
+    background-position: center top;
+    min-height: auto;
+    padding: 60px 15px;
     text-align: center;
   }
 
-  .hero-right img {
-    width: 250px;
+  .hero-left {
+    max-width: 100%;
   }
 
   .trust-grid,
