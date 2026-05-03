@@ -63,7 +63,7 @@ const AdminDashboard = () => {
     <div className="admin-container">
       <h1>Admin Dashboard</h1>
 
-      {/* 🔹 STATS */}
+      {/* STATS */}
       <div className="stats">
         <div className="card">
           <p>Total Users</p>
@@ -150,7 +150,7 @@ const AdminDashboard = () => {
           ))}
       </div>
 
-      {/* 🔹 MAIDS */}
+      {/* MAIDS*/}
       <h2>Maids</h2>
       <div className="table">
         {maids
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
         ))}
       </div>
 
-      {/* 🔹 ANALYTICS */}
+      {/* ANALYTICS */}
       <h2>Work Demand</h2>
       <div className="analytics">
         {analytics.workDemand?.length > 0 ? (
