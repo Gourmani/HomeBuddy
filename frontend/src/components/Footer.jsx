@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
 import "../styles/footer.css";
 
 function Footer() {
@@ -23,43 +25,66 @@ function Footer() {
           </div>
 
           <p>
-            Find trusted maids, cooks, and helpers near you —
-            without agents or middlemen.
+            Trusted home help services near you.
           </p>
 
-          <div className="footer-trust">
-            <span> Verified Workers</span>
-            <span> Local Services</span>
-            <span> Direct Contact</span>
-          </div>
+          {/* SOCIAL ICONS */}
+          <div className="footer-social">
 
+            <a
+              href="https://instagram.com/yourpage"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Instagram"
+            >
+              <FaInstagram />
+            </a>
+
+            <a
+              href="https://facebook.com/yourpage"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Facebook"
+            >
+              <FaFacebookF />
+            </a>
+
+            <a
+              href="https://youtube.com/yourchannel"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="YouTube"
+            >
+              <FaYoutube />
+            </a>
+
+          </div>
         </div>
 
         {/* LINKS */}
         <div className="footer-links">
           <h4>Explore</h4>
 
-          <span onClick={() => navigate("/")}>Home</span>
-          <span onClick={() => navigate("/maids")}>Find Workers</span>
-          <span onClick={() => navigate("/login")}>Login</span>
+          <Link to="/">Home</Link>
+          <Link to="/maids">Find Workers</Link>
+          <Link to="/login">Login</Link>
         </div>
 
         {/* CONTACT */}
         <div className="footer-contact">
-          <h4>Get in touch</h4>
+          <h4>Contact Us</h4>
 
           <p>📍 Darbhanga, Bihar</p>
           <p>📧 support@grihsahayak.com</p>
           <p>📞 +91 6204078481</p>
         </div>
 
-        {/* FEEDBACK (NEW 🔥) */}
+        {/* FEEDBACK */}
         <div className="footer-feedback">
-          <h4>Help us improve</h4>
+          <h4>Got feedback?</h4>
 
           <p>
-            Have suggestions or faced an issue?
-            We'd love to hear your feedback.
+            We’d love to hear from you.
           </p>
 
           <button
