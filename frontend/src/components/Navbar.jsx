@@ -10,7 +10,7 @@ function Navbar() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 👉 REF for detecting outside click
+  //  REF for detecting outside click
   const menuRef = useRef();
 
   const isActive = (path) => location.pathname === path;
@@ -26,7 +26,7 @@ function Navbar() {
     setMenuOpen(false);
   };
 
-  // 👉 OUTSIDE CLICK LOGIC
+  //  OUTSIDE CLICK LOGIC
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -60,7 +60,7 @@ function Navbar() {
 
       {/* LINKS */}
       <div
-        ref={menuRef}  /* 🔥 IMPORTANT */
+        ref={menuRef}  
         className={`navbar-right ${menuOpen ? "open" : ""}`}
       >
 
