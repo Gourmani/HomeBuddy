@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/navbar.css";
 
@@ -8,33 +8,67 @@ function Navbar() {
   const location = useLocation();
   const { user, logout } = useContext(AuthContext);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // 👉 REF for detecting outside click
+  const menuRef = useRef();
+
   const isActive = (path) => location.pathname === path;
 
-  //  NEW LOGOUT HANDLER (IMPORTANT FIX)
   const handleLogout = () => {
-    logout();        // clear user
-    navigate("/");   // redirect to home
+    logout();
+    navigate("/");
+    setMenuOpen(false);
   };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setMenuOpen(false);
+  };
+
+  // 👉 OUTSIDE CLICK LOGIC
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="navbar">
 
-      <div className="navbar-left" onClick={() => navigate("/")}>
-  <img
-    src="/images/logo.jpeg"
-    alt="GrihSahayak"
-    className="navbar-logo-img"
-  />
-</div>
+      {/* LOGO */}
+      <div className="navbar-left" onClick={() => handleNavigate("/")}>
+        <img
+          src="/images/logo.jpeg"
+          alt="GrihSahayak"
+          className="navbar-logo-img"
+        />
+      </div>
 
-      {/* RIGHT - LINKS */}
-      <div className="navbar-right">
+      {/* MENU ICON */}
+      <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
+        ☰
+      </div>
+
+      {/* LINKS */}
+      <div
+        ref={menuRef}  /* 🔥 IMPORTANT */
+        className={`navbar-right ${menuOpen ? "open" : ""}`}
+      >
 
         {user ? (
           <>
             <button
               className={`nav-link ${isActive("/") ? "active" : ""}`}
-              onClick={() => navigate("/")}
+              onClick={() => handleNavigate("/")}
             >
               Home
             </button>
@@ -43,14 +77,14 @@ function Navbar() {
               <>
                 <button
                   className={`nav-link ${isActive("/maids") ? "active" : ""}`}
-                  onClick={() => navigate("/maids")}
+                  onClick={() => handleNavigate("/maids")}
                 >
                   Find Workers
                 </button>
 
                 <button
                   className={`nav-link ${isActive("/user-dashboard") ? "active" : ""}`}
-                  onClick={() => navigate("/user-dashboard")}
+                  onClick={() => handleNavigate("/user-dashboard")}
                 >
                   My Requests
                 </button>
@@ -60,23 +94,24 @@ function Navbar() {
             {user.role === "maid" && (
               <button
                 className={`nav-link ${isActive("/maid-dashboard") ? "active" : ""}`}
-                onClick={() => navigate("/maid-dashboard")}
+                onClick={() => handleNavigate("/maid-dashboard")}
               >
                 Dashboard
               </button>
             )}
 
-            {/* 👤 PROFILE */}
-            <button
-              className="nav-link"
+            {/* AVATAR */}
+            <div
+              className="avatar"
               onClick={() =>
-                navigate(user.role === "maid" ? "/maid-profile" : "/user-profile")
+                handleNavigate(
+                  user.role === "maid" ? "/maid-profile" : "/user-profile"
+                )
               }
             >
-              👤 Profile
-            </button>
+              {user?.name?.charAt(0)?.toUpperCase()}
+            </div>
 
-            {/*  UPDATED LOGOUT */}
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
@@ -85,14 +120,14 @@ function Navbar() {
           <>
             <button
               className="nav-link"
-              onClick={() => navigate("/login")}
+              onClick={() => handleNavigate("/login")}
             >
               Login
             </button>
 
             <button
               className="primary-btn"
-              onClick={() => navigate("/choose-role")}
+              onClick={() => handleNavigate("/choose-role")}
             >
               Get Started
             </button>

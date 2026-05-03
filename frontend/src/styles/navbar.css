@@ -1,13 +1,15 @@
 .navbar {
-  display: flex;
+   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 40px;
+  padding: 10px 24px;
   background-color: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #f1f5f9;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 999;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04); 
 }
 
 /* LEFT */
@@ -41,11 +43,14 @@
   background: none;
   border: none;
   font-size: 14px;
-  color: #4b5563;
   cursor: pointer;
   position: relative;
   padding: 6px 0;
   transition: all 0.2s ease;
+  font-weight: 500;
+  color: #475569;
+  padding: 6px 4px;
+
 }
 
 /* Hover */
@@ -109,8 +114,8 @@
 
 
 .navbar-logo-img {
-  height: 80px;
-  width: 200px;
+  height: 42px;
+  width: auto;
   cursor: pointer;
   object-fit: contain;
   transition: 0.3s;
@@ -118,4 +123,28 @@
 
 .navbar-logo-img:hover {
   transform: scale(1.05);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.avatar:hover {
+  transform: scale(1.08);
+}
+.menu-icon {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 200; /* IMPORTANT */
 }
