@@ -442,6 +442,7 @@
 /* ================= RESPONSIVE ================= */
 @media (max-width: 760px) {
   .hero {
+    background-size: cover;
     background-position: center top;
     min-height: auto;
     padding: 60px 15px;
