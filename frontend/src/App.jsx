@@ -16,6 +16,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Footer from "./components/Footer";
 import Feedback from "./pages/Feedback";
 import AdminDashboard from "./pages/AdminDashboard";
+import BottomNav from "./components/BottomNav";
 import "./styles/responsive.css";
 
 {/* 
@@ -93,6 +94,7 @@ function App() {
 
       </Routes>
       <Footer />
+      <BottomNav />
     </>
   );
 }

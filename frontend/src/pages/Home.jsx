@@ -171,7 +171,7 @@ function HomePage() {
       </section>
 
       {/* SERVICES */}
-      <section className="services">
+      <section className="services" id="services">
         <div className="container">
           <h2>Services You Can Hire For</h2>
 

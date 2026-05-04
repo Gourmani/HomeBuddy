@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "../styles/userProfile.css";
 
@@ -18,6 +19,7 @@ const cityAreas = {
 };
 
 function UserProfile() {
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -37,30 +39,45 @@ function UserProfile() {
   });
 
   const fetchProfile = async () => {
-    try {
-      const res = await API.get("/user-profile/me");
-      setProfile(res.data);
+  try {
+    const res = await API.get("/user-profile/me");
+    setProfile(res.data);
 
-      setForm({
-        phone: res.data?.phone || "",
-        email: res.data?.user?.email || "",
-        location: {
-          city: res.data?.location?.city || "",
-          area: res.data?.location?.area || "",
-        },
-        workRequired: res.data?.workRequired || [],
-        budget: res.data?.budget || "",
-        description: res.data?.description || "",
-      });
+    setForm({
+      phone: res.data?.phone || "",
+      email: res.data?.user?.email || "",
+      location: {
+        city: res.data?.location?.city || "",
+        area: res.data?.location?.area || "",
+      },
+      workRequired: res.data?.workRequired || [],
+      budget: res.data?.budget || "",
+      description: res.data?.description || "",
+    });
 
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  } catch (error) {
+  if (error.response?.status === 401) {
+    console.log("Unauthorized - redirecting to login");
+
+    localStorage.removeItem("token"); // optional safety
+    navigate("/login"); //  redirect instead of alert
+
+    return;
+  }
+
+  console.error(error);
+}
+};
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+  const token = localStorage.getItem("token"); 
+
+  if (!token) {
+    navigate("/login");
+    return; //  STOP API CALL IF NOT LOGGED IN
+  }
+  fetchProfile();
+}, []);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
