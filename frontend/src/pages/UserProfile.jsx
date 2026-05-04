@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import API from "../services/api";
 import "../styles/userProfile.css";
 
@@ -20,6 +22,7 @@ const cityAreas = {
 
 function UserProfile() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(false);
 
@@ -69,15 +72,14 @@ function UserProfile() {
 }
 };
 
-  useEffect(() => {
-  const token = localStorage.getItem("token"); 
-
-  if (!token) {
+ useEffect(() => {
+  if (!user) {
     navigate("/login");
-    return; //  STOP API CALL IF NOT LOGGED IN
+    return;
   }
+
   fetchProfile();
-}, []);
+}, [user, navigate]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
