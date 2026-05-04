@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 import MaidCard from "../components/MaidCard";
 import { getMaidProfiles } from "../services/maidService";
+import { FaBroom, FaUtensils, FaBaby, FaUserNurse } from "react-icons/fa";
+import { FaCheckCircle, FaMapMarkerAlt, FaHandshake, FaComments } from "react-icons/fa";
 import API from "../services/api";
 import "../styles/home.css";
 
@@ -51,6 +53,14 @@ const futureServices = [
     desc: "Workers for short-term tasks",
     image: "/images/work.png",
   },
+];
+
+const categories = [
+  { name: "Cleaning", icon: <FaBroom /> },
+  { name: "Cooking", icon: <FaUtensils /> },
+  { name: "Babysitting", icon: <FaBaby /> },
+  { name: "Elder Care", icon: <FaUserNurse /> },
+
 ];
 
 function HomePage() {
@@ -147,28 +157,50 @@ function HomePage() {
           <div className="trust-grid">
 
             <div className="trust-item">
-              <h4>✔ Verified Workers</h4>
-              <p>Trusted by local families</p>
-            </div>
+          <div className="trust-icon"><FaCheckCircle /></div>
+          <h4>Verified Workers</h4>
+          <p>Trusted by local families</p>
+        </div>
 
-            <div className="trust-item">
-              <h4>📍 Nearby Only</h4>
-              <p>Workers from your area</p>
-            </div>
+        <div className="trust-item">
+          <div className="trust-icon"><FaMapMarkerAlt /></div>
+          <h4>Nearby Only</h4>
+          <p>Workers from your area</p>
+        </div>
 
-            <div className="trust-item">
-              <h4>🤝 No Middleman</h4>
-              <p>Direct hiring process</p>
-            </div>
+        <div className="trust-item">
+          <div className="trust-icon"><FaHandshake /></div>
+          <h4>No Middleman</h4>
+          <p>Direct hiring process</p>
+        </div>
 
-            <div className="trust-item">
-              <h4>💬 Direct Contact</h4>
-              <p>Talk before hiring</p>
-            </div>
+        <div className="trust-item">
+          <div className="trust-icon"><FaComments /></div>
+          <h4>Direct Contact</h4>
+          <p>Talk before hiring</p>
+        </div>
 
           </div>
         </div>
       </section>
+
+      {/* QUICK CATEGORIES (MOBILE) */}
+      <section className="categories">
+        <div className="categories-scroll">
+          {categories.map((cat, index) => (
+            <div
+              key={index}
+              className="category-item"
+              onClick={() => navigate("/maids")}
+            >
+              <span className="category-icon">{cat.icon}</span>
+              <p>{cat.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      
 
       {/* SERVICES */}
       <section className="services" id="services">
