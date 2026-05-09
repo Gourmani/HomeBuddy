@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 import "../styles/admin.css";
 
 const AdminDashboard = () => {
@@ -194,29 +203,31 @@ const AdminDashboard = () => {
 
       {/* ANALYTICS */}
       <h2>Work Demand</h2>
-      <div className="analytics">
-        {analytics.workDemand?.length > 0 ? (
-          analytics.workDemand.map((w) => (
-            <div key={w._id} className="card">
-              {w._id}: {w.count}
-            </div>
-          ))
-        ) : (
-          <p>No data</p>
-        )}
+
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={analytics.workDemand || []}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="_id" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="count" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
-      <h2>City Demand</h2>
-      <div className="analytics">
-        {analytics.cityDemand?.length > 0 ? (
-          analytics.cityDemand.map((c) => (
-            <div key={c._id} className="card">
-              {c._id}: {c.count}
-            </div>
-          ))
-        ) : (
-          <p>No data</p>
-        )}
+         <h2>City Demand</h2>
+
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={analytics.cityDemand || []}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="_id" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="count" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

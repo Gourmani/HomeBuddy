@@ -1,6 +1,6 @@
 import Review from "../models/Review.js";
 import Request from "../models/Request.js";
-import MaidProfile from "../models/MaidProfile.js"; //  ADD THIS
+import MaidProfile from "../models/MaidProfile.js"; 
 
 //  CREATE REVIEW (RESTRICTED + AVG RATING)
 export const createReview = async (req, res) => {
@@ -40,7 +40,7 @@ export const createReview = async (req, res) => {
       comment,
     });
 
-    //  4. UPDATE AVG RATING (IMPORTANT)
+    //  4. UPDATE AVG RATING 
     const maid = await MaidProfile.findById(maidId);
 
     const totalRating =

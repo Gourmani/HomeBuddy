@@ -54,7 +54,7 @@ export const sendRequestEmail = async (to, userName) => {
 };
 
 // ==========================
-// STATUS EMAIL
+//  STATUS EMAIL
 // ==========================
 export const sendStatusEmail = async (to, maidName, status) => {
   try {

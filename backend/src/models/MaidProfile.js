@@ -64,7 +64,7 @@ const maidProfileSchema = new mongoose.Schema(
       required: true,
     },
 
-    //  LOCATION STRUCTURE (NO CHANGE NEEDED)
+    //  LOCATION STRUCTURE 
     location: {
       city: { type: String, required: true },
       area: { type: String, required: true },

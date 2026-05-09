@@ -2,12 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';// for importing authRoutes
 import maidRoutes from "./routes/maidRoutes.js";// for importing maidRoutes
-import requestRoutes from "./routes/requestRoutes.js";
-import reviewRoutes from "./routes/reviewRoutes.js";
-import userProfileRoutes from "./routes/userProfileRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import feedbackRoutes from "./routes/feedbackRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+import requestRoutes from "./routes/requestRoutes.js";// for importing requestRoutes
+import reviewRoutes from "./routes/reviewRoutes.js"; // for importing reviewRoutes
+import userProfileRoutes from "./routes/userProfileRoutes.js";// for importing userProfileRoutes
+import userRoutes from "./routes/userRoutes.js";// for importing userRoutes
+import feedbackRoutes from "./routes/feedbackRoutes.js";// for importing feedbackRoutes
+import adminRoutes from "./routes/adminRoutes.js";// for importing adminRoutes
 
 const app = express();
 
@@ -23,12 +23,12 @@ app.get("/",(req,res)=>{
 
 app.use("/api/auth", authRoutes);// for importing authRoutes
 app.use("/api/maids", maidRoutes); // for importing maidRoutes
-app.use("/api/requests", requestRoutes);
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/user-profile", userProfileRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/feedback", feedbackRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/requests", requestRoutes);// for importing requestRoutes
+app.use("/api/reviews", reviewRoutes);// for importing reviewRoutes
+app.use("/api/user-profile", userProfileRoutes);// for importing userProfileRoutes
+app.use("/api/users", userRoutes);// for importing userRoutes
+app.use("/api/feedback", feedbackRoutes);// for importing feedbackRoutes
+app.use("/api/admin", adminRoutes);// for importing adminRoutes
 
 
 export default app;

@@ -79,7 +79,7 @@ function MaidDetails() {
 
           <span className="badge">✔ Verified</span>
 
-          {/* 🔥 QUICK STATS */}
+          {/*  QUICK STATS */}
           <div className="quick-stats">
             <div>
               <strong>{maid.experience}</strong>

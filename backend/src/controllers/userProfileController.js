@@ -1,5 +1,5 @@
 import UserProfile from "../models/UserProfile.js";
-import MaidProfile from "../models/MaidProfile.js"; // 🔥 ADD THIS IMPORT
+import MaidProfile from "../models/MaidProfile.js"; 
 
 // CREATE OR UPDATE PROFILE
 export const upsertUserProfile = async (req, res) => {
@@ -65,7 +65,7 @@ export const getAllUserProfiles = async (req, res) => {
     }
 
     // =========================
-    // STEP 1: EXACT MATCH
+    // EXACT MATCH
     // =========================
     let profiles = await UserProfile.find({
       "location.city": { $regex: `^${city}$`, $options: "i" },
@@ -74,7 +74,7 @@ export const getAllUserProfiles = async (req, res) => {
     }).populate("user", "name email");
 
     // =========================
-    // STEP 2: SAME CITY + WORK
+    // SAME CITY + WORK
     // =========================
     if (profiles.length === 0) {
       profiles = await UserProfile.find({
@@ -84,7 +84,7 @@ export const getAllUserProfiles = async (req, res) => {
     }
 
     // =========================
-    // STEP 3: SAME CITY ONLY
+    // SAME CITY ONLY
     // =========================
     if (profiles.length === 0) {
       profiles = await UserProfile.find({
