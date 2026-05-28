@@ -29,32 +29,87 @@ function Signup() {
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [timer, setTimer] = useState(60);// for timer for resend otp 
+  const [canResend, setCanResend] = useState(false);// timer for resend otp
 
   const isEmail = form.identifier.includes("@");
+  // OTP TIMER LOGIC begins here
+  useEffect(() => {
+  let interval;
 
+  if (otpSent && timer > 0) {
+    interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+  }
+
+  if (timer === 0) {
+    setCanResend(true);
+  }
+
+  return () => clearInterval(interval);
+}, [otpSent, timer]);
+
+// otp timer logic end here 
   const handleSendOTP = async () => {
-    if (!form.identifier) return alert("Enter email or phone");
+  if (!form.identifier)
+    return alert("Enter email or phone");
 
-    try {
-      if (isEmail) {
-        await signupUser({
-          name: form.name,
-          email: form.identifier,
-          password: "temp123456",
-          role: form.role,
-        });
-        setOtpSent(true);
-      } else {
-        const res = await API.post("/auth/send-phone-otp", {
-          phone: form.identifier,
-        });
-        setOtpSent(true);
-        alert(`Demo OTP: ${res.data.otp}`);
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || "OTP failed");
+  if (isEmail && !form.password)
+    return alert("Enter password");
+
+  try {
+    if (isEmail) {
+      await signupUser({
+        name: form.name,
+        email: form.identifier,
+        password: form.password,
+        role: form.role,
+      });
+
+      setOtpSent(true);
+      setTimer(60);
+      setCanResend(false);
+
+    } else {
+      const res = await API.post("/auth/send-phone-otp", {
+        phone: form.identifier,
+      });
+
+      setOtpSent(true);
+      setTimer(60);
+      setCanResend(false);
+      alert(`Mobile OTP For Login : ${res.data.otp}`);
     }
-  };
+  } catch (err) {
+    alert(err.response?.data?.message || "OTP failed");
+  }
+};
+
+   const handleResendOTP = async () => {
+  try {
+
+    if (isEmail) {
+      await API.post("/auth/resend-otp", {
+        email: form.identifier,
+      });
+
+    } else {
+      const res = await API.post("/auth/send-phone-otp", {
+        phone: form.identifier,
+      });
+      alert("OTP resent successfully");
+
+      alert(`New OTP: ${res.data.otp}`);
+    }
+
+    setTimer(60);
+    setCanResend(false);
+
+  } catch (err) {
+    alert("Failed to resend OTP");
+  }
+};
 
   const handleVerifyOTP = async () => {
     try {
@@ -71,7 +126,15 @@ function Signup() {
       }
 
       setVerified(true);
-      alert("Verified successfully");
+
+      if (isEmail) {
+        alert("Account created successfully");
+        navigate("/login");
+        return;
+      }
+
+alert("Verified successfully");
+
     } catch (err) {
       alert("OTP failed");
     }
@@ -145,7 +208,6 @@ function Signup() {
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
       
     {/* RIGHT SIDE */}
 <div className="auth-right">
@@ -183,20 +245,37 @@ function Signup() {
               setForm({ ...form, identifier: e.target.value })
             }
           />
-
-          {!otpSent && (
-            <button
-              type="button"
-              className="secondary-btn"
-              onClick={handleSendOTP}
-            >
-              Send OTP
-            </button>
-          )}
         </div>
       </div>
 
-      {/* OTP */}
+
+      {/* PASSWORD */}
+      {(isEmail || verified) &&
+      <div className="form-group">
+  <label>Create Password</label>
+  <input
+    type="password"
+    placeholder="Create strong password"
+    value={form.password}
+    onChange={(e) =>
+      setForm({ ...form, password: e.target.value })
+    }
+  />
+</div>
+}
+
+
+    {/* SEND OTP BUTTON */}
+{!otpSent && (
+  <button
+    type="button"
+    className="primary-btn"
+    onClick={handleSendOTP}
+  >
+    Send OTP
+  </button>
+)}
+{/* OTP */}
       {otpSent && !verified && (
         <div className="form-group">
           <label>Enter OTP</label>
@@ -216,30 +295,34 @@ function Signup() {
             >
               Verify
             </button>
+             
+             <div className="resend-section">
+
+              {!canResend ? (
+                <p className="timer-text">
+                  Resend OTP in {timer}s
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  className="secondary-btn"
+                  onClick={handleResendOTP}
+                >
+                  Resend OTP
+                </button>
+              )}
+
+            </div>
+
           </div>
         </div>
       )}
-
-      {/* PASSWORD */}
-      {verified && (
-        <>
-          <div className="form-group">
-            <label>Create Password</label>
-            <input
-              type="password"
-              placeholder="Create strong password"
-              value={form.password}
-              onChange={(e) =>
-                setForm({ ...form, password: e.target.value })
-              }
-            />
-          </div>
-
-          <button className="primary-btn">
-            Create Account
-          </button>
-        </>
-      )}
+{/* CREATE ACCOUNT BUTTON */}
+{verified &&  !isEmail && (
+  <button className="primary-btn">
+    Create Account
+  </button>
+)}
 
     </form>
 

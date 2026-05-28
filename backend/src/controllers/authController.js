@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sendOTPEmail } from "../services/emailService.js";
+import { sendOTPEmail,sendWelcomeEmail } from "../services/emailService.js";
 
 // GENERATE TOKEN
 const generateToken = (id) => {
@@ -21,6 +21,8 @@ const generateOTP = () => {
 export const signup = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    console.log("SIGNUP BODY:", req.body);
+    console.log("SIGNUP PASSWORD:", password);
 
     const userExists = await User.findOne({ email });
 
@@ -38,12 +40,17 @@ export const signup = async (req, res) => {
     const user = await User.create({
       name,
       email,
+      authProvider: "email",
       password: hashedPassword,
+      hasPassword:true,
       role,
       isVerified: false,
       otp,
       otpExpiry,
     });
+
+    console.log("NEW USER SAVED:");
+    console.log(user); 
 
     //  SEND EMAIL
     await sendOTPEmail(email, otp,"signup");
@@ -93,8 +100,8 @@ export const verifyOTP = async (req, res) => {
     user.isVerified = true;
     user.otp = null;
     user.otpExpiry = null;
-
     await user.save();
+    await sendWelcomeEmail(user.email, user.name);
 
     res.json({
       success: true,
@@ -114,6 +121,8 @@ export const verifyOTP = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, phone, password } = req.body;
+    console.log("LOGIN BODY:", req.body);
+    console.log("LOGIN PASSWORD:", password);
 
     const user = await User.findOne({
       $or: [
@@ -134,8 +143,10 @@ export const login = async (req, res) => {
         message: "Please verify your account first",
       });
     }
-
+    console.log("ENTERED PASSWORD:", password);
+    console.log("HASHED PASSWORD:", user.password);
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("PASSWORD MATCH:", isMatch);
 
     if (isMatch) {
       res.json({
