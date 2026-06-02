@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import API from "../services/api";
 import "../styles/userDashboard.css";
 import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 //  SAME DATA AS MAID DASHBOARD
 const cityAreas = {
@@ -59,7 +60,7 @@ function UserDashboard() {
   const [loading, setLoading] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
-  // 🔹 FETCH REQUESTS
+  //  FETCH REQUESTS
   const fetchRequests = async () => {
     try {
       const res = await API.get("/requests/user");
@@ -69,7 +70,7 @@ function UserDashboard() {
     }
   };
 
-  // 🔹 FETCH PROFILE
+  //  FETCH PROFILE
   const fetchProfile = async () => {
     try {
       const res = await API.get("/user-profile/me");
@@ -89,7 +90,7 @@ function UserDashboard() {
     fetchProfile();
   }, []);
 
-  // 🔹 SAVE PROFILE
+  // SAVE PROFILE
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
 
@@ -98,7 +99,7 @@ function UserDashboard() {
 
       // VALIDATION
       if (!user?.phone && !form.phone) {
-        alert("Phone is required");
+        toast.error("Phone number is required");
         return;
       }
 
@@ -108,11 +109,14 @@ function UserDashboard() {
         email: user?.email || form.email,
       });
 
-      alert("Profile saved successfully!");
+      toast.success("Profile saved successfully!");
 
       fetchProfile();
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(
+        error.response?.data?.message ||
+        "Something went wrong"
+      );
     } finally {
       setLoading(false);
     }

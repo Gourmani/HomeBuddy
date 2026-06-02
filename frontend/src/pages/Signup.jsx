@@ -4,6 +4,7 @@ import { signupUser } from "../services/authService";
 import API from "../services/api";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
+import toast from "react-hot-toast";
 import "../styles/auth.css";
 
 function Signup() {
@@ -53,10 +54,10 @@ function Signup() {
 // otp timer logic end here 
   const handleSendOTP = async () => {
   if (!form.identifier)
-    return alert("Enter email or phone");
+    return toast.error("Enter email or phone");
 
   if (isEmail && !form.password)
-    return alert("Enter password");
+    return toast.error("Enter password");
 
   try {
     if (isEmail) {
@@ -79,10 +80,10 @@ function Signup() {
       setOtpSent(true);
       setTimer(60);
       setCanResend(false);
-      alert(`Mobile OTP For Login : ${res.data.otp}`);
+      toast.success(`Mobile OTP For Login : ${res.data.otp}`);
     }
   } catch (err) {
-    alert(err.response?.data?.message || "OTP failed");
+    toast.error(err.response?.data?.message || "OTP failed");
   }
 };
 
@@ -98,16 +99,16 @@ function Signup() {
       const res = await API.post("/auth/send-phone-otp", {
         phone: form.identifier,
       });
-      alert("OTP resent successfully");
+      toast.success("OTP resent successfully");
 
-      alert(`New OTP: ${res.data.otp}`);
+      toast.success(`New OTP: ${res.data.otp}`);
     }
 
     setTimer(60);
     setCanResend(false);
 
   } catch (err) {
-    alert("Failed to resend OTP");
+    toast.error("Failed to resend OTP");
   }
 };
 
@@ -128,22 +129,24 @@ function Signup() {
       setVerified(true);
 
       if (isEmail) {
-        alert("Account created successfully");
+        toast.success(
+        `Welcome to HomeBuddy, ${form.name}!`
+      );
         navigate("/login");
         return;
       }
 
-alert("Verified successfully");
+      toast.success("Verified successfully");
 
     } catch (err) {
-      alert("OTP failed");
+      toast.error("OTP failed");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!verified) return alert("Verify OTP first");
+    if (!verified) return toast.error("Verify OTP first");
 
     try {
       if (!isEmail) {
@@ -155,10 +158,10 @@ alert("Verified successfully");
         });
       }
 
-      alert("Account created");
+      toast.success("Account created");
       navigate("/login");
     } catch (err) {
-      alert("Signup failed");
+      toast.error("Signup failed");
     }
   };
 

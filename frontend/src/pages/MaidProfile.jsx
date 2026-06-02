@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
+import toast from "react-hot-toast";
 import "../styles/maidProfile.css";
 
 const cityAreas = {
@@ -82,12 +83,12 @@ function MaidProfile() {
         profileImage: form.profileImage ? form.profileImage : profile.profileImage,
       });
 
-      alert("Profile updated!");
+       toast.success("Profile updated successfully!");
       setEditMode(false);
       fetchProfile();
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(error.response?.data?.message || "Error");
     }
   };
 
@@ -96,7 +97,7 @@ function MaidProfile() {
 
     try {
       await API.put("/users/change-password", passwordData);
-      alert("Password updated successfully!");
+      toast.success("Password updated successfully!");
 
       setShowPasswordForm(false);
       setPasswordData({
@@ -104,7 +105,7 @@ function MaidProfile() {
         newPassword: "",
       });
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(error.response?.data?.message || "Error");
     }
   };
 

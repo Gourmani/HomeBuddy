@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../services/api";
 
 function VerifyOTP() {
@@ -26,13 +27,15 @@ function VerifyOTP() {
         otp,
       });
 
-      alert("Account verified successfully");
+      toast.success("Account verified successfully");
 
       // After verification → go to login
       navigate("/login");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Verification failed");
+      toast.error(
+  error.response?.data?.message || "Verification failed"
+);
     }
   };
 
@@ -41,10 +44,12 @@ function VerifyOTP() {
     try {
       await API.post("/auth/resend-otp", { email });
 
-      alert("OTP resent");
+      toast.success("OTP resent successfully");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to resend OTP");
+      toast.error(
+      error.response?.data?.message || "Failed to resend OTP"
+      );
     }
   };
 

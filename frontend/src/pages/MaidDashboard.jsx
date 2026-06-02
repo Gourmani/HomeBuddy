@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import API from "../services/api";
 import { AuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 import "../styles/maidDashboard.css";
 
 const cityAreas = {
@@ -85,24 +86,26 @@ function MaidDashboard() {
     try {
       setLoading(true);
 
-      // 🔥 VALIDATION
+      // VALIDATION
       if (!user?.phone && !form.phone) {
-        alert("Phone is required");
+       toast.error("Phone number is required");
         return;
       }
 
       await API.post("/maids", {
         ...form,
-        name: user?.name, // 🔥 from signup
+        name: user?.name, //  from signup
         phone: user?.phone || form.phone,
         email: user?.email || form.email,
       });
 
-      alert("Profile created!");
+      toast.success("Profile created successfully!");
       fetchProfile();
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(
+  error.response?.data?.message || "Something went wrong"
+);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { resetPassword } from "../services/authService";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function ResetPassword() {
   const [otp, setOtp] = useState("");
@@ -21,12 +22,16 @@ function ResetPassword() {
         newPassword,
       });
 
-      alert("Password reset successful");
+      toast.success(
+       "Password reset successfully. Please login."
+       );
 
       navigate("/login");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+     toast.error(
+  error.response?.data?.message || "Error"
+    );
     }
   };
 

@@ -101,9 +101,6 @@ function HomePage() {
     ⭐ Trusted by local households
   </div>
         <div className="hero-left">
-
-          
-
           <h1>
             <TypeAnimation
               sequence={[
@@ -121,7 +118,6 @@ function HomePage() {
             Connect directly with verified maids, cooks, and helpers near you.
             No middlemen. No hassle.
           </p>
-
           <div className="hero-buttons">
             {!user ? (
               <>
@@ -148,42 +144,34 @@ function HomePage() {
             )}
           </div>
         </div>
-
       </section>
-
       {/* TRUST */}
       <section className="trust">
         <div className="container">
           <div className="trust-grid">
-
             <div className="trust-item">
           <div className="trust-icon"><FaCheckCircle /></div>
           <h4>Verified Workers</h4>
           <p>Trusted by local families</p>
         </div>
-
         <div className="trust-item">
           <div className="trust-icon"><FaMapMarkerAlt /></div>
           <h4>Nearby Only</h4>
           <p>Workers from your area</p>
         </div>
-
         <div className="trust-item">
           <div className="trust-icon"><FaHandshake /></div>
           <h4>No Middleman</h4>
           <p>Direct hiring process</p>
         </div>
-
         <div className="trust-item">
           <div className="trust-icon"><FaComments /></div>
           <h4>Direct Contact</h4>
           <p>Talk before hiring</p>
         </div>
-
           </div>
         </div>
       </section>
-
       {/* QUICK CATEGORIES (MOBILE) */}
       <section className="categories">
         <div className="categories-scroll">

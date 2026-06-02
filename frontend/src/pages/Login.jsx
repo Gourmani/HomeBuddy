@@ -4,6 +4,7 @@ import { loginUser } from "../services/authService";
 import API from "../services/api";// IMPORTANT
 import { useNavigate } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
+import toast from "react-hot-toast";
 import "../styles/auth.css";
 
 function Login() {
@@ -35,6 +36,8 @@ function Login() {
       const res = await loginUser(payload);
       login(res.data);
 
+      toast.success( `Welcome back, ${res.data?.name || "User"}!`);// for implementing toast notification
+
       //  MAID FLOW
       if (res.data.role === "maid") {
         navigate("/maid-dashboard");
@@ -63,7 +66,9 @@ function Login() {
       }
 
     } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
+      toast.error(
+      error.response?.data?.message || "Login failed"
+      );
     }
   };
 

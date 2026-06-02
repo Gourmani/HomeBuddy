@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function PhoneEntry() {
@@ -11,8 +12,8 @@ const navigate = useNavigate();
 const handleContinue = async () => {
 // validation
 if (!phone || phone.length < 10) {
-alert("Please enter a valid phone number");
-return;
+  toast.error("Please enter a valid phone number");
+  return;
 }
 
 
@@ -28,7 +29,7 @@ try {
   }
 
 } catch (error) {
-  alert(error.response?.data?.message || "Something went wrong");
+  toast.error(error.response?.data?.message || "Something went wrong");
 } finally {
   setLoading(false);
 }

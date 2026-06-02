@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { forgotPassword } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -12,13 +13,13 @@ function ForgotPassword() {
     try {
       await forgotPassword({ email });
 
-      alert("OTP sent to your email");
+      toast.success("OTP sent successfully. Check your inbox.");
 
       //  go to reset page
       navigate("/reset-password", { state: { email } });
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(error.response?.data?.message || "Error");
     }
   };
 

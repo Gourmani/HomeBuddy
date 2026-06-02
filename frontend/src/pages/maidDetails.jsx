@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import API from "../services/api";
 import Loader from "../components/Loader";
+import toast from "react-hot-toast";
 import "../styles/maidDetails.css";
 
 function MaidDetails() {
@@ -39,10 +40,15 @@ function MaidDetails() {
       setSending(true);
       await API.post("/requests", { maidId: maid._id });
 
-      alert("Request sent successfully!");
+      toast.success(
+        `Request sent to ${maid.user?.name}. You'll be notified when the maid responds.`
+      );
       setRequestStatus("pending");
     } catch (error) {
-      alert(error.response?.data?.message || "Failed to send request");
+      toast.error(
+        error.response?.data?.message ||
+        "Failed to send request"
+      );
     } finally {
       setSending(false);
     }

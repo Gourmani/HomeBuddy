@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import API from "../services/api";
 
 function SetPassword() {
@@ -25,7 +26,7 @@ function SetPassword() {
 
   const handleSubmit = async () => {
     if (!form.name || !form.password) {
-      alert("Please fill all fields");
+      toast.error("Please fill all fields");
       return;
     }
 
@@ -46,7 +47,7 @@ function SetPassword() {
       navigate("/user-dashboard");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import API from "../services/api";
+import toast from "react-hot-toast";
 import "../styles/userProfile.css";
 
 const cityAreas = {
@@ -91,12 +92,14 @@ function UserProfile() {
         email: profile.user?.email || form.email,
       });
 
-      alert("Profile updated!");
+      toast.success(
+        "Profile updated successfully!"
+      );
       setEditMode(false);
       fetchProfile();
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(error.response?.data?.message || "Error");
     }
   };
 
@@ -106,7 +109,9 @@ function UserProfile() {
     try {
       await API.put("/users/change-password", passwordData);
 
-      alert("Password updated successfully!");
+      toast.success(
+        "Password updated successfully!"
+      );
       setShowPasswordForm(false);
       setPasswordData({
         currentPassword: "",
@@ -114,7 +119,10 @@ function UserProfile() {
       });
 
     } catch (error) {
-      alert(error.response?.data?.message || "Error");
+      toast.error(
+        error.response?.data?.message ||
+        "Something went wrong"
+      );
     }
   };
 

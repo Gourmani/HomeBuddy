@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 import "../styles/feedback.css";
 
 function Feedback() {
@@ -19,7 +20,9 @@ function Feedback() {
 
      await axios.post(`${import.meta.env.VITE_API_URL}/feedback`, form);
 
-      alert("Feedback submitted successfully ✅");
+      toast.success(
+       "Thank you for your feedback!"
+      );
 
       setForm({
         name: "",
@@ -29,7 +32,9 @@ function Feedback() {
 
     } catch (error) {
       console.error(error);
-      alert("Something went wrong ❌");
+      toast.error(
+  "Something went wrong. Please try again."
+);
     } finally {
       setLoading(false);
     }
