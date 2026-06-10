@@ -40,7 +40,7 @@ function Login() {
 
       //  MAID FLOW
       if (res.data.role === "maid") {
-        navigate("/maid-dashboard");
+        navigate("/maid-home");
       }
 
       // USER FLOW

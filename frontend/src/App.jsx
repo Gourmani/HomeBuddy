@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import Feedback from "./pages/Feedback";
 import AdminDashboard from "./pages/AdminDashboard";
 import BottomNav from "./components/BottomNav";
+import MaidHome from "./pages/MaidHome";
 import "./styles/responsive.css";
 
 {/* 
@@ -86,6 +87,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/maid-home" element={ <ProtectedRoute role="maid"> <MaidHome /> </ProtectedRoute> }/>
 
 
         {/*<Route path="/phone-entry" element={<PhoneEntry />} />
