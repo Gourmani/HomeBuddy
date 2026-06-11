@@ -45,7 +45,7 @@ function Navbar() {
     <nav className="navbar">
 
       {/* LOGO */}
-      <div className="navbar-left" onClick={() => handleNavigate("/")}>
+      <div className="navbar-left" onClick={() => handleNavigate( user?.role === "maid"  ? "/maid-home"  : "/")}>
         <img
           src="/images/logo.jpeg"
           alt="GrihSahayak"
@@ -67,11 +67,15 @@ function Navbar() {
         {user ? (
           <>
             <button
-              className={`nav-link ${isActive("/") ? "active" : ""}`}
-              onClick={() => handleNavigate("/")}
-            >
-              Home
-            </button>
+              className={`nav-link ${ isActive( user?.role === "maid" ? "/maid-home" : "/" ) ? "active" : "" }`}  onClick={() => handleNavigate(
+                    user?.role === "maid"
+                      ? "/maid-home"
+                      : "/"
+                  )
+                }
+              >
+                Home
+              </button>
 
             {user.role === "user" && (
               <>

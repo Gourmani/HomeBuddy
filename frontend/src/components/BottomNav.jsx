@@ -15,20 +15,56 @@ function BottomNav() {
     <div className="bottom-nav">
 
       <div
-        className={`nav-item ${isActive("/") ? "active" : ""}`}
-        onClick={() => navigate("/")}
-      >
+          className={`nav-item ${
+            isActive(
+              user?.role === "maid"
+                ? "/maid-home"
+                : "/"
+            )
+              ? "active"
+              : ""
+          }`}
+          onClick={() =>
+            navigate(
+              user?.role === "maid"
+                ? "/maid-home"
+                : "/"
+            )
+          }
+        >
         <FaHome />
         <span>Home</span>
       </div>
 
-      <div
-        className={`nav-item ${isActive("/maids") ? "active" : ""}`}
-        onClick={() => navigate("/maids")}
-      >
-        <FaSearch />
-        <span>Workers</span>
-      </div>
+      {user?.role === "maid" ? (
+
+        <div
+          className={`nav-item ${
+            isActive("/maid-dashboard")
+              ? "active"
+              : ""
+          }`}
+          onClick={() => navigate("/maid-dashboard")}
+        >
+          <FaSearch />
+          <span>Requests</span>
+        </div>
+
+      ) : (
+
+        <div
+          className={`nav-item ${
+            isActive("/maids")
+              ? "active"
+              : ""
+          }`}
+          onClick={() => navigate("/maids")}
+        >
+          <FaSearch />
+          <span>Workers</span>
+        </div>
+
+      )}
 
       <div
   className="nav-item"
@@ -55,15 +91,27 @@ function BottomNav() {
 </div>
 
       <div
-        className={`nav-item ${isActive("/user-profile") ? "active" : ""}`}
-        onClick={() => {
-            if (!user) {
-            navigate("/login");
-            } else {
-            navigate("/user-profile");
-            }
-        }}
-        >
+            className={`nav-item ${
+              isActive(
+                user?.role === "maid"
+                  ? "/maid-profile"
+                  : "/user-profile"
+              )
+                ? "active"
+                : ""
+            }`}
+            onClick={() => {
+              if (!user) {
+                navigate("/login");
+              } else {
+                navigate(
+                  user?.role === "maid"
+                    ? "/maid-profile"
+                    : "/user-profile"
+                );
+              }
+            }}
+          >
         <FaUser />
         <span>Profile</span>
 </div>
