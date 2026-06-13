@@ -293,21 +293,58 @@ function MaidHome() {
         </div>
 
         {userNeeds.slice(0, 3).map((need) => (
-          <div key={need._id} className="mini-card">
-            <h4>
-              {need.location?.city},{" "}
-              {need.location?.area}
-            </h4>
+  <div
+    key={need._id}
+    className="opportunity-card"
+  >
 
-            <p>
-              {need.workRequired?.join(", ")}
-            </p>
+    <div className="opportunity-header">
 
-            <p>
-              Budget: ₹{need.budget || "Not Mentioned"}
-            </p>
-          </div>
+      <h4>
+        📍 {need.location?.city},
+        {" "}
+        {need.location?.area}
+      </h4>
+
+      <span className="opportunity-tag">
+        Hiring
+      </span>
+
+    </div>
+
+    <div className="opportunity-body">
+
+      <p className="work-needed">
+        <strong>Need Help With:</strong>
+      </p>
+
+      <div className="work-tags">
+
+        {need.workRequired?.map((work) => (
+          <span
+            key={work}
+            className="work-tag"
+          >
+            {work}
+          </span>
         ))}
+
+      </div>
+
+      <p className="budget">
+        💰 Budget:
+        {" "}
+        ₹{need.budget || "Not Mentioned"}
+      </p>
+
+      <p className="opportunity-note">
+        Looking for trusted workers.
+      </p>
+
+          </div>
+
+        </div>
+      ))}
       </div>
 
       {/* PROFILE STATUS */}
