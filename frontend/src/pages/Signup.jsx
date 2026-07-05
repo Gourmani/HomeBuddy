@@ -268,7 +268,7 @@ function Signup() {
 }
 
 
-    {/* SEND OTP BUTTON */}
+{/* SEND OTP BUTTON */}
 {!otpSent && (
   <button
     type="button"
